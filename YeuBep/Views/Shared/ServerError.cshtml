@@ -1,0 +1,38 @@
+﻿@model YeuBep.ViewModels.Errors.InternalServerViewModel
+
+@{
+    ViewData["Title"] = "Lỗi máy chủ";
+}
+
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8 text-center">
+
+            <h1 class="display-4 text-danger fw-bold">500</h1>
+            <h2 class="fw-semibold">@Model.Message</h2>
+
+            <p class="text-muted mt-2">
+                <strong>Trang yêu cầu:</strong> @Model.RequestedPath
+            </p>
+
+            @if (!string.IsNullOrEmpty(Model.ErrorId))
+            {
+                <p class="text-muted">
+                    <small>Mã lỗi: @Model.ErrorId</small>
+                </p>
+            }
+
+            <p class="text-muted">
+                <small>@Model.TimeStamp.ToString("dd/MM/yyyy HH:mm:ss")</small>
+            </p>
+
+            <a href="/" class="btn btn-primary mt-3">
+                <i class="bi bi-house-fill"></i> Về trang chủ
+            </a>
+
+            <a href="javascript:location.reload()" class="btn btn-outline-danger mt-3 ms-2">
+                <i class="bi bi-arrow-repeat"></i> Thử lại
+            </a>
+        </div>
+    </div>
+</div>

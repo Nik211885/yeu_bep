@@ -1,0 +1,221 @@
+﻿@using Microsoft.AspNetCore.Identity
+@using YeuBep.Entities
+@inject UserManager<User> UserManager
+@{
+    var isAuthenticated = User.Identity is { IsAuthenticated: true };
+    var currentPath = Context.Request.Path;
+    string? userId = UserManager.GetUserId(Context.User);
+    User? user = null;
+    if (userId != null)
+    {
+        user = await UserManager.FindByIdAsync(userId);
+    }
+    var action = Context.Request.RouteValues["action"]?.ToString();
+    Func<string, string> activeSidebar = (string router) =>
+    {
+        if (action?.ToUpper() == router.ToUpper())
+        {
+            return "active";
+        }
+
+        return "";
+    };
+}
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - YeuBep</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    @* <link rel="stylesheet" href="~/YeuBep.styles.css" asp-append-version="true" /> *@
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+</head>
+<body>
+<!-- Sidebar Overlay (Mobile) -->
+<div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+<!-- Sidebar -->
+@if(isAuthenticated){
+    <aside class="main-sidebar @(isAuthenticated ? "is-authenticated-main-sidebar" : "")" id="mainSidebar">
+        <div class="sidebar-header">
+            <a href="/" class="logo">
+                <div class="logo-icon">
+                    <i class="fas fa-utensils"></i>
+                </div>
+                <span class="logo-text">YeuBep</span>
+            </a>
+        </div>
+        <nav class="sidebar-menu">
+            <div class="menu-section">
+                <div class="menu-label">Menu chính</div>
+                <a href="/" class="menu-item @activeSidebar("Index")">
+                    <i class="fas fa-home"></i>
+                    <span>Trang chủ</span>
+                </a>
+                <a href="@Url.Action("Recipe", "Recipe")" class="menu-item @activeSidebar("Recipe")">
+                    <i class="fas fa-book-open"></i>
+                    <span>Công thức</span>
+                </a>
+                <a href="/favorites" class="menu-item @activeSidebar("Favorites")">
+                    <i class="fas fa-heart"></i>
+                    <span>Yêu thích</span>
+                </a>
+                <a href="@Url.Action("MyRecipe","Recipe")" class="menu-item @activeSidebar("MyRecipe")">
+                    <i class="fas fa-clipboard-list"></i>
+                    <span>Công thức của tôi</span>
+                </a>
+            </div>
+
+            <div class="menu-section">
+                <div class="menu-label">Khám phá</div>
+                <a href="/categories" class="menu-item @activeSidebar("Categories")">
+                    <i class="fas fa-th-large"></i>
+                    <span>Danh mục</span>
+                </a>
+                <a href="/trending" class="menu-item">
+                    <i class="fas fa-fire"></i>
+                    <span>Xu hướng</span>
+                </a>
+                <a href="/chefs" class="menu-item">
+                    <i class="fas fa-user-chef"></i>
+                    <span>Đầu bếp</span>
+                </a>
+            </div>
+
+            <div class="menu-section">
+                <div class="menu-label">Cá nhân</div>
+                <a href="/profile" class="menu-item">
+                    <i class="fas fa-user"></i>
+                    <span>Hồ sơ</span>
+                </a>
+                <a href="/settings" class="menu-item">
+                    <i class="fas fa-cog"></i>
+                    <span>Cài đặt</span>
+                </a>
+                <a href="javascript:void(0);" class="menu-item" onclick="document.getElementById('logoutForm').submit();">
+                    <i class="fas fa-sign-out-alt"></i>
+                    <span>Đăng xuất</span>
+                </a>
+
+                <form id="logoutForm" asp-controller="Account" asp-action="Logout" method="post" class="d-none">
+                    @Html.AntiForgeryToken()
+                </form>
+            </div>
+        </nav>
+    </aside>
+}
+    <!-- Header -->
+<header class="main-header @(isAuthenticated ? "is-authenticated-main-header" : "")">
+    <div class="header-content">
+        <div class="header-left">
+            @if (currentPath == "/")
+            {
+                <button class="menu-toggle" id="menuToggle">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <div class="search-box">
+                    <i class="fas fa-search"></i>
+                    <input type="text" placeholder="Tìm kiếm công thức, nguyên liệu...">
+                </div>
+            }
+        </div>
+
+        <div class="header-right">
+            @if (isAuthenticated)
+            {
+                <div class="header-icon">
+                    <i class="fas fa-bell"></i>
+                    <span class="notification-badge"></span>
+                </div>
+
+                <div class="user-menu">
+                    @{
+                        string avatarUrl = !string.IsNullOrEmpty(user?.Avatar) 
+                            ? user.Avatar 
+                            : "https://ui-avatars.com/api/?name=Nguyen+Van+A&background=667eea&color=fff&size=40";
+                    }
+                    <img src="@avatarUrl" alt="User" class="user-avatar" />
+                    <div class="user-info d-none d-md-block">
+                        @{
+                            string userName = !string.IsNullOrWhiteSpace(user?.UserName)
+                                ? user.UserName
+                                : "Unknown";
+                        }
+                        <h6>@userName</h6>
+                        <span>Thành viên</span>
+                    </div>
+                </div>
+            }
+            else
+            {
+                <a href= "@Url.Action("Login", "Account")" class="btn btn-primary d-flex align-items-center">
+                    <i class="fas fa-pencil-alt me-2"></i> Viết công thức mới
+                </a>
+            }
+        </div>
+    </div>
+</header>
+
+<!-- Main Content -->
+<div class="main-content @(isAuthenticated ? "is-authenticated-main-content" : "")">
+    <main role="main">
+        @RenderBody()
+    </main>
+</div>
+
+<!-- Footer -->
+<footer class="main-footer @(isAuthenticated ? "is-authenticated-main-footer" : "")">
+    <div class="d-flex justify-content-between align-items-center flex-wrap">
+        <div class="text-muted">
+            &copy; 2025 YeuBep. Tất cả quyền được bảo lưu.
+        </div>
+        <div class="d-flex gap-3">
+            <a href="/privacy" class="text-muted text-decoration-none">Chính sách</a>
+            <a href="/terms" class="text-muted text-decoration-none">Điều khoản</a>
+            <a href="/contact" class="text-muted text-decoration-none">Liên hệ</a>
+        </div>
+    </div>
+</footer>
+
+<script src="~/lib/jquery/dist/jquery.js"></script>
+<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+<script src="~/js/site.js" asp-append-version="true"></script>
+
+<script>
+    $(document).ready(function() {
+        const sidebar = $('#mainSidebar');
+        const overlay = $('#sidebarOverlay');
+        const menuToggle = $('#menuToggle');
+
+        menuToggle.on('click', function() {
+            sidebar.toggleClass('show');
+            overlay.toggleClass('show');
+        });
+
+        overlay.on('click', function() {
+            sidebar.removeClass('show');
+            overlay.removeClass('show');
+        });
+
+        // Toast notifications
+        const toastSuccess = @Html.Raw(Json.Serialize(TempData["Success"]));
+        const toastError = @Html.Raw(Json.Serialize(TempData["Error"]));
+
+        if (toastSuccess) {
+            toastr.success(toastSuccess);
+        }
+
+        if (toastError) {
+            toastr.error(toastError);
+        }
+    });
+</script>
+
+
+@await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

@@ -1,0 +1,89 @@
+﻿@model YeuBep.ViewModels.Recipe.RecipeViewModel;
+<link rel="stylesheet" href="~/css/components/recipe-card.css" />
+
+<div class="card h-100 border-0 shadow rounded-3 overflow-hidden">
+    <!-- Recipe Image -->
+    <div class="position-relative" style="height: 220px; overflow: hidden;">
+        <img src="@Model.Avatar" 
+             class="card-img-top w-100 h-100" 
+             style="object-fit: cover; transition: transform 0.3s ease;"
+             alt="@Model.Title"
+             onerror="this.src='https://via.placeholder.com/400x300?text=No+Image'"
+             onmouseover="this.style.transform='scale(1.1)'"
+             onmouseout="this.style.transform='scale(1)'">
+        
+        <!-- Overlay Gradient -->
+        <div class="position-absolute bottom-0 start-0 w-100" 
+             style="height: 80px; background: linear-gradient(to top, rgba(0,0,0,0.7), transparent);"></div>
+        
+        <!-- Badges -->
+        <div class="position-absolute top-0 end-0 m-3">
+            <span class="badge rounded-pill bg-white text-danger shadow-sm px-3 py-2">
+                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor" class="bi bi-heart-fill me-1" viewBox="0 0 16 16">
+                    <path fill-rule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314"/>
+                </svg>
+                @Model.CountFavorite
+            </span>
+        </div>
+        
+        @if (Model.CountRatingPoint > 0)
+        {
+            <div class="position-absolute top-0 start-0 m-3">
+                <span class="badge rounded-pill bg-white text-warning shadow-sm px-3 py-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor" class="bi bi-star-fill me-1" viewBox="0 0 16 16">
+                        <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"/>
+                    </svg>
+                    @((Model.TotalRatingPoint / Model.CountRatingPoint).ToString("0.0"))
+                </span>
+            </div>
+        }
+    </div>
+
+    <div class="card-body d-flex flex-column p-4">
+        <!-- Title -->
+        <h5 class="card-title fw-bold mb-3 lh-base" style="min-height: 50px; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; text-overflow: ellipsis;">
+            <a href="/recipe/@Model.Slug" class="text-decoration-none text-dark stretched-link">
+                @Model.Title
+            </a>
+        </h5>
+
+        <!-- Description -->
+        <p class="card-text text-muted mb-4 flex-grow-1" style="font-size: 0.9rem; line-height: 1.6; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; text-overflow: ellipsis;">
+            @Model.Description
+        </p>
+
+        <!-- Meta Info -->
+        <div class="mb-4">
+            <div class="d-flex justify-content-between align-items-center bg-light rounded-3 p-3">
+                <div class="text-center flex-fill">
+                    <i class="bi bi-clock text-primary fs-5 d-block mb-1"></i>
+                    <small class="text-muted fw-semibold d-block">@Model.TimeToCook</small>
+                    <small class="text-muted" style="font-size: 0.75rem;">Thời gian</small>
+                </div>
+                <div class="vr"></div>
+                <div class="text-center flex-fill">
+                    <i class="bi bi-people text-success fs-5 d-block mb-1"></i>
+                    <small class="text-muted fw-semibold d-block">@Model.PortionCount</small>
+                    <small class="text-muted" style="font-size: 0.75rem;">Khẩu phần</small>
+                </div>
+            </div>
+        </div>
+
+        <!-- Author -->
+        <div class="border-top pt-3">
+            <div class="d-flex align-items-center">
+                <div class="rounded-circle bg-primary bg-opacity-10 d-flex align-items-center justify-content-center me-3" 
+                     style="width: 45px; height: 45px;">
+                    <i class="bi bi-person-circle text-primary fs-4"></i>
+                </div>
+                <div class="flex-grow-1">
+                    <div class="fw-semibold text-dark mb-1" style="font-size: 0.9rem;">@Model.CreatedBy.UserName</div>
+                    <div class="d-flex align-items-center text-muted" style="font-size: 0.8rem;">
+                        <i class="bi bi-calendar3 me-1"></i>
+                        @Model.CreatedDate.ToString("dd/MM/yyyy")
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

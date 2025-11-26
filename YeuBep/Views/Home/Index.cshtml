@@ -1,0 +1,37 @@
+﻿@* @model YeuBep.ViewModels.PaginationViewModel<object> *@
+
+@* @model List<YeuBep.ViewModels.Recipe.RecipeViewModel> *@
+@* @model List<YeuBep.ViewModels.Comment.CommentViewModel> *@
+@* @model YeuBep.ViewModels.PaginationViewModel; *@
+@* @{ *@
+@*     ViewData["Title"] = "Home Page"; *@
+@* } *@
+@* *@
+@* <div class="container my-5"> *@
+@*     <div class="row g-4"> *@
+@*         @foreach (var item in Model) *@
+@*         { *@
+@*             <div class="col-12 col-sm-6 col-md-4 col-lg-3"> *@
+@*                 @await Component.InvokeAsync("RecipeComponent", item) *@
+@*             </div> *@
+@*         } *@
+@*     </div> *@
+@* </div> *@
+@* @foreach (var comment in Model[0].Comments) *@
+@* { *@
+@*     @await Component.InvokeAsync("CommentComponent", comment) *@
+@* } *@
+@* <div> *@
+@*     @await Component.InvokeAsync("PaginationComponent", Model); *@
+@* </div> *@
+
+@* @{ *@
+@* *@
+@*     var buttonTypesTable = new List<ButtonTableType>() *@
+@*     { *@
+@*         ButtonTableType.Add, *@
+@*         ButtonTableType.Delete, *@
+@*         ButtonTableType.Edit, *@
+@*     }; *@
+@*     @(await Component.InvokeAsync("TableComponent", new {model = Model, buttonTableTypes = buttonTypesTable})) *@
+@* } *@

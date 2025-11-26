@@ -1,0 +1,283 @@
+﻿@model YeuBep.ViewModels.Recipe.RecipeViewModel;
+<link rel="stylesheet" href="~/css/recipe/recipe.css" />
+
+<div class="container mt-4">
+    <div class="row">
+        <!-- Cột trái: Ảnh và thông tin -->
+        <div class="col-lg-8">
+            <!-- Ảnh công thức -->
+            <img src="@Model.Avatar" alt="@Model.Title" class="recipe-avatar">
+            
+            <!-- Tiêu đề -->
+            <div class="recipe-header">
+                <h1>@Model.Title</h1>
+                <div class="author-info">
+                    <div>
+                        <div class="author-name">Bởi: <strong>@Model.CreatedBy.UserName</strong></div>
+                        <small class="text-muted">@Model.CreatedDate.ToString("dd/MM/yyyy HH:mm")</small>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Mô tả -->
+            <div class="mb-4">
+                <h4>Giới thiệu</h4>
+                <p>@Model.Description</p>
+            </div>
+            
+            <!-- Thông tin cơ bản -->
+            <div class="recipe-info-box">
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="info-item">
+                            <i class="fas fa-clock"></i>
+                            <div>
+                                <strong>Thời gian:</strong><br>
+                                @Model.TimeToCook
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="info-item">
+                            <i class="fas fa-users"></i>
+                            <div>
+                                <strong>Khẩu phần:</strong><br>
+                                @Model.PortionCount
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="info-item">
+                            <i class="fas fa-heart"></i>
+                            <div>
+                                <strong>Yêu thích:</strong><br>
+                                <span id="favoriteCount">@Model.CountFavorite</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Nút hành động -->
+            <div class="action-buttons">
+                <button class="btn btn-outline-danger btn-favorite" id="btnFavorite">
+                    <i class="fas fa-heart heart-white"></i>
+                    <span id="favoriteText">Yêu thích</span>
+                </button>
+                <button class="btn btn-warning btn-rating" data-bs-toggle="modal" data-bs-target="#ratingModal">
+                    <i class="fas fa-star"></i>
+                    Đánh giá (<span id="ratingCount">@((Model.TotalRatingPoint / Model.CountRatingPoint).ToString("0.0"))</span>)
+                </button>
+            </div>
+            
+            <!-- Nguyên liệu -->
+            <div class="ingredient-section">
+                <h3 class="mb-4">Nguyên liệu</h3>
+                @foreach (var part in Model.IngredientPart)
+                {
+                    <div class="ingredient-part">
+                        @if (!string.IsNullOrEmpty(part.Title))
+                        {
+                            <h5>@part.Title</h5>
+                        }
+                        <ul class="list-unstyled">
+                            @foreach (var ingredient in part.Ingredients)
+                            {
+                                <li class="ingredient-item">
+                                    <i class="fas fa-check-circle text-success"></i> @ingredient
+                                </li>
+                            }
+                        </ul>
+                    </div>
+                }
+            </div>
+            
+            <!-- Bình luận -->
+            <div class="comment-section">
+                <h3 class="mb-4">Bình luận (@Model.Comments.Count)</h3>
+                
+                <div class="mb-4">
+                    <textarea class="form-control" id="newComment" rows="3" placeholder="Viết bình luận của bạn..."></textarea>
+                    <button class="btn btn-primary mt-2" id="btnAddComment">Gửi bình luận</button>
+                </div>
+                
+                <div id="commentList">
+                    @foreach (var comment in Model.Comments)
+                    {
+                        @await Component.InvokeAsync("CommentComponent", comment)
+                    }
+                </div>
+            </div>
+        </div>
+        
+        <!-- Cột phải: Hướng dẫn -->
+        <div class="col-lg-4">
+            <div class="sticky-top" style="top: 20px;">
+                <h3 class="mb-4">Hướng dẫn thực hiện</h3>
+                @{
+                    int stepNumber = 1;
+                    foreach (var step in Model.DetailInstructionSteps)
+                    {
+                        <div class="instruction-step">
+                            <div class="d-flex align-items-start">
+                                <span class="step-number">@stepNumber</span>
+                                <div class="flex-grow-1">
+                                    <p class="mb-0">@step.Instructions</p>
+                                    @if (!string.IsNullOrEmpty(step.ImageDescription))
+                                    {
+                                        <img src="@step.ImageDescription" alt="Bước @stepNumber" class="step-image">
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                        stepNumber++;
+                    }
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal đánh giá -->
+<div class="modal fade" id="ratingModal" tabindex="-1" aria-labelledby="ratingModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="ratingModalLabel">Đánh giá công thức</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body text-center rating-modal">
+                <p>Chọn số sao để đánh giá:</p>
+                <div class="stars" id="starsContainer">
+                    <span class="star" data-rating="1">★</span>
+                    <span class="star" data-rating="2">★</span>
+                    <span class="star" data-rating="3">★</span>
+                    <span class="star" data-rating="4">★</span>
+                    <span class="star" data-rating="5">★</span>
+                </div>
+                <p class="mt-3">Đánh giá của bạn: <span id="selectedRating">0</span>/5</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                <button type="button" class="btn btn-primary" id="btnSubmitRating">Gửi đánh giá</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+     <script>
+        $(document).ready(function() {
+            let isFavorited = false;
+            let selectedRating = 0;
+            
+            // Xử lý nút yêu thích
+            $('#btnFavorite').click(function() {
+                isFavorited = !isFavorited;
+                
+                if (isFavorited) {
+                    $(this).removeClass('btn-outline-danger').addClass('btn-danger');
+                    $(this).find('i').removeClass('heart-white').addClass('heart-red');
+                    $('#favoriteText').text('Đã yêu thích');
+                    
+                    let currentCount = parseInt($('#favoriteCount').text());
+                    $('#favoriteCount').text(currentCount + 1);
+                    
+                    console.log('Đã thêm vào yêu thích');
+                } else {
+                    $(this).removeClass('btn-danger').addClass('btn-outline-danger');
+                    $(this).find('i').removeClass('heart-red').addClass('heart-white');
+                    $('#favoriteText').text('Yêu thích');
+                    
+                    let currentCount = parseInt($('#favoriteCount').text());
+                    $('#favoriteCount').text(currentCount - 1);
+                    
+                    console.log('Đã bỏ yêu thích');
+                }
+            });
+            
+            // Xử lý hover và click sao
+            $('.star').hover(
+                function() {
+                    const rating = $(this).data('rating');
+                    highlightStars(rating);
+                },
+                function() {
+                    highlightStars(selectedRating);
+                }
+            );
+            
+            $('.star').click(function() {
+                selectedRating = $(this).data('rating');
+                $('#selectedRating').text(selectedRating);
+                console.log('Đã chọn ' + selectedRating + ' sao');
+            });
+            
+            function highlightStars(rating) {
+                $('.star').each(function() {
+                    if ($(this).data('rating') <= rating) {
+                        $(this).addClass('active');
+                    } else {
+                        $(this).removeClass('active');
+                    }
+                });
+            }
+            
+            // Xử lý gửi đánh giá
+            $('#btnSubmitRating').click(function() {
+                if (selectedRating === 0) {
+                    alert('Vui lòng chọn số sao để đánh giá!');
+                    return;
+                }
+                
+                console.log('Gửi đánh giá: ' + selectedRating + ' sao');
+                console.log('Recipe ID: @Model.Id');
+                
+                // Cập nhật số lượng đánh giá
+                let currentRating = parseInt($('#ratingCount').text());
+                $('#ratingCount').text(currentRating + 1);
+                
+                // Đóng modal
+                $('#ratingModal').modal('hide');
+                
+                // Reset
+                selectedRating = 0;
+                $('#selectedRating').text('0');
+                $('.star').removeClass('active');
+                
+                alert('Cảm ơn bạn đã đánh giá!');
+            });
+            
+            // Xử lý thêm bình luận
+            $('#btnAddComment').click(function() {
+                const commentText = $('#newComment').val().trim();
+                
+                if (commentText === '') {
+                    alert('Vui lòng nhập nội dung bình luận!');
+                    return;
+                }
+                
+                console.log('Thêm bình luận mới:');
+                console.log('Recipe ID: @Model.Id');
+                console.log('Comment: ' + commentText);
+                
+                // Tạo HTML cho bình luận mới
+                const newComment = `
+                    <div class="comment-item">
+                        <div class="comment-author">Bạn</div>
+                        <div class="comment-date">${new Date().toLocaleString('vi-VN')}</div>
+                        <div class="comment-text">${commentText}</div>
+                    </div>
+                `;
+                
+                // Thêm vào đầu danh sách
+                $('#commentList').prepend(newComment);
+                
+                // Xóa nội dung textarea
+                $('#newComment').val('');
+                
+                alert('Đã thêm bình luận!');
+            });
+        });
+    </script>
+}

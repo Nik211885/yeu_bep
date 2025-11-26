@@ -1,0 +1,73 @@
+﻿@{
+    string? message = ViewData["Message"] as string;
+    string? messageType = ViewData["MessageType"] as string ?? "info"; // success, danger, warning, info
+    string? returnUrl = ViewData["ReturnUrl"] as string;
+}
+<link rel="stylesheet" href="~/css/statics/notification.css" />
+<div class="container d-flex justify-content-center align-items-center">
+ <div class="notification-card">
+    <div class="card-header">
+        <img src="~/images/logo.png" alt="YeuBep Logo" class="logo" />
+    </div>
+
+    <div class="card-body">
+        @switch (messageType)
+        {
+            case "success":
+                <div class="icon-wrapper icon-success">
+                    <i class="bi bi-check-circle-fill"></i>
+                </div>
+                <h2 class="message-title">Thành Công!</h2>
+                break;
+            case "danger":
+            case "error":
+                <div class="icon-wrapper icon-danger">
+                    <i class="bi bi-x-circle-fill"></i>
+                </div>
+                <h2 class="message-title">Có Lỗi Xảy Ra!</h2>
+                break;
+            case "warning":
+                <div class="icon-wrapper icon-warning">
+                    <i class="bi bi-exclamation-triangle-fill"></i>
+                </div>
+                <h2 class="message-title">Cảnh Báo!</h2>
+                break;
+            default:
+                <div class="icon-wrapper icon-info">
+                    <i class="bi bi-info-circle-fill"></i>
+                </div>
+                <h2 class="message-title">Thông Báo</h2>
+                break;
+        }
+
+        <p class="message-text">
+            @if (!string.IsNullOrEmpty(message))
+            {
+                @Html.Raw(message)
+            }
+        </p>
+
+        <div class="d-flex gap-3 justify-content-center flex-wrap">
+            @if (!string.IsNullOrEmpty(returnUrl))
+            {
+                <a href="@returnUrl" class="btn btn-custom btn-primary-custom">
+                    <i class="bi bi-arrow-return-left me-2"></i>Quay Lại
+                </a>
+            }
+            else
+            {
+                <a href="@Url.Action("Index", "Home")" class="btn btn-custom btn-primary-custom">
+                    <i class="bi bi-house-door me-2"></i>Trang Chủ
+                </a>
+            }
+        </div>
+    </div>
+
+    <div class="card-footer">
+        <p class="footer-text mb-0">
+            <i class="bi bi-shield-check me-1"></i>
+            Cảm ơn bạn đã sử dụng YeuBep
+        </p>
+    </div>
+ </div>
+</div>

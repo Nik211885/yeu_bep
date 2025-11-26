@@ -1,0 +1,109 @@
+﻿
+.notification-card {
+    background: white;
+    border-radius: 20px;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+    overflow: hidden;
+    max-width: 1000px;
+    width: 90%;
+    animation: slideIn 0.5s ease-out;
+}
+@keyframes slideIn {
+     from {
+         opacity: 0;
+         transform: translateY(-30px);
+     }
+     to {
+         opacity: 1;
+         transform: translateY(0);
+     }
+ }
+.card-header {
+    padding: 2rem;
+    text-align: center;
+    border-bottom: none;
+}
+.logo {
+    width: 120px;
+    height: 120px;
+    object-fit: contain;
+    margin-bottom: 1rem;
+    animation: pulse 2s infinite;
+}
+@keyframes pulse {
+     0%, 100% { transform: scale(1); }
+     50% { transform: scale(1.05); }
+ }
+.icon-wrapper {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 1.5rem;
+    font-size: 2.5rem;
+}
+.icon-success {
+    background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+    color: white;
+}
+.icon-danger {
+    background: linear-gradient(135deg, #eb3349 0%, #f45c43 100%);
+    color: white;
+}
+.icon-warning {
+    background: linear-gradient(135deg, #f2994a 0%, #f2c94c 100%);
+    color: white;
+}
+.icon-info {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+}
+.card-body {
+    padding: 0 2rem 2rem;
+    text-align: center;
+}
+.message-title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #2d3748;
+    margin-bottom: 1rem;
+}
+.message-text {
+    font-size: 1.1rem;
+    color: #718096;
+    margin-bottom: 2rem;
+    line-height: 1.6;
+}
+.btn-custom {
+    padding: 0.75rem 2rem;
+    border-radius: 50px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    transition: all 0.3s ease;
+    border: none;
+}
+.btn-custom:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+}
+.btn-primary-custom {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+}
+.btn-secondary-custom {
+    background: #e2e8f0;
+    color: #4a5568;
+}
+.card-footer {
+    background: #f7fafc;
+    padding: 1.5rem;
+    text-align: center;
+    border-top: 1px solid #e2e8f0;
+}
+.footer-text {
+    color: #a0aec0;
+    font-size: 0.875rem;
+}

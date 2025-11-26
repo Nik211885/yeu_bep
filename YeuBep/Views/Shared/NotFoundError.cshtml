@@ -1,0 +1,30 @@
+﻿@model YeuBep.ViewModels.Errors.NotFoundViewModel
+
+@{
+    ViewData["Title"] = "Không tìm thấy trang";
+}
+
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8 text-center">
+
+            <div class="mb-4">
+                <h1 class="display-4 text-danger fw-bold">404</h1>
+                <h2 class="fw-semibold">@Model.Message</h2>
+                @if (!string.IsNullOrEmpty(Model.RequestedPath))
+                {
+                    <p class="text-muted mt-2">
+                        <strong>Đường dẫn:</strong> @Model.RequestedPath
+                    </p>
+                }
+                <p class="text-muted">
+                    <small>@Model.TimeStamp.ToString("dd/MM/yyyy HH:mm:ss")</small>
+                </p>
+            </div>
+
+            <a href="/" class="btn btn-primary btn-lg">
+                <i class="bi bi-house-fill"></i> Về trang chủ
+            </a>
+        </div>
+    </div>
+</div>

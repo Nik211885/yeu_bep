@@ -1,0 +1,152 @@
+﻿.recipe-header {
+    margin-bottom: 30px;
+}
+
+.recipe-avatar {
+    width: 100%;
+    height: 400px;
+    object-fit: cover;
+    border-radius: 10px;
+    margin-bottom: 20px;
+}
+
+.recipe-info-box {
+    background: #f8f9fa;
+    padding: 20px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+}
+
+.info-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.info-item i {
+    margin-right: 10px;
+    color: #ff6b6b;
+}
+
+.ingredient-section {
+    background: #fff;
+    padding: 20px;
+    border: 1px solid #dee2e6;
+    border-radius: 10px;
+    margin-bottom: 20px;
+}
+
+.ingredient-part {
+    margin-bottom: 25px;
+}
+
+.ingredient-part h5 {
+    color: #ff6b6b;
+    margin-bottom: 15px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid #ff6b6b;
+}
+
+.ingredient-item {
+    padding: 8px 0;
+    border-bottom: 1px dashed #dee2e6;
+}
+
+.instruction-step {
+    background: #fff;
+    padding: 25px;
+    border: 1px solid #dee2e6;
+    border-radius: 10px;
+    margin-bottom: 20px;
+}
+
+.step-number {
+    display: inline-block;
+    width: 40px;
+    height: 40px;
+    background: #ff6b6b;
+    color: white;
+    border-radius: 50%;
+    text-align: center;
+    line-height: 40px;
+    font-weight: bold;
+    margin-right: 15px;
+}
+
+.step-image {
+    width: 100%;
+    max-height: 300px;
+    object-fit: cover;
+    border-radius: 10px;
+    margin-top: 15px;
+}
+
+.action-buttons {
+    margin: 20px 0;
+}
+
+.btn-favorite, .btn-rating {
+    padding: 10px 25px;
+    font-size: 16px;
+    margin-right: 10px;
+}
+
+.btn-favorite i {
+    margin-right: 5px;
+}
+
+.heart-red {
+    color: #ff6b6b;
+}
+
+.heart-white {
+    color: #ccc;
+}
+
+.rating-modal .star {
+    font-size: 40px;
+    color: #ddd;
+    cursor: pointer;
+    transition: color 0.2s;
+}
+
+.rating-modal .star:hover,
+.rating-modal .star.active {
+    color: #ffc107;
+}
+
+.comment-section {
+    margin-top: 40px;
+}
+
+.comment-item {
+    background: #f8f9fa;
+    padding: 20px;
+    border-radius: 10px;
+    margin-bottom: 15px;
+}
+
+.comment-author {
+    font-weight: bold;
+    color: #ff6b6b;
+    margin-bottom: 5px;
+}
+
+.comment-date {
+    font-size: 12px;
+    color: #6c757d;
+    margin-bottom: 10px;
+}
+
+.author-info {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.author-avatar {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    margin-right: 15px;
+}
