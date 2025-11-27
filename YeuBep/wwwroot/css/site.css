@@ -52,7 +52,7 @@ body {
   height: var(--header-height);
   background: #ffffff;
   border-bottom: 1px solid #e5e7eb;
-  z-index: 1000;
+  z-index: 1000000;
   transition: left 0.3s ease;
 }
 

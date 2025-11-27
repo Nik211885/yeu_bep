@@ -277,7 +277,6 @@ E:\YeuBep\YeuBep\YeuBep\bin\Debug\net10.0\Mapster.dll
 E:\YeuBep\YeuBep\YeuBep\bin\Debug\net10.0\Mapster.Core.dll
 E:\YeuBep\YeuBep\YeuBep\obj\Debug\net10.0\compressed\kv7wp3kzjr-{0}-jbgxk10j3m-jbgxk10j3m.gz
 E:\YeuBep\YeuBep\YeuBep\obj\Debug\net10.0\compressed\4tamc8qyis-{0}-k48mqbcmjq-k48mqbcmjq.gz
-E:\YeuBep\YeuBep\YeuBep\obj\Debug\net10.0\compressed\hplm9s7tqd-{0}-xmn7d7354f-xmn7d7354f.gz
 E:\YeuBep\YeuBep\YeuBep\obj\Debug\net10.0\compressed\rrvxkpglrb-{0}-b7jmj17wvg-b7jmj17wvg.gz
 E:\YeuBep\YeuBep\YeuBep\bin\Debug\net10.0\FluentResults.dll
 E:\YeuBep\YeuBep\YeuBep\bin\Debug\net10.0\Microsoft.OpenApi.dll
@@ -285,6 +284,11 @@ E:\YeuBep\YeuBep\YeuBep\bin\Debug\net10.0\Swashbuckle.AspNetCore.Swagger.dll
 E:\YeuBep\YeuBep\YeuBep\bin\Debug\net10.0\Swashbuckle.AspNetCore.SwaggerGen.dll
 E:\YeuBep\YeuBep\YeuBep\bin\Debug\net10.0\Swashbuckle.AspNetCore.SwaggerUI.dll
 E:\YeuBep\YeuBep\YeuBep\obj\Debug\net10.0\YeuBep.MvcApplicationPartsAssemblyInfo.cs
-E:\YeuBep\YeuBep\YeuBep\obj\Debug\net10.0\compressed\0kx56db8fl-{0}-8fkr4jmh1y-8fkr4jmh1y.gz
 E:\YeuBep\YeuBep\YeuBep\obj\Debug\net10.0\compressed\6h6am6qtbf-{0}-q65lq9vgoh-q65lq9vgoh.gz
-E:\YeuBep\YeuBep\YeuBep\obj\Debug\net10.0\compressed\izhiqnfb6i-{0}-krgae90dfm-krgae90dfm.gz
+E:\YeuBep\YeuBep\YeuBep\obj\Debug\net10.0\YeuBep.sourcelink.json
+E:\YeuBep\YeuBep\YeuBep\obj\Debug\net10.0\compressed\hplm9s7tqd-{0}-h5onck38hm-h5onck38hm.gz
+E:\YeuBep\YeuBep\YeuBep\obj\Debug\net10.0\compressed\0kx56db8fl-{0}-wqirq0sow2-wqirq0sow2.gz
+E:\YeuBep\YeuBep\YeuBep\obj\Debug\net10.0\compressed\w9tjcp6s2j-{0}-bbe6idn8xx-bbe6idn8xx.gz
+E:\YeuBep\YeuBep\YeuBep\obj\Debug\net10.0\compressed\iq3dwxxuvq-{0}-rl7z3oh7ka-rl7z3oh7ka.gz
+E:\YeuBep\YeuBep\YeuBep\obj\Debug\net10.0\compressed\izhiqnfb6i-{0}-7lehxb62i2-7lehxb62i2.gz
+E:\YeuBep\YeuBep\YeuBep\obj\Debug\net10.0\compressed\7hb1mc54r2-{0}-h2ujl7yiur-h2ujl7yiur.gz

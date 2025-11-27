@@ -1,4 +1,5 @@
-﻿using Mapster;
+﻿using FluentResults;
+using Mapster;
 using Microsoft.EntityFrameworkCore;
 using YeuBep.Const;
 using YeuBep.Data;
@@ -23,8 +24,8 @@ public class RecipeController : Controller
         _recipeServices = recipeServices;
     }
 
-    [HttpGet("Recipe/{slug}")]
-    public async Task<IActionResult> RecipeBySlug(string slug)
+    [HttpGet]
+    public async Task<IActionResult> Slug(string slug)
     {
         // if (string.IsNullOrWhiteSpace(slug))
         // {
@@ -51,7 +52,7 @@ public class RecipeController : Controller
         return View("Recipe", recipe);
     }
 
-    [HttpGet("Recipe")]
+    [HttpGet]
     public async Task<IActionResult> Recipe()
     {
         var recipe = FakeData.Recipe;
@@ -59,7 +60,7 @@ public class RecipeController : Controller
         return View("RecipeList", pagination);
     }
 
-    [HttpGet("MyRecipe")]
+    [HttpGet]
     public async Task<IActionResult> MyRecipe()
     {
         var recipe = FakeData.Recipe;
@@ -67,10 +68,20 @@ public class RecipeController : Controller
         return View("MyRecipeList", pagination);
     }
 
-    [HttpGet("Create")]
-    public IActionResult CreateRecipe()
+    [HttpGet]
+    public IActionResult Create()
     {
         return View("CreateRecipe");
     }
-    
+
+    [HttpGet]
+    public IActionResult Edit(string recipeId)
+    {
+        var recipe = FakeData.Recipe.FirstOrDefault(x => x.Id == recipeId);
+        if (recipe is null)
+        {
+            return Redirect("/Error/NotFoundPage");
+        }
+        return View("CreateRecipe", recipe);
+    }
 }

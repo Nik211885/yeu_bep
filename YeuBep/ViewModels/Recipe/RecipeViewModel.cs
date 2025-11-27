@@ -7,6 +7,8 @@ namespace YeuBep.ViewModels.Recipe;
 
 public class RecipeViewModel
 {
+    [KeyTable]
+    [NameColumn("recipeId")]
     public string Id { get; set; }
     [NameColumn("Tiêu đề")]
     public string Title { get; set; }

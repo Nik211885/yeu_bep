@@ -11,7 +11,8 @@
         user = await UserManager.FindByIdAsync(userId);
     }
     var action = Context.Request.RouteValues["action"]?.ToString();
-    Func<string, string> activeSidebar = (string router) =>
+
+    string ActiveSidebar(string router)
     {
         if (action?.ToUpper() == router.ToUpper())
         {
@@ -19,7 +20,7 @@
         }
 
         return "";
-    };
+    }
 }
 <!DOCTYPE html>
 <html lang="vi">
@@ -51,19 +52,19 @@
         <nav class="sidebar-menu">
             <div class="menu-section">
                 <div class="menu-label">Menu chính</div>
-                <a href="/" class="menu-item @activeSidebar("Index")">
+                <a href="/" class="menu-item @ActiveSidebar("Index")">
                     <i class="fas fa-home"></i>
                     <span>Trang chủ</span>
                 </a>
-                <a href="@Url.Action("Recipe", "Recipe")" class="menu-item @activeSidebar("Recipe")">
+                <a href="@Url.Action("Recipe", "Recipe")" class="menu-item @ActiveSidebar("Recipe")">
                     <i class="fas fa-book-open"></i>
                     <span>Công thức</span>
                 </a>
-                <a href="/favorites" class="menu-item @activeSidebar("Favorites")">
+                <a href="/favorites" class="menu-item @ActiveSidebar("Favorites")">
                     <i class="fas fa-heart"></i>
                     <span>Yêu thích</span>
                 </a>
-                <a href="@Url.Action("MyRecipe","Recipe")" class="menu-item @activeSidebar("MyRecipe")">
+                <a href="@Url.Action("MyRecipe","Recipe")" class="menu-item @ActiveSidebar("MyRecipe")">
                     <i class="fas fa-clipboard-list"></i>
                     <span>Công thức của tôi</span>
                 </a>
@@ -71,7 +72,7 @@
 
             <div class="menu-section">
                 <div class="menu-label">Khám phá</div>
-                <a href="/categories" class="menu-item @activeSidebar("Categories")">
+                <a href="/categories" class="menu-item @ActiveSidebar("Categories")">
                     <i class="fas fa-th-large"></i>
                     <span>Danh mục</span>
                 </a>
@@ -181,9 +182,11 @@
 </footer>
 
 <script src="~/lib/jquery/dist/jquery.js"></script>
+<script src="https://code.jquery.com/ui/1.13.2/jquery-ui.min.js"></script>
 <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
 <script src="~/js/site.js" asp-append-version="true"></script>
+<script src="~/js/ajax-helper.js"></script>
 
 <script>
     $(document).ready(function() {

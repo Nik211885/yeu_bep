@@ -19,4 +19,5 @@ public enum LabelLevel
     Primary,
     Danger,
     Warning,
+    Info,
 }

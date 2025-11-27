@@ -41,7 +41,8 @@
         updateSortIcons();
         loadTableData();
     }
-
+    //
+    
     // Load table data with filters and sorting
     function loadTableData() {
         const filters = {};
@@ -71,7 +72,17 @@
         //     }
         // });
     }
-
+    // get url for in table
+    function getQueryStringSelector(){
+        let queryString = '';
+        selectedRows.forEach(index => {
+            const $row = $(`#tableBody tr:eq(${index})`);
+            const $checkbox = $row.find('.check-item');
+            const dataPath = $checkbox.data("path");
+            queryString += dataPath;
+        })
+        return queryString;
+    }
     // Handle Enter key on table
     $("#dataTable").on("keydown", function(e) {
         if (e.key === "Enter") {
@@ -173,12 +184,12 @@
         `;
         $('#advancedFilters').append(filterHtml);
     });
-
+    
     // Remove filter
     $(document).on('click', '.remove-filter-btn', function() {
         $(this).closest('.filter-row').remove();
     });
-
+    
     // Rows per page change
     $('#rowsPerPage').on('change', function() {
         loadTableData();
@@ -186,7 +197,6 @@
 
     // Button actions
     $('#btnAdd').on('click', function() {
-        // TODO: Open add modal/form
         const url = $(this).data("url");
         if (url) {
             window.location.href = url;
@@ -195,11 +205,10 @@
 
     $('#btnEdit').on('click', function() {
         if (selectedRows.size === 1) {
-            const rowIndex = Array.from(selectedRows)[0];
-            const $row = $(`#tableBody tr:eq(${rowIndex})`);
             const url = $(this).data("url");
+            const queryString = getQueryStringSelector();
             if (url) {
-                window.location.href = url;
+                window.location.href = url + "?" +  queryString;
             }
             // TODO: Get ID and redirect to edit page
             // const id = $row.data('id');
@@ -214,6 +223,7 @@
                 const ids = [];
                 selectedRows.forEach(index => {
                     const $row = $(`#tableBody tr:eq(${index})`);
+                    console.log($row);
                     // ids.push($row.data('id'));
                 });
                 // Ajax delete request
@@ -224,14 +234,10 @@
 
     $('#btnView').on('click', function() {
         if (selectedRows.size === 1) {
-            const rowIndex = Array.from(selectedRows)[0];
-            const $row = $(`#tableBody tr:eq(${rowIndex})`);
-            // TODO: Get ID and redirect to detail page
-            // const id = $row.data('id');
-            // window.location.href = `/YourController/Details/${id}`;
             const url = $(this).data("url");
+            const queryString = getQueryStringSelector();
             if (url) {
-                window.location.href = url;
+                window.location.href = url + "?" +  queryString;
             }
         }
     });
@@ -239,6 +245,7 @@
     $('#btnApprove').on('click', function() {
         if (selectedRows.size > 0) {
             if (confirm(`Bạn có chắc chắn muốn duyệt ${selectedRows.size} mục đã chọn?`)) {
+                console.log(selectedRows);
                 // TODO: Approve selected items
                 const url = $(this).data("url");
             }
@@ -248,6 +255,7 @@
     $('#btnReject').on('click', function() {
         if (selectedRows.size > 0) {
             if (confirm(`Bạn có chắc chắn muốn từ chối ${selectedRows.size} mục đã chọn?`)) {
+                console.log(selectedRows);
                 // TODO: Reject selected items
                 const url = $(this).data("url");
             }
@@ -257,6 +265,7 @@
     $('#btnLock').on('click', function() {
         if (selectedRows.size > 0) {
             if (confirm(`Bạn có chắc chắn muốn khóa ${selectedRows.size} mục đã chọn?`)) {
+                console.log(selectedRows);
                 // TODO: Lock selected items
                 const url = $(this).data("url");
             }
@@ -265,6 +274,7 @@
 
     $('#btnUnlock').on('click', function() {
         if (selectedRows.size > 0) {
+            console.log(selectedRows);
             if (confirm(`Bạn có chắc chắn muốn mở khóa ${selectedRows.size} mục đã chọn?`)) {
                 // TODO: Unlock selected items
             }

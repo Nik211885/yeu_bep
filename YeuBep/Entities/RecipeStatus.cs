@@ -11,5 +11,7 @@ public enum RecipeStatus
     [EnumColumnTable(LabelLevel.Primary, "Đã phê duyệt")]
     Accept,
     [EnumColumnTable(LabelLevel.Danger, "Từ chối")]
-    Reject
+    Reject,
+    [EnumColumnTable(LabelLevel.Info, "Nháp")]
+    Draft
 }

@@ -1,4 +1,255 @@
-﻿@model YeuBep.ViewModels.Recipe.CreateRecipeViewModel;
+﻿@using Microsoft.AspNetCore.Identity
+@using YeuBep.Entities
+@model YeuBep.ViewModels.Recipe.RecipeViewModel?
+@inject UserManager<User> UserManager
 
+@{
+    var action = Context.Request.RouteValues["action"]?.ToString();
+    var userId = UserManager.GetUserId(User);
+    @if (string.IsNullOrEmpty(userId))
+    {
+        <p>Bạn chưa đăng nhập hoặc không có quyền truy cập.</p>
+        return;
+    }
+    var user = await UserManager.FindByIdAsync(userId);
+    if (user is null)
+    {
+        <p>Bạn chưa đăng nhập hoặc không có quyền truy cập.</p>
+        return;
+    }
 
+    (string style, string cssClass) GetCssAndClass(string? imageUrl)
+    {
+        if (string.IsNullOrEmpty(imageUrl))
+        {
+            return ("", ""); 
+        }
 
+        string style = $"background-image: url('{imageUrl}'); " +
+                       "background-size: cover; " +
+                       "background-position: center;";
+        string cssClass = "has-image";
+
+        return (style, cssClass);
+    }
+
+}
+<link rel="stylesheet" href="~/css/recipe/create-recipe.css"/>
+
+<div data-id="@Model?.Id" class="container" id="recipe-container">
+        <div class="create-recipe-header">
+            <div class="header-buttons">
+                <a href="@Url.Action("MyRecipe", "Recipe")" id="back" class="btn btn-success">
+                    <i class="fas fa-arrow-left"></i> Quay lại
+                </a>
+                <button class="btn btn-light btn-outline-secondary d-none">
+                    <i class="fas fa-eye"></i> Xem trước
+                </button>
+
+                <button id="btn-save" class="btn btn-primary custom-orange-btn">
+                    <i class="fas fa-save"></i> Lưu
+                </button>
+
+                <button id="unpublish" class="btn btn-light btn-outline-secondary" style="display: none">
+                    <i class="fas fa-eye-slash"></i> Gỡ bài
+                </button>
+
+                <button id="btn-delete" class="btn btn-danger" style="display: none">
+                    <i class="fas fa-trash"></i> Xóa
+                </button>
+
+            </div>
+            <span id="recipe-status" class="badge">
+                @Model?.RecipeStatus
+            </span>
+            <button class="btn btn-primary" id="btn-send">Lên sóng</button>
+        </div>
+
+        <div class="main-content">
+            <div class="title-section">
+                <div class="form-group">
+                    <input id="title" name="title" type="text" class="recipe-title-input" placeholder="Tên món: Món canh bí ngon nhất nhà mình" value="@(Model?.Title)" >
+                </div>
+                
+                <div class="author-info">
+                    <div class="avatar">
+                        @{
+                            string avatarUrl = !string.IsNullOrEmpty(user?.Avatar) 
+                                ? user.Avatar 
+                                : "https://ui-avatars.com/api/?name=Nguyen+Van+A&background=667eea&color=fff&size=40";
+                        }
+                        <img class="avatar" src="@avatarUrl" alt="user"/>
+                    </div>
+                    <span class="author-name">@user?.FullName</span>
+                    <span class="author-id">@($"@{user?.UserName}")</span>
+                </div>
+
+                <div class="form-group">
+                    <textarea id="description" class="recipe-description-input" placeholder="Hãy chia sẻ với mọi người về món này của bạn nhé - ai đã từng cắn hưởng cho bạn, bạn sao ra được món này...">@Html.Encode(Model?.Description)</textarea>
+                </div>
+                @{
+                    var (styleMainUpload, classMainUpload) = GetCssAndClass(Model?.Avatar);
+                }
+                <div class="upload-section @classMainUpload" id="main-upload" style="@styleMainUpload">
+                    <input type="hidden" id="main-upload-image-url" value="@Model?.Avatar"/>
+                    <input type="file" id="main-image-input" accept="image/*">
+                    <button class="remove-image" id="remove-main-image">✕</button>
+                    @if (string.IsNullOrWhiteSpace(styleMainUpload))
+                    {
+                        <div class="upload-content">
+                            <div class="upload-icon">📷</div>
+                            <div class="upload-text">Bạn đã đăng hình món mình nấu ở đây chưa?<br>Nhấn để tải ảnh lên!</div>
+                        </div>
+                    }
+                </div>
+            </div>
+
+            <div class="content-wrapper">
+                <div class="left-column">
+                    <div class="section">
+                        <div class="section-header">
+                            <div class="section-title">
+                                Nguyên Liệu
+                                <span class="toggle-icon">−</span>
+                            </div>
+                            <div class="section-meta">
+                                <input id="portionCount" type="text" class="meta-input" placeholder="2 người" value="@(Model == null ? "3 người" : Model.PortionCount)">
+                            </div>
+                        </div>
+                        <div class="section-content" id="ingredients-sections">
+                            <div id="ingredient-section-1" class="ingredient-section">
+                                @{
+                                    if (Model is not null)
+                                    {
+                                        foreach (var ingredient in Model.IngredientPart)
+                                        {
+                                            <div class="ingredient-section-header">
+                                                <input type="text" class="ingredient-section-title" placeholder="Phần 1" value="@ingredient.Title">
+                                                <button class="delete-section-btn">🗑️</button>
+                                            </div>
+                                            <div class="ingredients-list">
+                                                @foreach (var ingre in ingredient.Ingredients)
+                                                {
+                                                    <div class="list-item">
+                                                        <span class="drag-handle">☰</span>
+                                                        <input type="text" class="item-input ingredient" placeholder="Nhập nguyên liệu..." value="@ingre">
+                                                        <button class="more-btn">⋯</button>
+                                                    </div>
+                                                }
+                                            </div>
+                                        }
+                                    }
+                                    else
+                                    {
+                                        <div class="ingredient-section-header">
+                                            <input type="text" class="ingredient-section-title" placeholder="Phần 1" value="Phần 1">
+                                            <button class="delete-section-btn">🗑️</button>
+                                        </div>
+                                        <div class="ingredients-list">
+                                            <div class="list-item">
+                                                <span class="drag-handle">☰</span>
+                                                <input type="text" class="item-input ingredient" placeholder="Nhập nguyên liệu..." value="Cà rốt">
+                                                <button class="more-btn">⋯</button>
+                                            </div>
+                                            <div class="list-item">
+                                                <span class="drag-handle">☰</span>
+                                                <input type="text" class="item-input ingredient" placeholder="Nhập nguyên liệu..." value="Thịt gà">
+                                                <button class="more-btn">⋯</button>
+                                            </div>
+                                        </div>
+                                    }
+                                }
+                                <button class="add-btn add-ingredient-btn">+ Nguyên liệu</button>
+                            </div>
+
+                            <button class="add-btn add-section-btn" id="add-section">+ Thêm phần</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="right-column">
+                    <div class="section">
+                        <div class="section-header">
+                            <div class="section-title">
+                                Các bước
+                                <span class="toggle-icon">−</span>
+                            </div>
+                            <div class="section-meta">
+                                <input id="timeToCook" type="text" class="meta-input" placeholder="1 tiếng 30 phút" value="@(Model == null ? "1 tiếng 30 phút" : Model.TimeToCook)">
+                            </div>
+                        </div>
+                        <div class="section-content">
+                            <div id="steps-list">
+                                @if (Model is not null)
+                                {
+                                    for (int i = 0; i < Model.DetailInstructionSteps.Count; i++)
+                                    {
+                                        var instructionStep = Model.DetailInstructionSteps.ElementAt(i);
+                                        int step = i + 1;
+                                        <div class="step-item">
+                                            <div class="step-number">@step</div>
+                                            <div class="step-content">
+                                                <textarea class="step-textarea" placeholder="Nhập hướng dẫn cho bước này...">@Html.Encode(instructionStep.Instructions)</textarea>
+                                                @{
+                                                    var (styleImageInstruction, classImageInstruction) = GetCssAndClass(instructionStep.ImageDescription);
+                                                }
+                                                <div class="image-placeholder @classImageInstruction" data-step="@step" style="@styleImageInstruction">
+                                                    <input type="hidden" class="step-image-description" value="@instructionStep.ImageDescription"/>
+                                                    <input type="file" class="step-image-input" accept="image/*">
+                                                    <button class="remove-step-image">✕</button>
+                                                    <div class="image-icon">📷</div>
+                                                </div>
+                                                <button class="more-btn step-more">⋯</button>
+                                            </div>
+                                        </div>
+                                    }
+                                }
+                                else
+                                {
+                                    <div class="step-item">
+                                        <div class="step-number">1</div>
+                                        <div class="step-content">
+                                            <textarea class="step-textarea" placeholder="Nhập hướng dẫn cho bước này..."></textarea>
+                                            <div class="image-placeholder" data-step="1">
+                                                <input type="hidden" class="step-image-description"/>
+                                                <input type="file" class="step-image-input" accept="image/*">
+                                                <button class="remove-step-image">✕</button>
+                                                <div class="image-icon">📷</div>
+                                            </div>
+                                            <button class="more-btn step-more">⋯</button>
+                                        </div>
+                                    </div>
+                                    <div class="step-item">
+                                        <div class="step-number">2</div>
+                                        <div class="step-content">
+                                            <textarea class="step-textarea" placeholder="Nhập hướng dẫn cho bước này..."></textarea>
+                                            <div class="image-placeholder" data-step="2">
+                                                <input type="hidden" class="step-image-description"/>
+                                                <input type="file" class="step-image-input" accept="image/*">
+                                                <button class="remove-step-image">✕</button>
+                                                <div class="image-icon">📷</div>
+                                            </div>
+                                            <button class="more-btn step-more">⋯</button>
+                                        </div>
+                                    </div>
+                                }
+                            </div>
+                            <button class="add-btn" id="add-step">+ Bước làm</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+<script>
+    (function loadCreateRecipe() {
+        if (typeof $ === 'undefined') {
+            setTimeout(loadCreateRecipe, 50);
+            return;
+        }
+        const script = document.createElement('script');
+        script.src = '/js/recipe/create-recipe.js';
+        document.body.appendChild(script);
+    })();
+</script>

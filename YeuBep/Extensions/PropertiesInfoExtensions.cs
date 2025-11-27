@@ -13,15 +13,23 @@ public static class PropertiesInfoExtensions
             return attr?.NameColumn;
         }
 
-        public bool IsIgnoreColumn()
+        private bool IsAttribute<TAttribute>() where TAttribute : Attribute
         {
-            var attr = prop.GetCustomAttribute<IgnoreColumnAttribute>();
+            var attr = prop.GetCustomAttribute<TAttribute>();
             if (attr != null)
             {
                 return true;
             }
 
             return false;
+        }
+        public bool IsIgnoreColumn()
+        {
+            return prop.IsAttribute<IgnoreColumnAttribute>();
+        }
+        public bool IsKeyTableColumn()
+        {
+            return prop.IsAttribute<KeyTable>();
         }
     }
 }

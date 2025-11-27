@@ -34,7 +34,7 @@ public class AccountController : Controller
             return RedirectToLocal(returnUrl);
         }
         var context = HttpContext;
-        ViewData["ReturnUrl"] = returnUrl;
+        ViewData["ReturnUrl"] = returnUrl;  
         return View("LoginPage");
     }
 

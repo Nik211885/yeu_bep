@@ -1,4 +1,5 @@
-﻿@using YeuBep.Attributes.Table
+﻿@using System.Reflection
+@using YeuBep.Attributes.Table
 @using YeuBep.Extensions
 @using YeuBep.Helpers
 @model YeuBep.ViewModels.PaginationViewModel<object>
@@ -6,17 +7,17 @@
 @{
     List<ButtonConfig> buttonConfigs = ViewBag.ButtonConfig;
     var items = Model.Items?.ToList() ?? new List<object>();
+    var keyTable = new List<(PropertyInfo, string, string)>();
     
     // Helper function to get flattened properties
-    List<(System.Reflection.PropertyInfo Property, string DisplayName, string PropertyPath)> GetFlattenedProperties(Type? type, string prefix = "")
+    List<(PropertyInfo Property, string DisplayName, string PropertyPath)> GetFlattenedProperties(Type? type, string prefix = "")
     {
-        var result = new List<(System.Reflection.PropertyInfo, string, string)>();
-        var properties = type.GetProperties().Where(p => p.CanRead).ToList();
+        var result = new List<(PropertyInfo, string, string)>();
+        var properties = type?.GetProperties().Where(p => p.CanRead).ToList();
         
-        foreach (var prop in properties)
+        foreach (var prop in properties ?? [])
         {
             if (prop.IsIgnoreColumn()) continue;
-            
             var propPath = string.IsNullOrEmpty(prefix) ? prop.Name : $"{prefix}.{prop.Name}";
             var displayName = prop.GetNameColumn();
             
@@ -29,8 +30,14 @@
                 var nestedProps = GetFlattenedProperties(prop.PropertyType, propPath);
                 result.AddRange(nestedProps);
             }
-            else if (prop.Name.ToUpper() != "ID")
+            else
             {
+                if (prop.IsKeyTableColumn())
+                {
+                    keyTable.Add((prop, displayName, propPath)!);
+                    continue;
+                }
+
                 result.Add((prop, displayName, propPath)!);
             }
         }
@@ -193,8 +200,17 @@
             @foreach (var item in Model.Items!)
             {
                 <tr>
+                    @{
+                        string queryString = string.Empty;
+                    }
+                    @foreach (var (_,displayName, propertyPath) in keyTable)
+                    {
+                        var dataInQueryString = GetNestedValue(item, propertyPath);
+                        queryString += $"{displayName}={dataInQueryString}&";
+                    }
+
                     <td class="checkbox-cell">
-                        <input placeholder="" type="checkbox" class="row-checkbox check-item">
+                        <input data-path="@queryString" placeholder="" type="checkbox" class="row-checkbox check-item">
                     </td>
                     @foreach (var (_, _, propertyPath) in flattenedProperties)
                     {
@@ -204,9 +220,10 @@
                             var (level, label) = tuple;
                             var colorLabel = level switch
                             {
-                                LabelLevel.Danger  => "bg-danger",
+                                LabelLevel.Danger => "bg-danger",
                                 LabelLevel.Primary => "bg-primary",
                                 LabelLevel.Warning => "bg-warning",
+                                LabelLevel.Info => "bg-info",
                                 _ => throw new ArgumentOutOfRangeException(nameof(level), level, null)
                             };
                             <td>
