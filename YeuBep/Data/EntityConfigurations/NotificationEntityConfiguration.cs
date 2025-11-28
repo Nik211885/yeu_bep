@@ -14,7 +14,7 @@ public class NotificationEntityConfiguration : IEntityTypeConfiguration<Notifica
             .IsRequired();
         builder.Property(x => x.Title)
             .IsRequired()
-            .HasMaxLength(50);
+            .HasMaxLength(100);
         builder.Property(x => x.Link)
             .HasMaxLength(200);
         builder.HasOne(x=>x.CreatedBy)

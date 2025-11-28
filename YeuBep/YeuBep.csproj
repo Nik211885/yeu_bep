@@ -7,9 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Pipelines\Middleware\" />
     <Folder Include="Views\Comment\" />
-    <Folder Include="Views\Favorites\" />
     <Folder Include="Views\Rating\" />
   </ItemGroup>
 

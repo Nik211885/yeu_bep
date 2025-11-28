@@ -11,6 +11,6 @@ public class ChangePasswordViewModel
     public string NewPassword { get; set; }
     [DataType(DataType.Password)]
     [Required(ErrorMessage = "Mật khẩu xác nhận là bắt buộc")]
-    [Compare("Password", ErrorMessage = "Password không khớp")]
+    [Compare("NewPassword", ErrorMessage = "Password không khớp")]
     public string ConfirmPassword { get; set; }
 }

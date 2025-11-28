@@ -3,10 +3,10 @@ using YeuBep.ViewModels;
 
 namespace YeuBep.Extensions;
 
-public class QueriesExtensions
+public static class QueriesExtensions
 {
     public static async Task<PaginationViewModel<TResponse>> GetPaginationAsync<TResponse>(
-        IQueryable<TResponse> queryable,
+        this IQueryable<TResponse> queryable,
         int pageNumber,
         int pageSize,
         CancellationToken cancellationToken = default

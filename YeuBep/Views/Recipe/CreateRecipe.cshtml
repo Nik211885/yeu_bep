@@ -85,7 +85,7 @@
                 </div>
 
                 <div class="form-group">
-                    <textarea id="description" class="recipe-description-input" placeholder="Hãy chia sẻ với mọi người về món này của bạn nhé - ai đã từng cắn hưởng cho bạn, bạn sao ra được món này...">@Html.Encode(Model?.Description)</textarea>
+                    <textarea id="description" class="recipe-description-input" placeholder="Hãy chia sẻ với mọi người về món này của bạn nhé - ai đã từng cắn hưởng cho bạn, bạn sao ra được món này...">@Model?.Description</textarea>
                 </div>
                 @{
                     var (styleMainUpload, classMainUpload) = GetCssAndClass(Model?.Avatar);
@@ -189,7 +189,7 @@
                                         <div class="step-item">
                                             <div class="step-number">@step</div>
                                             <div class="step-content">
-                                                <textarea class="step-textarea" placeholder="Nhập hướng dẫn cho bước này...">@Html.Encode(instructionStep.Instructions)</textarea>
+                                                <textarea class="step-textarea" placeholder="Nhập hướng dẫn cho bước này...">@instructionStep.Instructions</textarea>
                                                 @{
                                                     var (styleImageInstruction, classImageInstruction) = GetCssAndClass(instructionStep.ImageDescription);
                                                 }

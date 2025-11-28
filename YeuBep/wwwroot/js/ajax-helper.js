@@ -122,6 +122,7 @@
                 contentType: settings.contentType,
                 dataType: settings.dataType,
                 success: function(response) {
+                    console.log("SUCCESS" + response);
                     if (method !== 'GET') {
                         toast.success("Xử lý thành công");
                     }
@@ -131,6 +132,7 @@
                     let messages = [];
                     if (Array.isArray(xhr.responseJSON)) {
                         messages = xhr.responseJSON.map(e => e.message);
+                        toast.warning(messages.join("<br/>"));
                     } else if (xhr.responseJSON && xhr.responseJSON.errors) {
                         const errors = xhr.responseJSON.errors;
                         for (const key in errors) {
@@ -138,10 +140,8 @@
                                 messages.push(...errors[key]);
                             }
                         }
-                    } else {
-                        messages.push("Đã xảy ra lỗi không xác định.");
+                        toast.warning(messages.join("<br/>"));
                     }
-                    toast.warning(messages.join("<br/>"));
                 },
                 complete: function() {
                     if (settings.showLoading) $.apiHelper.hideLoading();

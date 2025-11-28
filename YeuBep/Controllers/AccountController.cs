@@ -1,11 +1,13 @@
 ﻿using System.Security.Claims;
 using System.Text;
 using Hangfire;
+using Mapster;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.WebUtilities;
 using YeuBep.Const;
+using YeuBep.Data;
 using YeuBep.Entities;
 using YeuBep.Extends;
 using YeuBep.ViewModels.Account;
@@ -16,14 +18,18 @@ public class AccountController : Controller
 {
     private readonly ILogger<AccountController> _logger;
     private readonly UserManager<User> _userManager;
+    private readonly RoleManager<IdentityRole> _roleManager;
+    private readonly YeuBepDbContext _context;
     private readonly SignInManager<User> _signInManager;
     private readonly EmailSenderServices _emailSenderServices;
 
-    public AccountController(ILogger<AccountController> logger, EmailSenderServices emailSenderServices, UserManager<User> userManager, SignInManager<User> signInManager)
+    public AccountController(ILogger<AccountController> logger, EmailSenderServices emailSenderServices, UserManager<User> userManager, SignInManager<User> signInManager, RoleManager<IdentityRole> roleManager, YeuBepDbContext context)
     {
         _logger = logger;
         _userManager = userManager;
         _signInManager = signInManager;
+        _roleManager = roleManager;
+        _context = context;
         _emailSenderServices = emailSenderServices;
     }
     [HttpGet]
@@ -95,9 +101,29 @@ public class AccountController : Controller
                 Email = model.Email,
                 FullName = model.FullName,
             };
-                
-            var result = await _userManager.CreateAsync(user, model.Password);
-                
+            await using var transaction = await _context.Database.BeginTransactionAsync();
+            IdentityResult result;
+            try
+            {
+                result = await _userManager.CreateAsync(user, model.Password);
+                if (!result.Succeeded)
+                {
+                    await transaction.RollbackAsync();
+                }
+
+                result = await _userManager.AddToRoleAsync(user, nameof(Role.Default));
+                if (!result.Succeeded)
+                {
+                    await transaction.RollbackAsync();
+                }
+            }
+            catch
+            {
+                await transaction.RollbackAsync();
+                throw;
+            }
+
+            await transaction.CommitAsync();
             if (result.Succeeded)
             {
                 var token = await _userManager.GenerateEmailConfirmationTokenAsync(user);
@@ -267,7 +293,29 @@ public class AccountController : Controller
                 Email = email,
                 FullName = fullName,
             };
-            var createUserResult = await _userManager.CreateAsync(user);
+            await using var transaction = await _context.Database.BeginTransactionAsync();
+            IdentityResult createUserResult;
+            try
+            {
+                createUserResult = await _userManager.CreateAsync(user);
+                if (!createUserResult.Succeeded)
+                {
+                    await transaction.RollbackAsync();
+                }
+
+                createUserResult = await _userManager.AddToRoleAsync(user, nameof(Role.Default));
+                if (!createUserResult.Succeeded)
+                {
+                    await transaction.RollbackAsync();
+                }
+            }
+            catch
+            {
+                await transaction.RollbackAsync();
+                throw;
+            }
+
+            await transaction.CommitAsync();
             if (createUserResult.Succeeded)
             {
                 var loginResult = await _userManager.AddLoginAsync(user, info);
@@ -283,9 +331,17 @@ public class AccountController : Controller
 
     [HttpGet]
     [Authorize]
-    public IActionResult Update()
+    public async Task<IActionResult> Update()
     {
-        return View("UpdateAccount");
+        var user = await _userManager.GetUserAsync(User);
+        if (user is null)
+        {
+            TempData["Error"] = "Bạn đã hết phiên đăng nhập!";
+            return RedirectToAction("Index", "Home");
+        }
+
+        var userUpdate = user.Adapt<UpdateUserViewModel>();
+        return View("UpdateAccount",userUpdate);
     }
 
     [HttpPost]
@@ -293,7 +349,21 @@ public class AccountController : Controller
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Update(UpdateUserViewModel model)
     {
-        throw new NotImplementedException();
+        if (ModelState.IsValid)
+        {
+            var user = await _userManager.GetUserAsync(User);
+            if (user is null)
+            {
+                TempData["Error"] = "Bạn đã hết phiên đăng nhập!";
+                return RedirectToAction("Index", "Home");
+            }
+
+            model.Adapt(user);
+            await _userManager.UpdateAsync(user);
+            TempData["Error"] = "Cập nhật thông tin tài khoản thành công!";
+        }
+
+        return RedirectToAction("Update", "Account");   
     }
 
     [HttpGet]
@@ -306,7 +376,7 @@ public class AccountController : Controller
     [HttpPost]
     [ValidateAntiForgeryToken]
     [Authorize]
-    public async Task<IActionResult> ChangPassword(ChangePasswordViewModel model)
+    public async Task<IActionResult> ChangePassword(ChangePasswordViewModel model)
     {
         if (ModelState.IsValid)
         {

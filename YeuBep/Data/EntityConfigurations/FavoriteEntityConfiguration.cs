@@ -10,10 +10,6 @@ public class FavoriteEntityConfiguration : IEntityTypeConfiguration<Favorite>
     {
         builder.ToTable("Favorites");
         builder.HasKey(k => k.Id);
-        builder.Property(x => x.RecipeId)
-            .IsRequired()
-            .HasMaxLength(20);
-        
         builder.HasOne(x=>x.Recipe)
             .WithMany(x=>x.Favorites)
             .HasForeignKey(x=>x.RecipeId);

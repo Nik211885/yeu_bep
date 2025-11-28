@@ -56,13 +56,18 @@
         <div class="mb-4">
             <div class="d-flex justify-content-between align-items-center bg-light rounded-3 p-3">
                 <div class="text-center flex-fill">
-                    <i class="bi bi-clock text-primary fs-5 d-block mb-1"></i>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-alarm" viewBox="0 0 16 16">
+                        <path d="M8.5 5.5a.5.5 0 0 0-1 0v3.362l-1.429 2.38a.5.5 0 1 0 .858.515l1.5-2.5A.5.5 0 0 0 8.5 9z"/>
+                        <path d="M6.5 0a.5.5 0 0 0 0 1H7v1.07a7.001 7.001 0 0 0-3.273 12.474l-.602.602a.5.5 0 0 0 .707.708l.746-.746A6.97 6.97 0 0 0 8 16a6.97 6.97 0 0 0 3.422-.892l.746.746a.5.5 0 0 0 .707-.708l-.601-.602A7.001 7.001 0 0 0 9 2.07V1h.5a.5.5 0 0 0 0-1zm1.038 3.018a6 6 0 0 1 .924 0 6 6 0 1 1-.924 0M0 3.5c0 .753.333 1.429.86 1.887A8.04 8.04 0 0 1 4.387 1.86 2.5 2.5 0 0 0 0 3.5M13.5 1c-.753 0-1.429.333-1.887.86a8.04 8.04 0 0 1 3.527 3.527A2.5 2.5 0 0 0 13.5 1"/>
+                    </svg>
                     <small class="text-muted fw-semibold d-block">@Model.TimeToCook</small>
                     <small class="text-muted" style="font-size: 0.75rem;">Thời gian</small>
                 </div>
                 <div class="vr"></div>
                 <div class="text-center flex-fill">
-                    <i class="bi bi-people text-success fs-5 d-block mb-1"></i>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-people-fill" viewBox="0 0 16 16">
+                        <path d="M7 14s-1 0-1-1 1-4 5-4 5 3 5 4-1 1-1 1zm4-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6m-5.784 6A2.24 2.24 0 0 1 5 13c0-1.355.68-2.75 1.936-3.72A6.3 6.3 0 0 0 5 9c-4 0-5 3-5 4s1 1 1 1zM4.5 8a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5"/>
+                    </svg>
                     <small class="text-muted fw-semibold d-block">@Model.PortionCount</small>
                     <small class="text-muted" style="font-size: 0.75rem;">Khẩu phần</small>
                 </div>
@@ -72,10 +77,18 @@
         <!-- Author -->
         <div class="border-top pt-3">
             <div class="d-flex align-items-center">
-                <div class="rounded-circle bg-primary bg-opacity-10 d-flex align-items-center justify-content-center me-3" 
-                     style="width: 45px; height: 45px;">
-                    <i class="bi bi-person-circle text-primary fs-4"></i>
+                <div class="rounded-circle bg-primary bg-opacity-10 d-flex align-items-center justify-content-center me-3"
+                     style="width: 45px; height: 45px; overflow: hidden;">
+                    @if (Model.CreatedBy.Avatar is null)
+                    {
+                        <i class="bi bi-person-circle text-primary fs-4"></i>
+                    }
+                    else
+                    {
+                        <img src="@Model.CreatedBy.Avatar" alt="" style="width: 100%; height: 100%; object-fit: cover;" />
+                    }
                 </div>
+
                 <div class="flex-grow-1">
                     <div class="fw-semibold text-dark mb-1" style="font-size: 0.9rem;">@Model.CreatedBy.UserName</div>
                     <div class="d-flex align-items-center text-muted" style="font-size: 0.8rem;">

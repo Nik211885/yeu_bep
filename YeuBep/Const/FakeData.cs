@@ -15,7 +15,7 @@ public static class FakeData
         CreatedDate = DateTimeOffset.Now.AddDays(-1),
         CreatedBy = new AccountInfo
         {
-            UserId = Guid.NewGuid(),
+            Id = Guid.NewGuid().ToString(),
             UserName = "user1",
             Bio = "Bio of user1",
             Avatar = "https://i.pravatar.cc/150?img=1"
@@ -60,12 +60,12 @@ public static class FakeData
             new CommentViewModel
             {
                 Id = Guid.NewGuid().ToString(),
-                CreatedDate = DateTimeOffset.Now.ToString("yyyy-MM-dd HH:mm"),
+                CreatedDate = DateTimeOffset.UtcNow,
                 RecipeId = Guid.NewGuid().ToString(),
                 CommentText = "This is a comment on recipe 1",
                 CreatedBy = new AccountInfo
                 {
-                    UserId = Guid.NewGuid(),
+                    Id = Guid.NewGuid().ToString(),
                     UserName = "commenter1",
                     Bio = "Bio of commenter1",
                     Avatar = "https://i.pravatar.cc/150?img=11"
@@ -81,7 +81,7 @@ public static class FakeData
         CreatedDate = DateTimeOffset.Now.AddDays(-2),
         CreatedBy = new AccountInfo
         {
-            UserId = Guid.NewGuid(),
+            Id = Guid.NewGuid().ToString(),
             UserName = "user2",
             Bio = "Bio of user2",
             Avatar = "https://i.pravatar.cc/150?img=2"
@@ -126,12 +126,12 @@ public static class FakeData
             new CommentViewModel
             {
                 Id = Guid.NewGuid().ToString(),
-                CreatedDate = DateTimeOffset.Now.ToString("yyyy-MM-dd HH:mm"),
+                CreatedDate = DateTimeOffset.UtcNow,
                 RecipeId = Guid.NewGuid().ToString(),
                 CommentText = "This is a comment on recipe 2",
                 CreatedBy = new AccountInfo
                 {
-                    UserId = Guid.NewGuid(),
+                    Id = Guid.NewGuid().ToString(),
                     UserName = "commenter2",
                     Bio = "Bio of commenter2",
                     Avatar = "https://i.pravatar.cc/150?img=12"

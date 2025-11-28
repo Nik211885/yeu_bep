@@ -1,18 +1,11 @@
-﻿@model TModel
+﻿@model PaginationViewModel<object>  
 
 @{
-    Layout = null;
+    var buttonTableTypes = new List<ButtonConfig>
+    {
+        new ButtonConfig { Type = ButtonTableType.Detail, Controller = "ManagerRecipe", Action = "Detail" },
+        new ButtonConfig() {Type = ButtonTableType.Approve, Controller = "ManagerRecipe", Action = "Approve" },
+        new ButtonConfig() {Type = ButtonTableType.UnApprove, Controller = "ManagerRecipe", Action = "UnApprove" },
+    };
+    @(await Component.InvokeAsync("TableComponent", new { model = Model, buttonConfig = buttonTableTypes }))
 }
-
-<!DOCTYPE html>
-
-<html>
-<head>
-    <title>title</title>
-</head>
-<body>
-<div>
-      
-</div>
-</body>
-</html>

@@ -11,9 +11,6 @@ public class RatingEntityConfiguration : IEntityTypeConfiguration<Rating>
         builder.ToTable("Ratings");
         builder.HasKey(x=>x.Id);
         builder.Property(x => x.RatingPoint).IsRequired();
-        builder.Property(x => x.RecipeId)
-            .IsRequired()
-            .HasMaxLength(20);
         
         builder.HasOne(x=>x.Recipe)
             .WithMany(x=>x.Ratings)

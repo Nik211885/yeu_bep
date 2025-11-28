@@ -84,8 +84,17 @@
         return currentValue;
     }
     
-    var flattenedProperties = items.FirstOrDefault() != null 
-        ? GetFlattenedProperties(items.FirstOrDefault()?.GetType()) 
+    // FIX: Lấy type từ DataTypeItem property
+    Type? modelType = Model.DataTypeItem;
+    
+    // Fallback nếu DataTypeItem là object hoặc null
+    if (modelType == typeof(object))
+    {
+        modelType = items.FirstOrDefault()?.GetType();
+    }
+    
+    var flattenedProperties = modelType != null 
+        ? GetFlattenedProperties(modelType) 
         : new List<(System.Reflection.PropertyInfo, string, string)>();
 }
 <div class="container">
@@ -227,7 +236,7 @@
                                 _ => throw new ArgumentOutOfRangeException(nameof(level), level, null)
                             };
                             <td>
-                                <span class="bg-primary p-2 rounded-pill text-white fw-bold @colorLabel">@label</span>
+                                <span class="bg-primary p-2 rounded-pill text-white fw-bolder @colorLabel">@label</span>
                             </td>
                         }
                         else

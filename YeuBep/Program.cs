@@ -7,9 +7,12 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using YeuBep.Data;
 using YeuBep.Data.Interceptors;
+using YeuBep.Data.Seeder;
 using YeuBep.Entities;
 using YeuBep.Extends;
 using YeuBep.Pipelines.Filter;
+using YeuBep.Pipelines.Middleware;
+using YeuBep.Queries;
 using YeuBep.Services;
 using YeuBep.ViewModels.Account;
 
@@ -20,6 +23,7 @@ builder.Services.AddHttpContextAccessor();
 builder.Services.AddControllersWithViews();
 builder.Services.AddExtendServicesDefault(builder.Configuration);
 builder.Services.AddApplicationServicesDefault();
+builder.Services.AddQueriesServicesDefault();
 builder.Services.AddScoped<AuditSaveChangeInterceptor>();
 
 builder.Services.AddSwaggerGen();
@@ -146,7 +150,9 @@ using (var scope = app.Services.CreateScope())
 {
     var dbContext = scope.ServiceProvider.GetRequiredService<YeuBepDbContext>();
     dbContext.Database.Migrate();
+    await dbContext.SeederDefaultAsync(new PasswordHasher<User>());
 }
+
 
 app.UseHangfireDashboard("/hangfire");
 
@@ -169,6 +175,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+app.UsePageLoading();
 app.UseRouting();
 
 app.UseSession();

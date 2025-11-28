@@ -1,6 +1,15 @@
 ﻿namespace YeuBep.Queries;
 
-public class AddQueriesDefaultServices
+public static class AddQueriesDefaultServicesExtension
 {
-    
+    extension(IServiceCollection services)
+    {
+        public IServiceCollection AddQueriesServicesDefault()
+        {
+            services.AddScoped<RecipeQueries>();
+            services.AddScoped<FavoritesQueries>();
+            services.AddScoped<RatingQueries>();
+            return services;
+        }
+    }
 }

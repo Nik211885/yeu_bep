@@ -1,11 +1,9 @@
-﻿using FluentResults;
-using Mapster;
-using Microsoft.EntityFrameworkCore;
-using YeuBep.Const;
+﻿using YeuBep.Const;
 using YeuBep.Data;
+using YeuBep.Extensions;
+using YeuBep.Queries;
 using YeuBep.Services;
 using YeuBep.ViewModels;
-using YeuBep.ViewModels.Comment;
 using YeuBep.ViewModels.Recipe;
 
 namespace YeuBep.Controllers;
@@ -14,58 +12,46 @@ using Microsoft.AspNetCore.Mvc;
 public class RecipeController : Controller
 {
     private readonly  ILogger<RecipeController> _logger;
+    private readonly RecipeQueries _recipeQueries;
     private readonly YeuBepDbContext _dbContext;
     private readonly RecipeServices _recipeServices;
     
-    public RecipeController(ILogger<RecipeController> logger, YeuBepDbContext dbContext, RecipeServices recipeServices)
+    public RecipeController(ILogger<RecipeController> logger, YeuBepDbContext dbContext, RecipeServices recipeServices, RecipeQueries recipeQueries)
     {
         _logger = logger;
         _dbContext = dbContext;
         _recipeServices = recipeServices;
+        _recipeQueries = recipeQueries;
     }
 
     [HttpGet]
     public async Task<IActionResult> Slug(string slug)
     {
-        // if (string.IsNullOrWhiteSpace(slug))
-        // {
-        //     return RedirectToAction("NotFoundPage", "Error");
-        // }
-        // var recipe = await _dbContext.Recipes
-        //     .Include(x=>x.CreatedBy)
-        //     .ProjectToType<RecipeViewModel>()
-        //     .AsNoTracking()
-        //     .FirstOrDefaultAsync(x=>x.Slug == slug);
-        // if (recipe == null)
-        // {
-        //     return RedirectToAction("NotFoundPage", "Error");
-        // }
-        //
-        // var comments = await _dbContext.Comments
-        //     .Include(x=>x.CreatedBy)
-        //     .ProjectToType<CommentViewModel>()
-        //     .AsNoTracking()
-        //     .Where(x => x.RecipeId == recipe.Id).ToListAsync();
-        //
-        // recipe.Comments = comments;
-        var recipe = FakeData.Recipe.FirstOrDefault(r => r.Slug == slug);
-        return View("Recipe", recipe);
+        var recipe = await _recipeQueries.GetRecipeBySlugAsync(slug);
+        if (recipe.IsFailed)
+        {
+            return Redirect("/Error/NotFoundPage");
+        }
+        return View("Recipe", recipe.Value);
     }
 
     [HttpGet]
-    public async Task<IActionResult> Recipe()
+    public async Task<IActionResult> Recipe(int pageNumber = 1 , int pageSize = 5)
     {
-        var recipe = FakeData.Recipe;
-        var pagination = new PaginationViewModel<RecipeViewModel>(recipe, 1, 10, 30);
-        return View("RecipeList", pagination);
+        var result = await _recipeQueries.GetTopRecipePaginationAsync(pageNumber, pageSize);
+        return View("RecipeList", result.Value);
     }
 
     [HttpGet]
-    public async Task<IActionResult> MyRecipe()
+    public async Task<IActionResult> MyRecipe(int pageNumber = 1, int pageSize = 5)
     {
-        var recipe = FakeData.Recipe;
-        var pagination = new PaginationViewModel<object>(recipe, 1, 10, 30);
-        return View("MyRecipeList", pagination);
+        var userId = HttpContext.GetUserId();
+        if (userId is null)
+        {
+            return Redirect("/Error/UnauthorizedPage");
+        }
+        var recipe = await _recipeQueries.GetMyRecipePaginationAsync(userId, pageNumber, pageSize);
+        return View("MyRecipeList", recipe.Value.CastToObjectType());
     }
 
     [HttpGet]
@@ -75,13 +61,13 @@ public class RecipeController : Controller
     }
 
     [HttpGet]
-    public IActionResult Edit(string recipeId)
+    public async Task<IActionResult> Edit(string recipeId)
     {
-        var recipe = FakeData.Recipe.FirstOrDefault(x => x.Id == recipeId);
-        if (recipe is null)
+        var result = await _recipeQueries.GetMyRecipeByIdAsync(recipeId);
+        if (result.IsFailed)
         {
             return Redirect("/Error/NotFoundPage");
         }
-        return View("CreateRecipe", recipe);
+        return View("CreateRecipe", result.Value);
     }
 }

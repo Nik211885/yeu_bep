@@ -1,2 +1,92 @@
 ﻿@model YeuBep.ViewModels.Account.UpdateUserViewModel
+<link rel="stylesheet" href="~/css/account/update-account.css" />
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-lg-8 col-md-10">
+            <div class="profile-card">
+                <!-- Header -->
+                <div class="profile-header">
+                    <div class="avatar-wrapper">
+                        <img src="@(string.IsNullOrEmpty(Model?.Avatar) ? "https://ui-avatars.com/api/?name=User&size=150&background=667eea&color=fff" : Model.Avatar)" 
+                             alt="Avatar" 
+                             class="avatar-preview" 
+                             id="avatarPreview">
+                        <button type="button" class="avatar-upload-btn" onclick="document.getElementById('avatarInput').click()">
+                            <i class="fas fa-camera"></i>
+                        </button>
+                    </div>
+                    <h4 class="mb-0" style="color: white; position: relative; z-index: 1;">Cập Nhật Thông Tin</h4>
+                    <p class="mb-0 mt-2" style="color: rgba(255,255,255,0.85); font-size: 14px; position: relative; z-index: 1;">Hoàn thiện hồ sơ của bạn</p>
+                </div>
+
+                <!-- Body -->
+                <div class="profile-body">
+                    <form asp-action="Update" asp-controller="Account" method="post" enctype="multipart/form-data">
+                        <div asp-validation-summary="ModelOnly" class="alert alert-danger" role="alert"></div>
+                        
+                        <!-- Avatar Input (Hidden) -->
+                        <input type="file" 
+                               id="avatarInput" 
+                               name="AvatarFile" 
+                               accept="image/*" 
+                               style="display: none;">
+                        
+                        <input type="hidden" id="avatar" asp-for="Avatar">
+
+                        <!-- Full Name -->
+                        <div class="mb-4">
+                            <label asp-for="FullName" class="form-label">
+                                <i class="fas fa-user me-2"></i>Họ và Tên <span class="text-danger">*</span>
+                            </label>
+                            <div class="input-icon">
+                                <i class="fas fa-user"></i>
+                                <input asp-for="FullName" 
+                                       class="form-control" 
+                                       placeholder="Nhập họ và tên của bạn">
+                            </div>
+                            <span asp-validation-for="FullName" class="text-danger"></span>
+                        </div>
+
+                        <!-- Bio -->
+                        <div class="mb-4">
+                            <label asp-for="Bio" class="form-label">
+                                <i class="fas fa-pen me-2"></i>Giới Thiệu Bản Thân
+                            </label>
+                            <textarea asp-for="Bio" 
+                                      class="form-control" 
+                                      placeholder="Viết vài dòng về bản thân bạn..."
+                                      rows="5"></textarea>
+                            <span asp-validation-for="Bio" class="text-danger"></span>
+                        </div>
+
+                        <!-- Buttons -->
+                        <div class="row g-3 mt-4">
+                            <div class="col-md-6">
+                                <a asp-action="Index" asp-controller="Home" class="btn btn-cancel">
+                                    <i class="fas fa-times me-2"></i>Hủy
+                                </a>
+                            </div>
+                            <div class="col-md-6">
+                                <button type="submit" class="btn btn-save">
+                                    <i class="fas fa-save me-2"></i>Lưu Thay Đổi
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    (function loadTableJs() {
+        if (typeof $ === 'undefined') {
+            setTimeout(loadTableJs, 50);
+            return;
+        }
+        const script = document.createElement('script');
+        script.src = '/js/Account/update-account.js';
+        document.body.appendChild(script);
+    })();
+</script>
 

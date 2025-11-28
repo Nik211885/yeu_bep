@@ -5,11 +5,13 @@ namespace YeuBep.ViewModels.Account;
 public class AccountInfo
 {
     [IgnoreColumn]
-    public Guid UserId { get; set; }
+    public string Id { get; set; }
     [NameColumn("Người tạo")]
     public string UserName { get; set; }
     [IgnoreColumn]
-    public string Bio { get; set; }
+    public string? Bio { get; set; }
     [IgnoreColumn]
-    public string Avatar { get; set; }
+    public string? Avatar { get; set; }
+    [IgnoreColumn]
+    public string? FullName { get; set; }
 }

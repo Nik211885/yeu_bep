@@ -10,11 +10,14 @@
     {
         user = await UserManager.FindByIdAsync(userId);
     }
+
+    var controller = Context.Request.RouteValues["controller"]?.ToString();
     var action = Context.Request.RouteValues["action"]?.ToString();
+    var path = $"{controller}/{action}";
 
     string ActiveSidebar(string router)
     {
-        if (action?.ToUpper() == router.ToUpper())
+        if (path.ToUpper() == router.ToUpper())
         {
             return "active";
         }
@@ -50,26 +53,39 @@
             </a>
         </div>
         <nav class="sidebar-menu">
+            @if (User.IsInRole(nameof(Role.Admin)))
+            {
+                <div class="menu-section">
+                    <div class="menu-label">Quản trị</div>
+                    <a href="@Url.Action("Get","AccountManager")" class="menu-item @ActiveSidebar("AccountManager/Get")">
+                        <i class="fa-solid fa-user-check"></i>
+                        <span>Người dùng</span>
+                    </a>
+                    <a href="@Url.Action("Get", "RecipeManager")" class="menu-item @ActiveSidebar("RecipeManager/Get")">
+                        <i class="fa-solid fa-receipt"></i>
+                        <span>Quản lý công thức</span>
+                    </a>
+                </div>
+            }
             <div class="menu-section">
                 <div class="menu-label">Menu chính</div>
-                <a href="/" class="menu-item @ActiveSidebar("Index")">
+                <a href="/" class="menu-item @ActiveSidebar("Home/Index")">
                     <i class="fas fa-home"></i>
                     <span>Trang chủ</span>
                 </a>
-                <a href="@Url.Action("Recipe", "Recipe")" class="menu-item @ActiveSidebar("Recipe")">
+                <a href="@Url.Action("Recipe", "Recipe")" class="menu-item @ActiveSidebar("Recipe/Recipe")">
                     <i class="fas fa-book-open"></i>
                     <span>Công thức</span>
                 </a>
-                <a href="/favorites" class="menu-item @ActiveSidebar("Favorites")">
+                <a href="@Url.Action("MyFavorite", "Favorites")" class="menu-item @ActiveSidebar("Favorites/MyFavorite")">
                     <i class="fas fa-heart"></i>
                     <span>Yêu thích</span>
                 </a>
-                <a href="@Url.Action("MyRecipe","Recipe")" class="menu-item @ActiveSidebar("MyRecipe")">
+                <a href="@Url.Action("MyRecipe", "Recipe")" class="menu-item @ActiveSidebar("Recipe/MyRecipe")">
                     <i class="fas fa-clipboard-list"></i>
                     <span>Công thức của tôi</span>
                 </a>
             </div>
-
             <div class="menu-section">
                 <div class="menu-label">Khám phá</div>
                 <a href="/categories" class="menu-item @ActiveSidebar("Categories")">
@@ -88,11 +104,11 @@
 
             <div class="menu-section">
                 <div class="menu-label">Cá nhân</div>
-                <a href="/profile" class="menu-item">
+                <a href="@Url.Action("Update", "Account")" class="menu-item @ActiveSidebar("Account/Update")">
                     <i class="fas fa-user"></i>
                     <span>Hồ sơ</span>
                 </a>
-                <a href="/settings" class="menu-item">
+                <a href="@Url.Action("ChangePassword", "Account")" class="menu-item @ActiveSidebar("Account/ChangePassword")">
                     <i class="fas fa-cog"></i>
                     <span>Cài đặt</span>
                 </a>

@@ -13,9 +13,6 @@ public class CommentEntityConfiguration : IEntityTypeConfiguration<Comment>
         builder.Property(x => x.CommentText)
             .IsRequired()
             .HasMaxLength(800);
-        builder.Property(x => x.RecipeId)
-            .IsRequired()
-            .HasMaxLength(20);
         builder.HasOne(x=>x.Recipe)
             .WithMany(x=>x.Comments)
             .HasForeignKey(x=>x.RecipeId);

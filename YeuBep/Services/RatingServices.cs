@@ -30,25 +30,26 @@ public class RatingServices
             .FirstOrDefaultAsync();
         if (ratingExit is not null)
         {
-            ratingExit.RatingPoint =  ratingRequest.RatingPoint;
+            ratingExit.RatingPoint = ratingRequest.RatingPoint;
             recipe.TotalRatingPoint -= ratingExit.RatingPoint;
+            recipe.TotalRatingPoint += ratingRequest.RatingPoint;
+            _dbContext.Recipes.Update(recipe);
+            
         }
         else
         {
             recipe.CountRatingPoint += 1;
+            var rating = new Rating()
+            {
+                RecipeId = ratingRequest.RecipeId,
+                RatingPoint = ratingRequest.RatingPoint,
+            };
+            _dbContext.Ratings.Add(rating);
         }
         if (ratingRequest.RatingPoint is < 0 or > 5)
         {
             return Result.Fail("Giá trị đánh giá không hợp lệ");
         }
-        var rating = new Rating()
-        {
-            RecipeId = ratingRequest.RecipeId,
-            RatingPoint = ratingRequest.RatingPoint,
-        };
-        recipe.TotalRatingPoint += ratingRequest.RatingPoint;
-        _dbContext.Recipes.Update(recipe);
-        _dbContext.Ratings.Add(rating);
         await _dbContext.SaveChangesAsync();
         return Result.Ok();
     }

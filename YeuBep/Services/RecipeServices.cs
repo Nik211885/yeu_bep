@@ -11,12 +11,14 @@ namespace YeuBep.Services;
 public class RecipeServices
 {
     private readonly YeuBepDbContext _dbContext;
+    private readonly IHttpContextAccessor _httpContextAccessor;
     private readonly ILogger<RecipeServices> _logger;
 
-    public RecipeServices(YeuBepDbContext dbContext, ILogger<RecipeServices> logger)
+    public RecipeServices(YeuBepDbContext dbContext, ILogger<RecipeServices> logger, IHttpContextAccessor httpContextAccessor)
     {
         _dbContext = dbContext;
         _logger = logger;
+        _httpContextAccessor = httpContextAccessor;
     }
 
     public async Task<Result<RecipeViewModel>> CreateRecipeAsync(CreateRecipeViewModel model)
@@ -37,6 +39,10 @@ public class RecipeServices
             return Result.Fail("Không tìm thấy công thức để cập nhật");
         }
 
+        if (!(_httpContextAccessor.HttpContext?.CheckPermission(recipe) ?? false))
+        {
+            return Result.Fail("Bạn không có quyền truy cập dữ liệu này");
+        }
         if (recipe.RecipeStatus != RecipeStatus.Draft)
         {
             return Result.Fail("Công thức không thể cập nhật khi không trạng thái nháp");
@@ -58,6 +64,10 @@ public class RecipeServices
         {
             return Result.Fail("Không tìm thấy công thức để cập nhật");
         }
+        if (!(_httpContextAccessor.HttpContext?.CheckPermission(recipe) ?? false))
+        {
+            return Result.Fail("Bạn không có quyền truy cập dữ liệu này");
+        }
         if (recipe.RecipeStatus != RecipeStatus.Draft)
         {
             return Result.Fail("Công thức không được duyệt không cần gỡ");
@@ -75,6 +85,10 @@ public class RecipeServices
         if (recipe is null)
         {
             return Result.Fail("Không tìm thấy công thức để cập nhật");
+        }
+        if (!(_httpContextAccessor.HttpContext?.CheckPermission(recipe) ?? false))
+        {
+            return Result.Fail("Bạn không có quyền truy cập dữ liệu này");
         }
         _dbContext.Recipes.Remove(recipe);
         await _dbContext.SaveChangesAsync();
@@ -97,6 +111,10 @@ public class RecipeServices
             if (recipe is null)
             {
                 return Result.Fail("Không tìm thấy công thức để gửi duyệt");
+            }
+            if (!(_httpContextAccessor.HttpContext?.CheckPermission(recipe) ?? false))
+            {
+                return Result.Fail("Bạn không có quyền truy cập dữ liệu này");
             }
             // nếu như bài đã duyệt hặc tư chối có thể gửi lại
             if (recipe.RecipeStatus == RecipeStatus.Send)

@@ -1,11 +1,31 @@
 ﻿namespace YeuBep.ViewModels;
 
+public static class PaginationExtension
+{
+    public static PaginationViewModel<object> CastToObjectType<TType>(this PaginationViewModel<TType> pagination)
+    {
+        var result = new PaginationViewModel<object>(
+            pagination.Items.Cast<object>().ToList(), 
+            pagination.PaginationView.PageNumber, 
+            pagination.PaginationView.PageSize, 
+            pagination.PaginationView.TotalCount)
+        {
+            DataTypeItem = typeof(TType)
+        };
+
+        return result;
+    }
+}
+
 public class PaginationViewModel<TResponse>
 {
+    public Type DataTypeItem { get; set; }
     public IReadOnlyCollection<TResponse> Items { get; set; }
     public PaginationViewModel PaginationView { get; set; }
+    
     public PaginationViewModel(IReadOnlyCollection<TResponse> items, int pageNumber, int pageSize, int totalCount)
     {
+        DataTypeItem = typeof(TResponse);
         PaginationView ??= new PaginationViewModel();
         Items = items;
         PaginationView.PageNumber = pageNumber;

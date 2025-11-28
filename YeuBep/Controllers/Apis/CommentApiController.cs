@@ -5,7 +5,7 @@ using YeuBep.ViewModels.Comment;
 namespace YeuBep.Controllers.Apis;
 
 [ApiController]
-[Route("api/comments")]
+[Route("api/comment")]
 public class CommentApiController : ControllerBase
 {
     private readonly ILogger<FavoriteApiController> _logger;

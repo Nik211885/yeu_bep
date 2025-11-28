@@ -1,7 +1,7 @@
 ﻿@model YeuBep.ViewModels.Recipe.RecipeViewModel;
 <link rel="stylesheet" href="~/css/recipe/recipe.css" />
 
-<div class="container mt-4">
+<div data-id="@Model.Id" id="container" class="container mt-4">
     <div class="row">
         <!-- Cột trái: Ảnh và thông tin -->
         <div class="col-lg-8">
@@ -12,10 +12,29 @@
             <div class="recipe-header">
                 <h1>@Model.Title</h1>
                 <div class="author-info">
-                    <div>
-                        <div class="author-name">Bởi: <strong>@Model.CreatedBy.UserName</strong></div>
-                        <small class="text-muted">@Model.CreatedDate.ToString("dd/MM/yyyy HH:mm")</small>
+                    <div class="d-flex align-items-center">
+                        @if (!string.IsNullOrEmpty(Model.CreatedBy.Avatar))
+                        {
+                            <img src="@Model.CreatedBy.Avatar" alt="user" class="rounded-circle me-2" id="avatar-main" style="width:50px; height:50px; object-fit:cover;">
+                        }
+                        else
+                        {
+                            <div class="rounded-circle bg-secondary text-white d-flex justify-content-center align-items-center me-2"
+                                 style="width:50px; height:50px; font-weight:bold; font-size:1.2rem;">
+                                @Model.CreatedBy.UserName.Substring(0,1).ToUpper()
+                            </div>
+                        }
+
+                        <div>
+                            <div class="author-name mb-1">Bởi: <strong id="user-name">@($"@{Model.CreatedBy.UserName}  ")</strong><span>@Model.CreatedBy.FullName</span></div>
+                            <small class="text-muted">@Model.CreatedDate.ToString("dd/MM/yyyy HH:mm")</small>
+                            @if(!string.IsNullOrWhiteSpace(Model.CreatedBy.Bio))
+                            {
+                                <div><span>@Model.CreatedBy.Bio</span></div>
+                            }
+                        </div>
                     </div>
+
                 </div>
             </div>
             
@@ -64,7 +83,7 @@
                     <i class="fas fa-heart heart-white"></i>
                     <span id="favoriteText">Yêu thích</span>
                 </button>
-                <button class="btn btn-warning btn-rating" data-bs-toggle="modal" data-bs-target="#ratingModal">
+                <button id="btn-rating" data-count-total-rating="@Model.CountRatingPoint" data-total-rating-point="@Model.TotalRatingPoint" class="btn btn-warning btn-rating" data-bs-toggle="modal" data-bs-target="#ratingModal">
                     <i class="fas fa-star"></i>
                     Đánh giá (<span id="ratingCount">@((Model.TotalRatingPoint / Model.CountRatingPoint).ToString("0.0"))</span>)
                 </button>
@@ -94,7 +113,7 @@
             
             <!-- Bình luận -->
             <div class="comment-section">
-                <h3 class="mb-4">Bình luận (@Model.Comments.Count)</h3>
+                <h3 class="mb-4">Bình luận (<strong id="count-comment">@Model.Comments.Count</strong>)</h3>
                 
                 <div class="mb-4">
                     <textarea class="form-control" id="newComment" rows="3" placeholder="Viết bình luận của bạn..."></textarea>
@@ -165,119 +184,14 @@
     </div>
 </div>
 
-@section Scripts {
-     <script>
-        $(document).ready(function() {
-            let isFavorited = false;
-            let selectedRating = 0;
-            
-            // Xử lý nút yêu thích
-            $('#btnFavorite').click(function() {
-                isFavorited = !isFavorited;
-                
-                if (isFavorited) {
-                    $(this).removeClass('btn-outline-danger').addClass('btn-danger');
-                    $(this).find('i').removeClass('heart-white').addClass('heart-red');
-                    $('#favoriteText').text('Đã yêu thích');
-                    
-                    let currentCount = parseInt($('#favoriteCount').text());
-                    $('#favoriteCount').text(currentCount + 1);
-                    
-                    console.log('Đã thêm vào yêu thích');
-                } else {
-                    $(this).removeClass('btn-danger').addClass('btn-outline-danger');
-                    $(this).find('i').removeClass('heart-red').addClass('heart-white');
-                    $('#favoriteText').text('Yêu thích');
-                    
-                    let currentCount = parseInt($('#favoriteCount').text());
-                    $('#favoriteCount').text(currentCount - 1);
-                    
-                    console.log('Đã bỏ yêu thích');
-                }
-            });
-            
-            // Xử lý hover và click sao
-            $('.star').hover(
-                function() {
-                    const rating = $(this).data('rating');
-                    highlightStars(rating);
-                },
-                function() {
-                    highlightStars(selectedRating);
-                }
-            );
-            
-            $('.star').click(function() {
-                selectedRating = $(this).data('rating');
-                $('#selectedRating').text(selectedRating);
-                console.log('Đã chọn ' + selectedRating + ' sao');
-            });
-            
-            function highlightStars(rating) {
-                $('.star').each(function() {
-                    if ($(this).data('rating') <= rating) {
-                        $(this).addClass('active');
-                    } else {
-                        $(this).removeClass('active');
-                    }
-                });
-            }
-            
-            // Xử lý gửi đánh giá
-            $('#btnSubmitRating').click(function() {
-                if (selectedRating === 0) {
-                    alert('Vui lòng chọn số sao để đánh giá!');
-                    return;
-                }
-                
-                console.log('Gửi đánh giá: ' + selectedRating + ' sao');
-                console.log('Recipe ID: @Model.Id');
-                
-                // Cập nhật số lượng đánh giá
-                let currentRating = parseInt($('#ratingCount').text());
-                $('#ratingCount').text(currentRating + 1);
-                
-                // Đóng modal
-                $('#ratingModal').modal('hide');
-                
-                // Reset
-                selectedRating = 0;
-                $('#selectedRating').text('0');
-                $('.star').removeClass('active');
-                
-                alert('Cảm ơn bạn đã đánh giá!');
-            });
-            
-            // Xử lý thêm bình luận
-            $('#btnAddComment').click(function() {
-                const commentText = $('#newComment').val().trim();
-                
-                if (commentText === '') {
-                    alert('Vui lòng nhập nội dung bình luận!');
-                    return;
-                }
-                
-                console.log('Thêm bình luận mới:');
-                console.log('Recipe ID: @Model.Id');
-                console.log('Comment: ' + commentText);
-                
-                // Tạo HTML cho bình luận mới
-                const newComment = `
-                    <div class="comment-item">
-                        <div class="comment-author">Bạn</div>
-                        <div class="comment-date">${new Date().toLocaleString('vi-VN')}</div>
-                        <div class="comment-text">${commentText}</div>
-                    </div>
-                `;
-                
-                // Thêm vào đầu danh sách
-                $('#commentList').prepend(newComment);
-                
-                // Xóa nội dung textarea
-                $('#newComment').val('');
-                
-                alert('Đã thêm bình luận!');
-            });
-        });
-    </script>
-}
+<script>
+    (function loadRecipe() {
+        if (typeof $ === 'undefined') {
+            setTimeout(loadRecipe, 50);
+            return;
+        }
+        const script = document.createElement('script');
+        script.src = '/js/recipe/recipe.js';
+        document.body.appendChild(script);
+    })();
+</script>
