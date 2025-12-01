@@ -24,6 +24,7 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddExtendServicesDefault(builder.Configuration);
 builder.Services.AddApplicationServicesDefault();
 builder.Services.AddQueriesServicesDefault();
+builder.Services.AddSignalR();
 builder.Services.AddScoped<AuditSaveChangeInterceptor>();
 
 builder.Services.AddSwaggerGen();
@@ -105,7 +106,9 @@ builder.Services.AddIdentity<User, IdentityRole>(options =>
     }
     options.Lockout.MaxFailedAccessAttempts = builder.Configuration.GetValue<int>("Identity:MaxFailedAccessAttempts", 5);
     
-    options.SignIn.RequireConfirmedEmail = builder.Configuration.GetValue<bool>("Identity:SignIn:RequireConfirmedEmail", true);
+    options.SignIn.RequireConfirmedEmail = builder.Configuration.GetValue<bool>("Identity:RequireConfirmedEmail", true);
+
+    options.Lockout.AllowedForNewUsers = builder.Configuration.GetValue<bool>("Identity:AllowedForNewUsers", true);
 })
 .AddEntityFrameworkStores<YeuBepDbContext>()
 .AddDefaultTokenProviders();
@@ -183,6 +186,8 @@ app.UseSession();
 
 app.UseAuthentication();
 app.UseAuthorization(); 
+
+app.MapHub<NotificationHub>("/notification"); 
 
 app.MapStaticAssets();
 

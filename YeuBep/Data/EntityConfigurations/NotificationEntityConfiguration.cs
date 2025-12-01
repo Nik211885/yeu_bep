@@ -23,5 +23,8 @@ public class NotificationEntityConfiguration : IEntityTypeConfiguration<Notifica
         builder.HasOne(x=>x.ModifiedBy)
             .WithMany()    
             .HasForeignKey(x=>x.ModifiedById);
+        builder.HasOne(x => x.SendForUser)
+            .WithMany()
+            .HasForeignKey(x => x.SendForUserId);
     }
 }

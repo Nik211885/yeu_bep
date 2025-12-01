@@ -143,9 +143,19 @@
         <div class="header-right">
             @if (isAuthenticated)
             {
-                <div class="header-icon">
+                <div class="header-icon" onclick="toggleNotifications()">
                     <i class="fas fa-bell"></i>
-                    <span class="notification-badge"></span>
+                    <span class="notification-badge" id="notificationCount">5</span>
+                </div>
+                <div class="notification-dropdown" id="notificationDropdown">
+                    <div class="notification-header">
+                        <h3>Thông báo</h3>
+                    </div>
+                    <div class="notification-list" id="notificationList">
+                    </div>
+                    <div class="notification-footer">
+                        <a href="#" class="view-all">Xem tất cả thông báo</a>
+                    </div>
                 </div>
 
                 <div class="user-menu">
@@ -196,13 +206,13 @@
         </div>
     </div>
 </footer>
-
 <script src="~/lib/jquery/dist/jquery.js"></script>
 <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.min.js"></script>
+<script src="~/js/ajax-helper.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/9.0.6/signalr.min.js"></script>
 <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
 <script src="~/js/site.js" asp-append-version="true"></script>
-<script src="~/js/ajax-helper.js"></script>
 
 <script>
     $(document).ready(function() {

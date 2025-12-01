@@ -62,18 +62,26 @@
             
             currentValue = propInfo.GetValue(currentValue);
         }
-
+        
         if (currentValue is string stringValue)
         {
             return StringHelper.Split20Word(stringValue);
         }
         if (currentValue is DateTime dt)
         {
+            if (dt >= DateTime.UtcNow)
+            {
+                return dt.ToString("dd/MM/yyyy:HH:mm:ss");
+            }
             return DateTimeHelper.ConvertDateTimeFormat(dt);
         }
 
         if (currentValue is DateTimeOffset dateTimeOffset)
         {
+            if (dateTimeOffset >= DateTimeOffset.UtcNow)
+            {
+                return dateTimeOffset.ToString("dd/MM/yyyy:HH:mm:ss");
+            }
             return DateTimeHelper.ConvertDateTimeZoneFormat(dateTimeOffset);
         }
 

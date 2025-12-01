@@ -1,4 +1,6 @@
-﻿namespace YeuBep.ViewModels;
+﻿using System.Text.Json.Serialization;
+
+namespace YeuBep.ViewModels;
 
 public static class PaginationExtension
 {
@@ -19,6 +21,7 @@ public static class PaginationExtension
 
 public class PaginationViewModel<TResponse>
 {
+    [JsonIgnore]
     public Type DataTypeItem { get; set; }
     public IReadOnlyCollection<TResponse> Items { get; set; }
     public PaginationViewModel PaginationView { get; set; }

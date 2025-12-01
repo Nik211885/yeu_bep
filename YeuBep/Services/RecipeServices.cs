@@ -1,5 +1,6 @@
 ﻿using FluentResults;
 using Mapster;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using YeuBep.Data;
 using YeuBep.Entities;
@@ -94,10 +95,10 @@ public class RecipeServices
         await _dbContext.SaveChangesAsync();
         return Result.Ok();
     }
-    public async Task<Result<RecipeViewModel>> SendApproveRecipeAsync(string? recipeId, CreateRecipeViewModel model)
+    public async Task<Result<RecipeViewModel>> SendApproveRecipeAsync([FromQuery]string? recipeId,[FromBody] CreateRecipeViewModel? model)
     {
         Recipe? recipe;
-        if (string.IsNullOrWhiteSpace(recipeId))
+        if (string.IsNullOrWhiteSpace(recipeId) && model is not null)
         {
             recipe = model.Adapt<Recipe>();
             recipe.Slug = model.Title.GeneratorSlug();
@@ -123,7 +124,7 @@ public class RecipeServices
             }
             recipe.RecipeStatus = RecipeStatus.Send;
             model.Adapt(recipe);
-            if (recipe.Title != model.Title)
+            if (recipe.Title != model?.Title && model?.Title != null)
             {
                 recipe.Slug = model.Title.GeneratorSlug();
             }

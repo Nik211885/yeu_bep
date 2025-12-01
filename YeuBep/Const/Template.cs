@@ -93,5 +93,42 @@ public static class Template
          </body>
          </html>
          """;
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    // Notification template
+    public static string SendApproveRecipeTemplate(string recipeTitle)
+    {
+        return $"Yêu cầu kiểm duyệt công thức: {recipeTitle}. Vui lòng xem xét.";
+    }
+
+    public static string SendApproveRecipeLinkOpenDetail(string recipeId) => "Recipe?Id=" + recipeId;
 
 }

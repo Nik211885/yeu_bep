@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "sw37d45t114=",
+  "dgSpecHash": "9NWeVFdmEbg=",
   "success": true,
   "projectFilePath": "E:\\YeuBep\\YeuBep\\YeuBep\\YeuBep.csproj",
   "expectedPackageFiles": [
@@ -23,6 +23,7 @@
     "C:\\Users\\ninhl\\.nuget\\packages\\microsoft.aspnetcore.authentication.cookies\\2.3.0\\microsoft.aspnetcore.authentication.cookies.2.3.0.nupkg.sha512",
     "C:\\Users\\ninhl\\.nuget\\packages\\microsoft.aspnetcore.authentication.core\\2.3.0\\microsoft.aspnetcore.authentication.core.2.3.0.nupkg.sha512",
     "C:\\Users\\ninhl\\.nuget\\packages\\microsoft.aspnetcore.authentication.google\\10.0.0\\microsoft.aspnetcore.authentication.google.10.0.0.nupkg.sha512",
+    "C:\\Users\\ninhl\\.nuget\\packages\\microsoft.aspnetcore.connections.abstractions\\10.0.0\\microsoft.aspnetcore.connections.abstractions.10.0.0.nupkg.sha512",
     "C:\\Users\\ninhl\\.nuget\\packages\\microsoft.aspnetcore.cryptography.internal\\10.0.0\\microsoft.aspnetcore.cryptography.internal.10.0.0.nupkg.sha512",
     "C:\\Users\\ninhl\\.nuget\\packages\\microsoft.aspnetcore.cryptography.keyderivation\\10.0.0\\microsoft.aspnetcore.cryptography.keyderivation.10.0.0.nupkg.sha512",
     "C:\\Users\\ninhl\\.nuget\\packages\\microsoft.aspnetcore.dataprotection\\2.3.0\\microsoft.aspnetcore.dataprotection.2.3.0.nupkg.sha512",
@@ -35,6 +36,8 @@
     "C:\\Users\\ninhl\\.nuget\\packages\\microsoft.aspnetcore.http.features\\2.3.0\\microsoft.aspnetcore.http.features.2.3.0.nupkg.sha512",
     "C:\\Users\\ninhl\\.nuget\\packages\\microsoft.aspnetcore.identity\\2.3.1\\microsoft.aspnetcore.identity.2.3.1.nupkg.sha512",
     "C:\\Users\\ninhl\\.nuget\\packages\\microsoft.aspnetcore.identity.entityframeworkcore\\10.0.0\\microsoft.aspnetcore.identity.entityframeworkcore.10.0.0.nupkg.sha512",
+    "C:\\Users\\ninhl\\.nuget\\packages\\microsoft.aspnetcore.signalr.common\\10.0.0\\microsoft.aspnetcore.signalr.common.10.0.0.nupkg.sha512",
+    "C:\\Users\\ninhl\\.nuget\\packages\\microsoft.aspnetcore.signalr.protocols.json\\10.0.0\\microsoft.aspnetcore.signalr.protocols.json.10.0.0.nupkg.sha512",
     "C:\\Users\\ninhl\\.nuget\\packages\\microsoft.aspnetcore.webutilities\\2.3.0\\microsoft.aspnetcore.webutilities.2.3.0.nupkg.sha512",
     "C:\\Users\\ninhl\\.nuget\\packages\\microsoft.build\\17.7.2\\microsoft.build.17.7.2.nupkg.sha512",
     "C:\\Users\\ninhl\\.nuget\\packages\\microsoft.build.framework\\17.14.28\\microsoft.build.framework.17.14.28.nupkg.sha512",
@@ -62,6 +65,7 @@
     "C:\\Users\\ninhl\\.nuget\\packages\\microsoft.extensions.dependencyinjection.abstractions\\10.0.0\\microsoft.extensions.dependencyinjection.abstractions.10.0.0.nupkg.sha512",
     "C:\\Users\\ninhl\\.nuget\\packages\\microsoft.extensions.dependencymodel\\10.0.0\\microsoft.extensions.dependencymodel.10.0.0.nupkg.sha512",
     "C:\\Users\\ninhl\\.nuget\\packages\\microsoft.extensions.diagnostics.abstractions\\8.0.1\\microsoft.extensions.diagnostics.abstractions.8.0.1.nupkg.sha512",
+    "C:\\Users\\ninhl\\.nuget\\packages\\microsoft.extensions.features\\10.0.0\\microsoft.extensions.features.10.0.0.nupkg.sha512",
     "C:\\Users\\ninhl\\.nuget\\packages\\microsoft.extensions.fileproviders.abstractions\\8.0.0\\microsoft.extensions.fileproviders.abstractions.8.0.0.nupkg.sha512",
     "C:\\Users\\ninhl\\.nuget\\packages\\microsoft.extensions.hosting.abstractions\\8.0.1\\microsoft.extensions.hosting.abstractions.8.0.1.nupkg.sha512",
     "C:\\Users\\ninhl\\.nuget\\packages\\microsoft.extensions.identity.core\\10.0.0\\microsoft.extensions.identity.core.10.0.0.nupkg.sha512",

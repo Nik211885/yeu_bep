@@ -1,7 +1,15 @@
-﻿using FluentResults;
+﻿using System.Text.Json;
+using FluentResults;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
+using Microsoft.EntityFrameworkCore;
+using YeuBep.Const;
+using YeuBep.Data;
+using YeuBep.Entities;
 using YeuBep.Extensions;
 using YeuBep.Services;
+using YeuBep.ViewModels.Notification;
 using YeuBep.ViewModels.Recipe;
 
 namespace YeuBep.Controllers.Apis;
@@ -12,11 +20,17 @@ public class RecipeApiController : ControllerBase
 {
     private readonly ILogger<RecipeApiController> _logger;
     private readonly RecipeServices _recipeServices;
+    private readonly UserManager<User> _userManager;
+    private readonly IHubContext<NotificationHub> _hubContext;
+    private readonly NotificationServices _notificationServices;
 
-    public RecipeApiController(ILogger<RecipeApiController> logger, RecipeServices recipeServices)
+    public RecipeApiController(ILogger<RecipeApiController> logger, RecipeServices recipeServices, IHubContext<NotificationHub> hubContext, NotificationServices notificationServices, UserManager<User> userManager)
     {
         _logger = logger;
         _recipeServices = recipeServices;
+        _hubContext = hubContext;
+        _notificationServices = notificationServices;
+        _userManager = userManager;
     }
 
     [HttpPost("create")]
@@ -41,12 +55,31 @@ public class RecipeApiController : ControllerBase
         return Ok(result.Value);
     }
     [HttpPost("send")]
-    public async Task<IActionResult> Send(string? recipeId, CreateRecipeViewModel model)
+    public async Task<IActionResult> Send(string? recipeId, CreateRecipeViewModel? model)
     {
         var result = await _recipeServices.SendApproveRecipeAsync(recipeId, model);
         if (result.IsFailed)
         {
             return BadRequest(result.Errors);
+        }
+        
+        var adminRole = await _userManager.GetUsersInRoleAsync(nameof(Role.Admin));
+        var firstAdmin = adminRole.FirstOrDefault();
+        var currentUser = await _userManager.GetUserAsync(HttpContext.User); 
+        if (firstAdmin is not null && currentUser is not null)
+        {
+            var notificationModel = new CreateNotificationViewModel()
+            {
+                SendForUserId = firstAdmin.Id,
+                Body = Template.SendApproveRecipeTemplate(result.Value.Title),
+                Link = Template.SendApproveRecipeLinkOpenDetail(result.Value.Id),
+                Title = "Phê duyệt công thức",
+                CreatedDate = DateTimeOffset.UtcNow,
+                NotificationSubject = NotificationSubject.Recipe
+            };
+            await _hubContext.Clients.User(firstAdmin.Id)
+                .SendAsync("ReceiveMessage", JsonSerializer.Serialize(notificationModel));
+            await _notificationServices.CreateNotificationAsync(notificationModel);
         }
         return Ok(result.Value);
     }
