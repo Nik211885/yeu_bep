@@ -24,4 +24,15 @@ public class RecipeManagerController : Controller
         var recipe = await _recipeQueries.GetManagerRecipePaginationAsync(pageNumber, pageSize);
         return View("~/Views/Manager/Recipe.cshtml", recipe.Value.CastToObjectType());
     }
+
+    [HttpGet]
+    public async Task<IActionResult> Recipe(string recipeId)
+    {
+        var recipeDetail = await _recipeQueries.GetManagerRecipeDetailAsync(recipeId);
+        if (recipeDetail == null)
+        {
+            return Redirect($"/Error/NotFoundPage");
+        }
+        return View("~/Views/Manager/RecipeDetail.cshtml", recipeDetail);
+    }
 }

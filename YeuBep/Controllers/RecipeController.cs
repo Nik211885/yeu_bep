@@ -36,10 +36,10 @@ public class RecipeController : Controller
     }
 
     [HttpGet]
-    public async Task<IActionResult> Recipe(int pageNumber = 1 , int pageSize = 5)
+    public async Task<IActionResult> Recipe(string? search, int pageNumber = 1 , int pageSize = 5)
     {
-        var result = await _recipeQueries.GetTopRecipePaginationAsync(pageNumber, pageSize);
-        return View("RecipeList", result.Value);
+        var result = await _recipeQueries.GetRecipePaginationBySearchTermAsync(search, pageNumber, pageSize);
+        return View("RecipeList", result);
     }
 
     [HttpGet]

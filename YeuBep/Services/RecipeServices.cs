@@ -134,4 +134,51 @@ public class RecipeServices
         await _dbContext.SaveChangesAsync();
         return recipe.Adapt<RecipeViewModel>();
     }
+
+    public async Task<Result> ApproveRecipeAsync(string recipeId)
+    {
+        var recipe = await _dbContext.Recipes.Where(x => x.Id == recipeId).FirstOrDefaultAsync();
+        if (recipe is null)
+        {
+            return Result.Fail("Không tìm thấy công thức để gửi duyệt");
+        }
+        
+        if (recipe.RecipeStatus == RecipeStatus.Accept)
+        {
+            return Result.Fail("Công thức đã được duyệt");
+        }
+
+        if (recipe.RecipeStatus == RecipeStatus.Draft)
+        {
+            return Result.Fail("Không tìm thấy công thức");
+        }
+
+        recipe.RecipeStatus = RecipeStatus.Accept;
+        _dbContext.Recipes.Update(recipe);
+        await _dbContext.SaveChangesAsync();
+        return Result.Ok();
+    }
+
+    public async Task<Result> RejectRecipeAsync(string recipeId)
+    {
+        var recipe = await _dbContext.Recipes.Where(x => x.Id == recipeId).FirstOrDefaultAsync();
+        if (recipe is null)
+        {
+            return Result.Fail("Không tìm thấy công thức để gửi duyệt");
+        }
+        
+        if (recipe.RecipeStatus == RecipeStatus.Reject)
+        {
+            return Result.Fail("Công thức bị từ chối");
+        }
+
+        if (recipe.RecipeStatus == RecipeStatus.Draft)
+        {
+            return Result.Fail("Không tìm thấy công thức");
+        }
+        recipe.RecipeStatus = RecipeStatus.Reject;
+        _dbContext.Recipes.Update(recipe);
+        await _dbContext.SaveChangesAsync();
+        return Result.Ok();
+    }
 }

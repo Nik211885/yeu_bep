@@ -286,7 +286,6 @@ E:\YeuBep\YeuBep\YeuBep\obj\Debug\net10.0\YeuBep.MvcApplicationPartsAssemblyInfo
 E:\YeuBep\YeuBep\YeuBep\obj\Debug\net10.0\compressed\6h6am6qtbf-{0}-q65lq9vgoh-q65lq9vgoh.gz
 E:\YeuBep\YeuBep\YeuBep\obj\Debug\net10.0\YeuBep.sourcelink.json
 E:\YeuBep\YeuBep\YeuBep\obj\Debug\net10.0\compressed\w9tjcp6s2j-{0}-bbe6idn8xx-bbe6idn8xx.gz
-E:\YeuBep\YeuBep\YeuBep\obj\Debug\net10.0\compressed\7hb1mc54r2-{0}-h2ujl7yiur-h2ujl7yiur.gz
 E:\YeuBep\YeuBep\YeuBep\obj\Debug\net10.0\compressed\rrvxkpglrb-{0}-0wrts8jclf-0wrts8jclf.gz
 E:\YeuBep\YeuBep\YeuBep\obj\Debug\net10.0\compressed\w59t2qq2dw-{0}-ykmmt64fgx-ykmmt64fgx.gz
 E:\YeuBep\YeuBep\YeuBep\obj\Debug\net10.0\compressed\w98ud5ym07-{0}-yxqxv92lf8-yxqxv92lf8.gz
@@ -297,3 +296,8 @@ E:\YeuBep\YeuBep\YeuBep\obj\Debug\net10.0\compressed\xmxfryxgyd-{0}-e5hl38ser1-e
 E:\YeuBep\YeuBep\YeuBep\obj\Debug\net10.0\compressed\izhiqnfb6i-{0}-7lehxb62i2-7lehxb62i2.gz
 E:\YeuBep\YeuBep\YeuBep\obj\Debug\net10.0\compressed\hplm9s7tqd-{0}-3wmnjeudv3-3wmnjeudv3.gz
 E:\YeuBep\YeuBep\YeuBep\obj\Debug\net10.0\compressed\0kx56db8fl-{0}-zqw9qkf0dr-zqw9qkf0dr.gz
+E:\YeuBep\YeuBep\YeuBep\obj\Debug\net10.0\compressed\7hb1mc54r2-{0}-i2e2277p4m-i2e2277p4m.gz
+E:\YeuBep\YeuBep\YeuBep\obj\Debug\net10.0\compressed\hra8u5askj-{0}-naalzvwy1r-naalzvwy1r.gz
+E:\YeuBep\YeuBep\YeuBep\obj\Debug\net10.0\compressed\ccw83ajqd5-{0}-acoc7twquk-acoc7twquk.gz
+E:\YeuBep\YeuBep\YeuBep\obj\Debug\net10.0\compressed\6hr2qwxgto-{0}-di0qt9x6y1-di0qt9x6y1.gz
+E:\YeuBep\YeuBep\YeuBep\obj\Debug\net10.0\compressed\096yn1c48y-{0}-qt1i0vp4qg-qt1i0vp4qg.gz

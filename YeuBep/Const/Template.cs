@@ -129,6 +129,6 @@ public static class Template
         return $"Yêu cầu kiểm duyệt công thức: {recipeTitle}. Vui lòng xem xét.";
     }
 
-    public static string SendApproveRecipeLinkOpenDetail(string recipeId) => "Recipe?Id=" + recipeId;
+    public static string SendApproveRecipeLinkOpenDetail(string recipeId) => "RecipeManager/Recipe?RecipeId=" + recipeId;
 
 }

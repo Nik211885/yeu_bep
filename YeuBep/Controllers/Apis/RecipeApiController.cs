@@ -8,6 +8,7 @@ using YeuBep.Const;
 using YeuBep.Data;
 using YeuBep.Entities;
 using YeuBep.Extensions;
+using YeuBep.Queries;
 using YeuBep.Services;
 using YeuBep.ViewModels.Notification;
 using YeuBep.ViewModels.Recipe;
@@ -20,17 +21,21 @@ public class RecipeApiController : ControllerBase
 {
     private readonly ILogger<RecipeApiController> _logger;
     private readonly RecipeServices _recipeServices;
+    private readonly RecipeQueries _recipeQueries;
     private readonly UserManager<User> _userManager;
     private readonly IHubContext<NotificationHub> _hubContext;
     private readonly NotificationServices _notificationServices;
 
-    public RecipeApiController(ILogger<RecipeApiController> logger, RecipeServices recipeServices, IHubContext<NotificationHub> hubContext, NotificationServices notificationServices, UserManager<User> userManager)
+    public RecipeApiController(ILogger<RecipeApiController> logger, RecipeServices recipeServices,
+        IHubContext<NotificationHub> hubContext, NotificationServices notificationServices,
+        UserManager<User> userManager, RecipeQueries recipeQueries)
     {
         _logger = logger;
         _recipeServices = recipeServices;
         _hubContext = hubContext;
         _notificationServices = notificationServices;
         _userManager = userManager;
+        _recipeQueries = recipeQueries;
     }
 
     [HttpPost("create")]
@@ -41,6 +46,7 @@ public class RecipeApiController : ControllerBase
         {
             return BadRequest(result.Errors);
         }
+
         return Ok(result.Value);
     }
 
@@ -52,8 +58,10 @@ public class RecipeApiController : ControllerBase
         {
             return BadRequest(result.Errors);
         }
+
         return Ok(result.Value);
     }
+
     [HttpPost("send")]
     public async Task<IActionResult> Send(string? recipeId, CreateRecipeViewModel? model)
     {
@@ -62,10 +70,10 @@ public class RecipeApiController : ControllerBase
         {
             return BadRequest(result.Errors);
         }
-        
+
         var adminRole = await _userManager.GetUsersInRoleAsync(nameof(Role.Admin));
         var firstAdmin = adminRole.FirstOrDefault();
-        var currentUser = await _userManager.GetUserAsync(HttpContext.User); 
+        var currentUser = await _userManager.GetUserAsync(HttpContext.User);
         if (firstAdmin is not null && currentUser is not null)
         {
             var notificationModel = new CreateNotificationViewModel()
@@ -81,8 +89,10 @@ public class RecipeApiController : ControllerBase
                 .SendAsync("ReceiveMessage", JsonSerializer.Serialize(notificationModel));
             await _notificationServices.CreateNotificationAsync(notificationModel);
         }
+
         return Ok(result.Value);
     }
+
     [HttpDelete("delete")]
     public async Task<IActionResult> Delete(string recipeId)
     {
@@ -91,6 +101,7 @@ public class RecipeApiController : ControllerBase
         {
             return BadRequest(result.Errors);
         }
+
         return NoContent();
     }
 
@@ -105,4 +116,36 @@ public class RecipeApiController : ControllerBase
 
         return Ok(result.Value);
     }
+
+    [HttpPost("approve")]
+    public async Task<IActionResult> Approve(string recipeId)
+    {
+        var result = await _recipeServices.ApproveRecipeAsync(recipeId);
+        if (result.IsFailed)
+        {
+            return BadRequest(result.Errors);
+        }
+
+        return NoContent();
+    }
+
+    [HttpPost("reject")]
+    public async Task<IActionResult> Reject(string recipeId)
+    {
+        var result = await _recipeServices.RejectRecipeAsync(recipeId);
+        if (result.IsFailed)
+        {
+            return BadRequest(result.Errors);
+        }
+
+        return NoContent();
+    }
+
+    [HttpGet("auto-complete-search")]
+    public async Task<IActionResult> AutoCompleteSearch(string keyword)
+    {
+        var result = await _recipeQueries.SearchIntegrationAsync(keyword);
+        return Ok(result);
+    }
+
 }

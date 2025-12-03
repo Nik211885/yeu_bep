@@ -1,13 +1,52 @@
 ﻿@model PaginationViewModel<YeuBep.ViewModels.Recipe.RecipeViewModel>
+@{
+    var search = Context.Request.Query["search"].ToString();
+}
+<link rel="stylesheet" href="~/css/index.css" />
 
-<div class="container my-5">
-    <div class="row g-4 mb-5">
+<form method="get" asp-action="Recipe" asp-controller="Recipe" class="search-form">
+    <div class="search-container">
+        <div class="search-icon-wrapper">
+            <i class="bi bi-search"></i>
+        </div>
+        <input type="text"
+               id="search"
+               name="search" 
+               class="search-field" 
+               placeholder="Khám phá công thức món ăn yêu thích..." 
+               autocomplete="off"
+               value="@search">
+        <button class="search-button" type="submit">
+            <span>Tìm kiếm</span>
+            <i class="bi bi-arrow-right ms-2"></i>
+        </button>
+    </div>
+    <div class="autocomplete-dropdown" id="autocompleteDropdown"></div>
+</form>
+<div class="container">
+    <div class="row pb-5">
         @foreach (var item in Model.Items)
         {
-            <div class="col-12 col-sm-6 col-md-4 col-lg-3">
-                @await Component.InvokeAsync("RecipeComponent", item)
-            </div>
+            @await Component.InvokeAsync("RecipeCardSearchComponent", item)
         }
     </div>
     @await Component.InvokeAsync("PaginationComponent", Model.PaginationView)
 </div>
+
+<script>
+    (function loadJs() {
+        if (typeof $ === 'undefined') {
+            setTimeout(loadJs, 50);
+            return;
+        }
+        const files = [
+            '/js/recipe/recipe-list.js',
+            '/js/index.js'
+        ];
+        files.forEach(src => {
+            const script = document.createElement('script');
+            script.src = src;
+            document.body.appendChild(script);
+        });
+    })();
+</script>

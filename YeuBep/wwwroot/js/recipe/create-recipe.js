@@ -484,5 +484,29 @@
             toastr.error("Có lỗi xảy ra");
         }
     })
+    
+    // btn for admin
+    $("#btn-approve").on("click", function() {
+        const recipeId = $("#recipe-container").data("id");
+        if(recipeId){
+            const url = "/api/recipe/approve?recipeId=" + recipeId;
+            $.apiHelper.post(url,{}, {
+                success: function(res) {
+                    
+                }
+            })
+        }
+    })
+    $("btn-unapprove").on("click", function() {
+        const recipeId = $("#recipe-container").data("id");
+        if(recipeId){
+            const url = "/api/recipe/reject?recipeId=" + recipeId;
+            $.apiHelper.post(url,{}, {
+                success: function(res) {
+                    
+                }
+            })
+        }
+    })
     setButton();
 });

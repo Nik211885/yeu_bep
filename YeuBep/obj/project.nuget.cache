@@ -1,12 +1,12 @@
 {
   "version": 2,
-  "dgSpecHash": "9NWeVFdmEbg=",
+  "dgSpecHash": "GgsLrtWyzQQ=",
   "success": true,
   "projectFilePath": "E:\\YeuBep\\YeuBep\\YeuBep\\YeuBep.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\ninhl\\.nuget\\packages\\bouncycastle.cryptography\\2.6.1\\bouncycastle.cryptography.2.6.1.nupkg.sha512",
     "C:\\Users\\ninhl\\.nuget\\packages\\cloudinarydotnet\\1.27.8\\cloudinarydotnet.1.27.8.nupkg.sha512",
-    "C:\\Users\\ninhl\\.nuget\\packages\\dapper\\2.0.123\\dapper.2.0.123.nupkg.sha512",
+    "C:\\Users\\ninhl\\.nuget\\packages\\dapper\\2.1.66\\dapper.2.1.66.nupkg.sha512",
     "C:\\Users\\ninhl\\.nuget\\packages\\fluentresults\\4.0.0\\fluentresults.4.0.0.nupkg.sha512",
     "C:\\Users\\ninhl\\.nuget\\packages\\hangfire\\1.8.22\\hangfire.1.8.22.nupkg.sha512",
     "C:\\Users\\ninhl\\.nuget\\packages\\hangfire.aspnetcore\\1.8.22\\hangfire.aspnetcore.1.8.22.nupkg.sha512",

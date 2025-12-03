@@ -18,6 +18,7 @@
         return;
     }
 
+    var isReadOnlyAdmin = await UserManager.IsInRoleAsync(user, nameof(Role.Admin)) && Model?.RecipeStatus != RecipeStatus.Draft;
     (string style, string cssClass) GetCssAndClass(string? imageUrl)
     {
         if (string.IsNullOrEmpty(imageUrl))
@@ -33,30 +34,58 @@
         return (style, cssClass);
     }
 
+    string readonlyInput()
+    {
+        if (isReadOnlyAdmin)
+        {
+            return "readonly";
+        }
+
+        return string.Empty;
+    }
+
 }
 <link rel="stylesheet" href="~/css/recipe/create-recipe.css"/>
 
 <div data-id="@Model?.Id" class="container" id="recipe-container">
         <div class="create-recipe-header">
             <div class="header-buttons">
-                <a href="@Url.Action("MyRecipe", "Recipe")" id="back" class="btn btn-success">
+                <a href="@Url.Action("MyRecipe", "Recipe")" id="back" class="btn btn-info">
                     <i class="fas fa-arrow-left"></i> Quay lại
                 </a>
-                <button class="btn btn-light btn-outline-secondary d-none">
-                    <i class="fas fa-eye"></i> Xem trước
-                </button>
+                @if (await UserManager.IsInRoleAsync(user, nameof(Role.Default)))
+                {
+                    <button class="btn btn-light btn-outline-secondary d-none">
+                        <i class="fas fa-eye"></i> Xem trước
+                    </button>
 
-                <button id="btn-save" class="btn btn-primary custom-orange-btn">
-                    <i class="fas fa-save"></i> Lưu
-                </button>
+                    <button id="btn-save" class="btn btn-primary custom-orange-btn">
+                        <i class="fas fa-save"></i> Lưu
+                    </button>
 
-                <button id="unpublish" class="btn btn-light btn-outline-secondary" style="display: none">
-                    <i class="fas fa-eye-slash"></i> Gỡ bài
-                </button>
+                    <button id="unpublish" class="btn btn-light btn-outline-secondary" style="display: none">
+                        <i class="fas fa-eye-slash"></i> Gỡ bài
+                    </button>
 
-                <button id="btn-delete" class="btn btn-danger" style="display: none">
-                    <i class="fas fa-trash"></i> Xóa
-                </button>
+                    <button id="btn-delete" class="btn btn-danger" style="display: none">
+                        <i class="fas fa-trash"></i> Xóa
+                    </button>
+                }
+                @if (isReadOnlyAdmin)
+                {
+                    if (Model?.RecipeStatus != RecipeStatus.Accept)
+                    {
+                        <button id="btn-approve" class="btn btn-success">
+                            <i class="fas fa-trash"></i> Duyệt
+                        </button>
+                    }
+                    if(Model?.RecipeStatus != RecipeStatus.Reject)
+                    {
+                        <button id="btn-unapprove" class="btn btn-danger">
+                            <i class="fas fa-trash"></i> Từ chối
+                        </button>
+                    }
+                }
 
             </div>
             <span id="recipe-status" class="badge">
@@ -68,32 +97,51 @@
         <div class="main-content">
             <div class="title-section">
                 <div class="form-group">
-                    <input id="title" name="title" type="text" class="recipe-title-input" placeholder="Tên món: Món canh bí ngon nhất nhà mình" value="@(Model?.Title)" >
+                    <input id="title" name="title" type="text" class="recipe-title-input" placeholder="Tên món: Món canh bí ngon nhất nhà mình" value="@(Model?.Title)" @readonlyInput()>
                 </div>
                 
                 <div class="author-info">
-                    <div class="avatar">
-                        @{
-                            string avatarUrl = !string.IsNullOrEmpty(user?.Avatar) 
-                                ? user.Avatar 
-                                : "https://ui-avatars.com/api/?name=Nguyen+Van+A&background=667eea&color=fff&size=40";
-                        }
-                        <img class="avatar" src="@avatarUrl" alt="user"/>
-                    </div>
-                    <span class="author-name">@user?.FullName</span>
-                    <span class="author-id">@($"@{user?.UserName}")</span>
+                    @if (Model is null)
+                    {
+                        <div class="avatar">
+                            @{
+                                string avatarUrl = !string.IsNullOrEmpty(user?.Avatar)
+                                    ? user.Avatar
+                                    : "https://ui-avatars.com/api/?name=Nguyen+Van+A&background=667eea&color=fff&size=40";
+                            }
+                            <img class="avatar" src="@avatarUrl" alt="user"/>
+                        </div>
+                        <span class="author-name">@user?.FullName</span>
+                        <span class="author-id">@($"@{user?.UserName}")</span>
+                    }
+                    else
+                    {
+                        <div class="avatar">
+                            @{
+                                string avatarUrl = !string.IsNullOrEmpty(Model.CreatedBy.Avatar)
+                                    ? Model.CreatedBy.Avatar
+                                    : "https://ui-avatars.com/api/?name=Nguyen+Van+A&background=667eea&color=fff&size=40";
+                            }
+                            <img class="avatar" src="@avatarUrl" alt="user"/>
+                        </div>
+                        <span class="author-name">@Model.CreatedBy.FullName</span>
+                        <span class="author-id">@($"@{Model.CreatedBy.UserName}")</span>
+                    }
                 </div>
 
                 <div class="form-group">
-                    <textarea id="description" class="recipe-description-input" placeholder="Hãy chia sẻ với mọi người về món này của bạn nhé - ai đã từng cắn hưởng cho bạn, bạn sao ra được món này...">@Model?.Description</textarea>
+                    <textarea id="description" class="recipe-description-input" placeholder="Hãy chia sẻ với mọi người về món này của bạn nhé - ai đã từng cắn hưởng cho bạn, bạn sao ra được món này..." @readonlyInput()>@Model?.Description</textarea>
                 </div>
                 @{
                     var (styleMainUpload, classMainUpload) = GetCssAndClass(Model?.Avatar);
                 }
                 <div class="upload-section @classMainUpload" id="main-upload" style="@styleMainUpload">
-                    <input type="hidden" id="main-upload-image-url" value="@Model?.Avatar"/>
-                    <input type="file" id="main-image-input" accept="image/*">
-                    <button class="remove-image" id="remove-main-image">✕</button>
+                    <input type="hidden" id="main-upload-image-url" value="@Model?.Avatar" @readonlyInput()/>
+                    <input type="file" id="main-image-input" accept="image/*" @readonlyInput()>
+                    @if (!isReadOnlyAdmin)
+                    {
+                        <button class="remove-image" id="remove-main-image">✕</button>
+                    }
                     @if (string.IsNullOrWhiteSpace(styleMainUpload))
                     {
                         <div class="upload-content">
@@ -113,7 +161,7 @@
                                 <span class="toggle-icon">−</span>
                             </div>
                             <div class="section-meta">
-                                <input id="portionCount" type="text" class="meta-input" placeholder="2 người" value="@(Model == null ? "3 người" : Model.PortionCount)">
+                                <input id="portionCount" type="text" class="meta-input" placeholder="2 người" value="@(Model == null ? "3 người" : Model.PortionCount)" @readonlyInput()>
                             </div>
                         </div>
                         <div class="section-content" id="ingredients-sections">
@@ -124,16 +172,22 @@
                                         foreach (var ingredient in Model.IngredientPart)
                                         {
                                             <div class="ingredient-section-header">
-                                                <input type="text" class="ingredient-section-title" placeholder="Phần 1" value="@ingredient.Title">
-                                                <button class="delete-section-btn">🗑️</button>
+                                                <input type="text" class="ingredient-section-title" placeholder="Phần 1" value="@ingredient.Title" @readonlyInput()>
+                                                @if (!isReadOnlyAdmin)
+                                                {
+                                                    <button class="delete-section-btn">🗑️</button>
+                                                }
                                             </div>
                                             <div class="ingredients-list">
                                                 @foreach (var ingre in ingredient.Ingredients)
                                                 {
                                                     <div class="list-item">
                                                         <span class="drag-handle">☰</span>
-                                                        <input type="text" class="item-input ingredient" placeholder="Nhập nguyên liệu..." value="@ingre">
-                                                        <button class="more-btn">⋯</button>
+                                                        <input type="text" class="item-input ingredient" placeholder="Nhập nguyên liệu..." value="@ingre" @readonlyInput()>
+                                                        @if (!isReadOnlyAdmin)
+                                                        {
+                                                            <button class="more-btn">⋯</button>
+                                                        }
                                                     </div>
                                                 }
                                             </div>
@@ -159,10 +213,15 @@
                                         </div>
                                     }
                                 }
-                                <button class="add-btn add-ingredient-btn">+ Nguyên liệu</button>
+                                @if (!isReadOnlyAdmin)
+                                {
+                                    <button class="add-btn add-ingredient-btn">+ Nguyên liệu</button>
+                                }
                             </div>
-
-                            <button class="add-btn add-section-btn" id="add-section">+ Thêm phần</button>
+                            @if (!isReadOnlyAdmin)
+                            {
+                                <button class="add-btn add-section-btn" id="add-section">+ Thêm phần</button>
+                            }
                         </div>
                     </div>
                 </div>
@@ -175,7 +234,7 @@
                                 <span class="toggle-icon">−</span>
                             </div>
                             <div class="section-meta">
-                                <input id="timeToCook" type="text" class="meta-input" placeholder="1 tiếng 30 phút" value="@(Model == null ? "1 tiếng 30 phút" : Model.TimeToCook)">
+                                <input id="timeToCook" type="text" class="meta-input" placeholder="1 tiếng 30 phút" value="@(Model == null ? "1 tiếng 30 phút" : Model.TimeToCook)" @readonlyInput()>
                             </div>
                         </div>
                         <div class="section-content">
@@ -189,17 +248,23 @@
                                         <div class="step-item">
                                             <div class="step-number">@step</div>
                                             <div class="step-content">
-                                                <textarea class="step-textarea" placeholder="Nhập hướng dẫn cho bước này...">@instructionStep.Instructions</textarea>
+                                                <textarea class="step-textarea" placeholder="Nhập hướng dẫn cho bước này..." @readonlyInput()>@instructionStep.Instructions</textarea>
                                                 @{
                                                     var (styleImageInstruction, classImageInstruction) = GetCssAndClass(instructionStep.ImageDescription);
                                                 }
                                                 <div class="image-placeholder @classImageInstruction" data-step="@step" style="@styleImageInstruction">
-                                                    <input type="hidden" class="step-image-description" value="@instructionStep.ImageDescription"/>
-                                                    <input type="file" class="step-image-input" accept="image/*">
-                                                    <button class="remove-step-image">✕</button>
+                                                    <input type="hidden" class="step-image-description" value="@instructionStep.ImageDescription" @readonlyInput()/>
+                                                    <input type="file" class="step-image-input" accept="image/*" @readonlyInput()>
+                                                    @if (!isReadOnlyAdmin)
+                                                    {
+                                                        <button class="remove-step-image">✕</button>
+                                                    }
                                                     <div class="image-icon">📷</div>
                                                 </div>
-                                                <button class="more-btn step-more">⋯</button>
+                                                @if (!isReadOnlyAdmin)
+                                                {
+                                                    <button class="more-btn step-more">⋯</button>
+                                                }
                                             </div>
                                         </div>
                                     }
@@ -234,7 +299,10 @@
                                     </div>
                                 }
                             </div>
-                            <button class="add-btn" id="add-step">+ Bước làm</button>
+                            @if (!isReadOnlyAdmin)
+                            {
+                                <button class="add-btn" id="add-step">+ Bước làm</button>
+                            }
                         </div>
                     </div>
                 </div>

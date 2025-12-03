@@ -54,6 +54,10 @@
               "target": "Package",
               "version": "[1.27.8, )"
             },
+            "Dapper": {
+              "target": "Package",
+              "version": "[2.1.66, )"
+            },
             "FluentResults": {
               "target": "Package",
               "version": "[4.0.0, )"

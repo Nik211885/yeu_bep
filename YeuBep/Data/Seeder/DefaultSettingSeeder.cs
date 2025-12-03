@@ -66,6 +66,15 @@ public static class DefaultSettingSeeder
                 context.Users.Add(admin);
             }
 
+            try
+            {
+                await context.Database.ExecuteSqlRawAsync("CREATE EXTENSION IF NOT EXISTS unaccent;");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Cannot create extension unaccent: " + ex.Message);
+            }
+
             await context.SaveChangesAsync();
         }
     }

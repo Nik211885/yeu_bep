@@ -12,11 +12,15 @@ public static class QueriesExtensions
         CancellationToken cancellationToken = default
     )
     {
-        var totalPage = await queryable.CountAsync(cancellationToken);
-        var paginationItem = await queryable
-            .Skip((pageNumber - 1) * pageSize)
+        if (pageNumber < 1) pageNumber = 1;
+        if (pageSize < 1) pageSize = 10;
+        var skip = (pageNumber - 1) * pageSize;
+        var totalCount = await queryable.CountAsync(cancellationToken);
+        var items = await queryable
+            .Skip(skip)
             .Take(pageSize)
             .ToListAsync(cancellationToken);
-        return new PaginationViewModel<TResponse>(paginationItem, pageNumber, pageSize, totalPage);
+        return new PaginationViewModel<TResponse>(items, pageNumber, pageSize, totalCount);
     }
+
 }

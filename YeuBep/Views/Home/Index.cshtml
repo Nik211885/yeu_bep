@@ -1,37 +1,51 @@
-﻿@* @model YeuBep.ViewModels.PaginationViewModel<object> *@
+﻿@model IEnumerable<YeuBep.ViewModels.Recipe.RecipeViewModel>
+<link rel="stylesheet" href="~/css/index.css" />
+<div class="search-section mb-5">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-8 col-md-10">
+                <form method="get" asp-action="Recipe" asp-controller="Recipe" class="search-form">
+                    <div class="search-container">
+                        <div class="search-icon-wrapper">
+                            <i class="bi bi-search"></i>
+                        </div>
+                        <input type="text"
+                               id="search"
+                               name="search" 
+                               class="search-field" 
+                               placeholder="Khám phá công thức món ăn yêu thích..." 
+                               autocomplete="off">
+                        <button class="search-button" type="submit">
+                            <span>Tìm kiếm</span>
+                            <i class="bi bi-arrow-right ms-2"></i>
+                        </button>
+                    </div>
+                    <div class="autocomplete-dropdown" id="autocompleteDropdown"></div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
 
-@* @model List<YeuBep.ViewModels.Recipe.RecipeViewModel> *@
-@* @model List<YeuBep.ViewModels.Comment.CommentViewModel> *@
-@* @model YeuBep.ViewModels.PaginationViewModel; *@
-@* @{ *@
-@*     ViewData["Title"] = "Home Page"; *@
-@* } *@
-@* *@
-@* <div class="container my-5"> *@
-@*     <div class="row g-4"> *@
-@*         @foreach (var item in Model) *@
-@*         { *@
-@*             <div class="col-12 col-sm-6 col-md-4 col-lg-3"> *@
-@*                 @await Component.InvokeAsync("RecipeComponent", item) *@
-@*             </div> *@
-@*         } *@
-@*     </div> *@
-@* </div> *@
-@* @foreach (var comment in Model[0].Comments) *@
-@* { *@
-@*     @await Component.InvokeAsync("CommentComponent", comment) *@
-@* } *@
-@* <div> *@
-@*     @await Component.InvokeAsync("PaginationComponent", Model); *@
-@* </div> *@
+<div class="container">
+    <div class="row g-4 mb-5">
+            @foreach (var recipe in Model)
+            {
+                <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+                    @await Component.InvokeAsync("RecipeComponent", recipe)
+                </div>
+            }
+    </div>
+</div>
 
-@* @{ *@
-@* *@
-@*     var buttonTypesTable = new List<ButtonTableType>() *@
-@*     { *@
-@*         ButtonTableType.Add, *@
-@*         ButtonTableType.Delete, *@
-@*         ButtonTableType.Edit, *@
-@*     }; *@
-@*     @(await Component.InvokeAsync("TableComponent", new {model = Model, buttonTableTypes = buttonTypesTable})) *@
-@* } *@
+<script>
+    (function loadIndexJs() {
+        if (typeof $ === 'undefined') {
+            setTimeout(loadIndexJs, 50);
+            return;
+        }
+        const script = document.createElement('script');
+        script.src = '/js/index.js';
+        document.body.appendChild(script);
+    })();
+</script>
