@@ -20,10 +20,11 @@ public class AccountManagerController : Controller
         _userManager = userManager;
     }
     [HttpGet]
-    public async Task<IActionResult> Get(int pageNumber = 1, int pageSize = 5)
+    public async Task<IActionResult> Get(int pageNumber = 1, int pageSize = 5, [AsParameters] Dictionary<string, string>? filterEqualValue = null)
     {
         var user = await _userManager.Users
             .ProjectToType<UserViewModel>()
+            .WhereEqualFilterValue(filterEqualValue)
             .GetPaginationAsync(pageNumber, pageSize);
         return View("~/Views/Manager/Account.cshtml", user.CastToObjectType());
     }

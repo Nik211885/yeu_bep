@@ -21,4 +21,12 @@ public class UserViewModel
     public string? PhoneNumber { get; set; }
     [NameColumn("Thời gian khóa")]
     public DateTimeOffset? LockoutEnd { get; set; }
+    [IgnoreColumn]
+    public string Avatar{get;set;} = string.Empty;
+    [IgnoreColumn]
+    public string Bio { get; set; } = string.Empty;
+    [IgnoreColumn]
+    public string Address { get; set; } = string.Empty;
+    [IgnoreColumn]
+    public ICollection<string> Majors { get; set; } = [];
 }

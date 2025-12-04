@@ -1,0 +1,89 @@
+﻿@model (YeuBep.ViewModels.Account.UserViewModel, PaginationViewModel<YeuBep.ViewModels.Recipe.RecipeViewModel>)
+@{
+    var chef = Model.Item1;
+    var recipes = Model.Item2;
+}
+
+<link rel="stylesheet" href="~/css/categories/chef-detail.css"/>
+
+<div class="info-chef">
+    <div class="chef-profile-container">
+        <div class="chef-profile-header">
+            <div class="chef-profile-avatar">
+                <img src="@chef.Avatar" alt="@chef.FullName"/>
+                <span class="chef-verified-badge">
+                    <i class="bi bi-check-circle-fill"></i>
+                </span>
+            </div>
+
+            <div class="chef-profile-details">
+                <h1 class="chef-profile-name">
+                    @chef.FullName
+                </h1>
+
+                <div class="chef-profile-title">
+                    <i class="bi bi-award"></i>
+                    Đầu Bếp Chuyên Nghiệp
+                </div>
+
+                <div class="chef-profile-location">
+                    <i class="bi bi-geo-alt-fill"></i>
+                    @chef.Address
+                </div>
+
+                <div class="chef-profile-bio">
+                    @chef.Bio
+                </div>
+
+                <div class="chef-profile-stats">
+                    <div class="chef-stat-item">
+                        <span class="chef-stat-number">@recipes.PaginationView.TotalCount</span>
+                        <span class="chef-stat-label">Công thức</span>
+                    </div>
+                </div>
+
+                @if (chef.Majors.Any())
+                {
+                    <div class="chef-profile-specialties">
+                        <div class="chef-specialty-label">Chuyên môn:</div>
+                        <div class="chef-specialty-tags">
+                            @foreach (var major in chef.Majors)
+                            {
+                                <span class="chef-specialty-tag">@major</span>
+                            }
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="recipe-section-header">
+    <h2 class="recipe-section-title">
+        Công Thức Nấu Ăn
+    </h2>
+    <p class="recipe-section-subtitle">
+        Khám phá @recipes.PaginationView.TotalCount công thức tuyệt vời từ @chef.FullName
+    </p>
+</div>
+
+<div class="recipe-container">
+    @if (recipes.Items.Any())
+    {
+        @foreach (var recipe in recipes.Items)
+        {
+            @(await Component.InvokeAsync("RecipeComponent", recipe))
+        }
+    }
+    else
+    {
+        <div class="no-recipes-state">
+            <div class="no-recipes-icon">📝</div>
+            <h3 class="no-recipes-title">Chưa có công thức nào</h3>
+            <p class="no-recipes-text">@chef.FullName chưa chia sẻ công thức nào. Hãy quay lại sau nhé!</p>
+        </div>
+    }
+</div>
+
+@(await Component.InvokeAsync("PaginationComponent", recipes.PaginationView))

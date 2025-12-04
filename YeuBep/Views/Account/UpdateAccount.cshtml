@@ -47,6 +47,20 @@
                             <span asp-validation-for="FullName" class="text-danger"></span>
                         </div>
 
+                        <!-- Address -->
+                        <div class="mb-4">
+                            <label asp-for="Address" class="form-label">
+                                <i class="fas fa-map-marker-alt me-2"></i>Địa chỉ <span class="text-danger">*</span>
+                            </label>
+                            <div class="input-icon">
+                                <i class="fas fa-map-marker-alt"></i>
+                                <input asp-for="Address" 
+                                       class="form-control" 
+                                       placeholder="Nhập địa chỉ của bạn">
+                            </div>
+                            <span asp-validation-for="Address" class="text-danger"></span>
+                        </div>
+
                         <!-- Bio -->
                         <div class="mb-4">
                             <label asp-for="Bio" class="form-label">
@@ -57,6 +71,56 @@
                                       placeholder="Viết vài dòng về bản thân bạn..."
                                       rows="5"></textarea>
                             <span asp-validation-for="Bio" class="text-danger"></span>
+                        </div>
+
+                        <!-- Majors -->
+                        <div class="mb-4">
+                            <label class="form-label">
+                                <i class="fas fa-graduation-cap me-2"></i>Chuyên Môn
+                            </label>
+                            <div id="majorsContainer">
+                                @if (Model?.Majors != null && Model.Majors.Any())
+                                {
+                                    @for (int i = 0; i < Model.Majors.Count; i++)
+                                    {
+                                        <div class="major-item mb-2">
+                                            <div class="input-group">
+                                                <div class="input-icon flex-grow-1">
+                                                    <i class="fas fa-book"></i>
+                                                    <input type="text" 
+                                                           name="Majors[@i]" 
+                                                           value="@Model.Majors.ElementAt(i)" 
+                                                           class="form-control major-input" 
+                                                           placeholder="Nhập chuyên môn (VD: Món Việt, Món Âu, Bánh ngọt...)">
+                                                </div>
+                                                <button type="button" class="btn btn-outline-danger btn-remove-major" onclick="removeMajor(this)">
+                                                    <i class="fas fa-times"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    }
+                                }
+                                else
+                                {
+                                    <div class="major-item mb-2">
+                                        <div class="input-group">
+                                            <div class="input-icon flex-grow-1">
+                                                <i class="fas fa-book"></i>
+                                                <input type="text" 
+                                                       name="Majors[0]" 
+                                                       class="form-control major-input" 
+                                                       placeholder="Nhập chuyên môn (VD: Món Việt, Món Âu, Bánh ngọt...)">
+                                            </div>
+                                            <button type="button" class="btn btn-outline-danger btn-remove-major" onclick="removeMajor(this)">
+                                                <i class="fas fa-times"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                }
+                            </div>
+                            <button type="button" class="btn btn-outline-primary btn-sm mt-2" onclick="addMajor()">
+                                <i class="fas fa-plus me-1"></i>Thêm Chuyên Môn
+                            </button>
                         </div>
 
                         <!-- Buttons -->
@@ -78,7 +142,112 @@
         </div>
     </div>
 </div>
+
+<style>
+    .major-item {
+        position: relative;
+    }
+    
+    .major-item .input-group {
+        display: flex;
+        align-items: center;
+    }
+    
+    .major-item .input-icon {
+        position: relative;
+    }
+    
+    .major-item .input-icon i {
+        position: absolute;
+        left: 15px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: #667eea;
+        z-index: 1;
+    }
+    
+    .major-item .major-input {
+        padding-left: 45px;
+        border-radius: 10px 0 0 10px;
+    }
+    
+    .btn-remove-major {
+        border-radius: 0 10px 10px 0;
+        border-left: none;
+        padding: 0.5rem 1rem;
+        transition: all 0.3s ease;
+    }
+    
+    .btn-remove-major:hover {
+        background-color: #dc3545;
+        color: white;
+        border-color: #dc3545;
+    }
+    
+    .btn-outline-primary {
+        border-radius: 10px;
+        padding: 0.5rem 1.5rem;
+        border: 2px solid #667eea;
+        color: #667eea;
+        transition: all 0.3s ease;
+    }
+    
+    .btn-outline-primary:hover {
+        background-color: #667eea;
+        color: white;
+    }
+</style>
+
 <script>
+    let majorIndex = @(Model?.Majors?.Count ?? 1);
+    
+    function addMajor() {
+        const container = document.getElementById('majorsContainer');
+        const newMajorItem = document.createElement('div');
+        newMajorItem.className = 'major-item mb-2';
+        newMajorItem.innerHTML = `
+            <div class="input-group">
+                <div class="input-icon flex-grow-1">
+                    <i class="fas fa-book"></i>
+                    <input type="text" 
+                           name="Majors[${majorIndex}]" 
+                           class="form-control major-input" 
+                           placeholder="Nhập chuyên môn (VD: Món Việt, Món Âu, Bánh ngọt...)">
+                </div>
+                <button type="button" class="btn btn-outline-danger btn-remove-major" onclick="removeMajor(this)">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+        `;
+        container.appendChild(newMajorItem);
+        majorIndex++;
+        
+        // Focus vào input mới
+        newMajorItem.querySelector('input').focus();
+    }
+    
+    function removeMajor(button) {
+        const container = document.getElementById('majorsContainer');
+        const majorItems = container.querySelectorAll('.major-item');
+        
+        // Giữ ít nhất 1 ô input
+        if (majorItems.length > 1) {
+            button.closest('.major-item').remove();
+            reindexMajors();
+        } else {
+            // Nếu chỉ còn 1 ô, xóa giá trị thay vì xóa ô
+            button.closest('.major-item').querySelector('input').value = '';
+        }
+    }
+    
+    function reindexMajors() {
+        const inputs = document.querySelectorAll('.major-input');
+        inputs.forEach((input, index) => {
+            input.name = `Majors[${index}]`;
+        });
+        majorIndex = inputs.length;
+    }
+    
     (function loadTableJs() {
         if (typeof $ === 'undefined') {
             setTimeout(loadTableJs, 50);
@@ -89,4 +258,3 @@
         document.body.appendChild(script);
     })();
 </script>
-

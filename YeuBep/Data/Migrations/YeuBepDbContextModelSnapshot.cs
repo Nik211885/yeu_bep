@@ -391,6 +391,10 @@ namespace YeuBep.Data.Migrations
                     b.Property<int>("AccessFailedCount")
                         .HasColumnType("integer");
 
+                    b.Property<string>("Address")
+                        .IsRequired()
+                        .HasColumnType("text");
+
                     b.Property<string>("Avatar")
                         .IsRequired()
                         .HasColumnType("text");
@@ -419,6 +423,10 @@ namespace YeuBep.Data.Migrations
 
                     b.Property<DateTimeOffset?>("LockoutEnd")
                         .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("Majors")
+                        .IsRequired()
+                        .HasColumnType("jsonb");
 
                     b.Property<string>("NormalizedEmail")
                         .HasMaxLength(256)

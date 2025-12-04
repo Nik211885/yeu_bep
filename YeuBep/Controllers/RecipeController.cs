@@ -43,14 +43,14 @@ public class RecipeController : Controller
     }
 
     [HttpGet]
-    public async Task<IActionResult> MyRecipe(int pageNumber = 1, int pageSize = 5)
+    public async Task<IActionResult> MyRecipe(int pageNumber = 1, int pageSize = 4, [AsParameters] Dictionary<string, string>? filterEqualTable = null)
     {
         var userId = HttpContext.GetUserId();
         if (userId is null)
         {
             return Redirect("/Error/UnauthorizedPage");
         }
-        var recipe = await _recipeQueries.GetMyRecipePaginationAsync(userId, pageNumber, pageSize);
+        var recipe = await _recipeQueries.GetMyRecipePaginationAsync(userId, pageNumber, pageSize, filterEqualTable);
         return View("MyRecipeList", recipe.Value.CastToObjectType());
     }
 

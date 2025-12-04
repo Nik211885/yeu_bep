@@ -10,4 +10,6 @@ public class UpdateUserViewModel
     public string Bio { get; set; }
     [Required(ErrorMessage = "Tên bắt buộc!")]
     public string FullName { get; set; }
+    public string Address { get; set; } = string.Empty;
+    public ICollection<string> Majors { get; set; } = [];
 }

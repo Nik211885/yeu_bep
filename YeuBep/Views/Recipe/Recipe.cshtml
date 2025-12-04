@@ -85,7 +85,7 @@
                 </button>
                 <button id="btn-rating" data-count-total-rating="@Model.CountRatingPoint" data-total-rating-point="@Model.TotalRatingPoint" class="btn btn-warning btn-rating" data-bs-toggle="modal" data-bs-target="#ratingModal">
                     <i class="fas fa-star"></i>
-                    Đánh giá (<span id="ratingCount">@((Model.TotalRatingPoint / Model.CountRatingPoint).ToString("0.0"))</span>)
+                    Đánh giá (<span id="ratingCount">@((Model.TotalRatingPoint / (Model.CountRatingPoint == 0 ? 1 : Model.CountRatingPoint)).ToString("0.0"))</span>)
                 </button>
             </div>
             

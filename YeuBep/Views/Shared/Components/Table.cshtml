@@ -5,10 +5,24 @@
 @model YeuBep.ViewModels.PaginationViewModel<object>
 <link rel="stylesheet" href="~/css/components/table.css" />
 @{
+    IQueryCollection query = Context.Request.Query;
     List<ButtonConfig> buttonConfigs = ViewBag.ButtonConfig;
     var items = Model.Items?.ToList() ?? new List<object>();
     var keyTable = new List<(PropertyInfo, string, string)>();
-    
+
+    string? GetFilterInputValue(string propertyInfo)
+    {
+        foreach (var q in query)
+        {
+            var key = q.Key;
+            if (key == propertyInfo)
+            {
+                return q.Value;
+            }
+        }
+
+        return string.Empty;
+    }
     // Helper function to get flattened properties
     List<(PropertyInfo Property, string DisplayName, string PropertyPath)> GetFlattenedProperties(Type? type, string prefix = "")
     {
@@ -20,7 +34,6 @@
             if (prop.IsIgnoreColumn()) continue;
             var propPath = string.IsNullOrEmpty(prefix) ? prop.Name : $"{prefix}.{prop.Name}";
             var displayName = prop.GetNameColumn();
-            
             // Check if property is a complex type (nested object)
             if (prop.PropertyType.IsClass && 
                 prop.PropertyType != typeof(string) && 
@@ -200,7 +213,7 @@
             {
                 <th class="sortable" data-column="@displayName" data-path="@propertyPath">
                     @displayName <span class="sort-icon">↕</span>
-                    <input type="text" class="filter-input" placeholder="" data-filter="@displayName" data-path="@propertyPath">
+                    <input type="text" class="filter-input" placeholder="" data-filter="@displayName" data-path="@propertyPath" value="@GetFilterInputValue(propertyPath)">
                 </th>
             }
         </tr>

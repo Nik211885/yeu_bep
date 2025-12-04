@@ -301,7 +301,17 @@
         $checkbox.prop('checked', true).trigger('change');
         $('#btnView').trigger('click');
     });
-
-    // Initialize
+    $(".filter-input").on("keydown", function (e) {
+        if (e.key === "Enter" || e.keyCode === 13) {
+            const queryString = $(".filter-input").map(function () {
+                const key = $(this).data("path");
+                const value = $(this).val();
+                return encodeURIComponent(key) + "=" + encodeURIComponent(value);
+            }).get().join("&");
+            console.log(queryString);
+            window.location.href = `${window.location.pathname}?${queryString}`;
+        }
+    });
+    
     ableAndDisableButton();
 });

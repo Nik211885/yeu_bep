@@ -1,0 +1,354 @@
+﻿/* Chef Profile Page Styles */
+
+.info-chef {
+    background: linear-gradient(135deg, #ff6b6b 0%, #feca57 50%, #48dbfb 100%);
+    padding: 60px 0;
+    margin-bottom: 40px;
+    position: relative;
+    overflow: hidden;
+}
+
+.info-chef::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: url('data:image/svg+xml,<svg width="100" height="100" xmlns="http://www.w3.org/2000/svg"><path d="M0 0h100v100H0z" fill="none"/><path d="M50 30c-11 0-20 9-20 20s9 20 20 20 20-9 20-20-9-20-20-20z" fill="rgba(255,255,255,0.05)"/></svg>');
+    opacity: 0.1;
+}
+
+.chef-profile-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+    position: relative;
+    z-index: 1;
+}
+
+.chef-profile-header {
+    display: flex;
+    align-items: center;
+    gap: 40px;
+    background: rgba(255, 255, 255, 0.95);
+    padding: 40px;
+    border-radius: 20px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+    backdrop-filter: blur(10px);
+}
+
+.chef-profile-avatar {
+    flex-shrink: 0;
+    position: relative;
+}
+
+.chef-profile-avatar img {
+    width: 180px;
+    height: 180px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 6px solid #fff;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+}
+
+.chef-verified-badge {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    color: white;
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    border: 3px solid white;
+    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+}
+
+.chef-profile-details {
+    flex: 1;
+}
+
+.chef-profile-name {
+    font-size: 36px;
+    font-weight: 700;
+    color: #2d3436;
+    margin: 0 0 10px 0;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.chef-profile-title {
+    color: #667eea;
+    font-size: 18px;
+    font-weight: 600;
+    margin-bottom: 15px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.chef-profile-location {
+    color: #636e72;
+    font-size: 16px;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.chef-profile-location i {
+    color: #667eea;
+}
+
+.chef-profile-bio {
+    color: #2d3436;
+    font-size: 16px;
+    line-height: 1.6;
+    margin-bottom: 25px;
+    padding: 20px;
+    background: #f8f9fa;
+    border-radius: 12px;
+    border-left: 4px solid #667eea;
+}
+
+.chef-profile-stats {
+    display: flex;
+    gap: 30px;
+    margin-bottom: 25px;
+}
+
+.chef-stat-item {
+    text-align: center;
+}
+
+.chef-stat-number {
+    display: block;
+    font-size: 32px;
+    font-weight: 700;
+    color: #667eea;
+    line-height: 1;
+    margin-bottom: 5px;
+}
+
+.chef-stat-label {
+    display: block;
+    font-size: 14px;
+    color: #636e72;
+    font-weight: 500;
+}
+
+.chef-profile-specialties {
+    margin-top: 20px;
+}
+
+.chef-specialty-label {
+    font-weight: 600;
+    color: #2d3436;
+    margin-bottom: 12px;
+    font-size: 16px;
+}
+
+.chef-specialty-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.chef-specialty-tag {
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    color: white;
+    padding: 8px 18px;
+    border-radius: 20px;
+    font-size: 14px;
+    font-weight: 500;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    transition: all 0.3s ease;
+}
+
+.chef-specialty-tag:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+}
+
+.chef-specialty-tag::before {
+    content: '🍳';
+    font-size: 16px;
+}
+
+/* Recipe Section */
+.recipe-section-header {
+    max-width: 1200px;
+    margin: 0 auto 30px;
+    padding: 0 20px;
+}
+
+.recipe-section-title {
+    font-size: 28px;
+    font-weight: 700;
+    color: #2d3436;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.recipe-section-title::before {
+    content: '📖';
+    font-size: 32px;
+}
+
+.recipe-section-subtitle {
+    color: #636e72;
+    font-size: 16px;
+}
+
+.recipe-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px 40px;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 30px;
+}
+
+/* Empty State */
+.no-recipes-state {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: 80px 20px;
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+    border-radius: 20px;
+    border: 2px dashed #dee2e6;
+}
+
+.no-recipes-icon {
+    font-size: 80px;
+    margin-bottom: 20px;
+    opacity: 0.5;
+}
+
+.no-recipes-title {
+    font-size: 24px;
+    font-weight: 600;
+    color: #2d3436;
+    margin-bottom: 10px;
+}
+
+.no-recipes-text {
+    color: #636e72;
+    font-size: 16px;
+}
+
+/* Responsive Design */
+@media (max-width: 992px) {
+    .chef-profile-header {
+        flex-direction: column;
+        text-align: center;
+        gap: 30px;
+    }
+
+    .chef-profile-name {
+        justify-content: center;
+    }
+
+    .chef-profile-title,
+    .chef-profile-location {
+        justify-content: center;
+    }
+
+    .chef-profile-stats {
+        justify-content: center;
+    }
+
+    .chef-specialty-tags {
+        justify-content: center;
+    }
+}
+
+@media (max-width: 768px) {
+    .info-chef {
+        padding: 40px 0;
+    }
+
+    .chef-profile-header {
+        padding: 30px 20px;
+    }
+
+    .chef-profile-avatar img {
+        width: 140px;
+        height: 140px;
+    }
+
+    .chef-profile-name {
+        font-size: 28px;
+    }
+
+    .chef-profile-title {
+        font-size: 16px;
+    }
+
+    .chef-stat-number {
+        font-size: 24px;
+    }
+
+    .recipe-section-title {
+        font-size: 24px;
+    }
+
+    .recipe-container {
+        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+        gap: 20px;
+    }
+}
+
+@media (max-width: 576px) {
+    .chef-profile-stats {
+        flex-wrap: wrap;
+        gap: 20px;
+    }
+
+    .chef-stat-item {
+        flex: 1 1 calc(50% - 10px);
+        min-width: 120px;
+    }
+
+    .recipe-container {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* Animation */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.chef-profile-header {
+    animation: fadeInUp 0.6s ease-out;
+}
+
+.recipe-container > * {
+    animation: fadeInUp 0.6s ease-out;
+    animation-fill-mode: both;
+}
+
+.recipe-container > *:nth-child(1) { animation-delay: 0.1s; }
+.recipe-container > *:nth-child(2) { animation-delay: 0.2s; }
+.recipe-container > *:nth-child(3) { animation-delay: 0.3s; }
+.recipe-container > *:nth-child(4) { animation-delay: 0.4s; }
+.recipe-container > *:nth-child(5) { animation-delay: 0.5s; }
+.recipe-container > *:nth-child(6) { animation-delay: 0.6s; }

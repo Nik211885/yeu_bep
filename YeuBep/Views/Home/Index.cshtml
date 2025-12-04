@@ -1,4 +1,13 @@
-﻿@model IEnumerable<YeuBep.ViewModels.Recipe.RecipeViewModel>
+﻿@using Microsoft.EntityFrameworkCore
+@using YeuBep.Data
+@using YeuBep.Entities
+@model IEnumerable<YeuBep.ViewModels.Recipe.RecipeViewModel>
+@inject YeuBepDbContext DbContext;
+@{
+    var countRecipe = await DbContext.Recipes.Where(x => x.RecipeStatus == RecipeStatus.Accept).CountAsync();
+    var countUser = await DbContext.Users.Where(x => x.EmailConfirmed).CountAsync();
+}
+
 <link rel="stylesheet" href="~/css/index.css" />
 
 
@@ -11,16 +20,12 @@
             
             <div class="stats-section">
                 <div class="stat-item">
-                    <span class="stat-number">5,000+</span>
+                    <span class="stat-number">@countRecipe.ToString("N0")</span>
                     <span class="stat-label">Công Thức</span>
                 </div>
                 <div class="stat-item">
-                    <span class="stat-number">1,200+</span>
+                    <span class="stat-number">@countUser.ToString("N0")</span>
                     <span class="stat-label">Đầu Bếp</span>
-                </div>
-                <div class="stat-item">
-                    <span class="stat-number">50K+</span>
-                    <span class="stat-label">Thành Viên</span>
                 </div>
             </div>
         </div>
@@ -90,7 +95,7 @@
     <!-- Featured Banner -->
     <div class="featured-section">
         <div class="featured-content">
-            <h2>🎉 Cuộc Thi Nấu Ăn Tháng 12</h2>
+            <h2>🎉 Cuộc Thi Nấu Ăn Tháng @DateTimeOffset.UtcNow.Month</h2>
             <p>Tham gia và chia sẻ công thức độc đáo của bạn. Giải thưởng hấp dẫn đang chờ đón!</p>
             <a href="#" class="featured-btn">Tham Gia Ngay <i class="bi bi-arrow-right ms-2"></i></a>
         </div>

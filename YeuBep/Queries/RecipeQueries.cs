@@ -25,12 +25,13 @@ public class RecipeQueries
     }
 
     public async Task<Result<PaginationViewModel<RecipeViewModel>>> GetMyRecipePaginationAsync(string? userId,
-        int pageNumber, int pageSize)
+        int pageNumber, int pageSize, Dictionary<string, string>? filterEqualTableViewModel)
     {
         var recipe = await _dbContext.Recipes.AsNoTracking()
             .Where(x=>x.CreatedById == userId)
             .OrderByDescending(r=>r.CreatedDate)
             .ProjectToType<RecipeViewModel>()
+            .WhereEqualFilterValue(filterEqualTableViewModel)
             .GetPaginationAsync(pageNumber, pageSize);
         return Result.Ok(recipe);
     }
