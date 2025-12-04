@@ -549,3 +549,101 @@ body {
 .notification-list::-webkit-scrollbar-thumb:hover {
   background: #555;
 }
+.navbar{
+  padding: 0 !important;
+}
+
+.navbar-brand {
+  margin-right: 0;
+}
+
+.logo-icon {
+  width: 42px;
+  height: 42px;
+  background: #667eea;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 1.3rem;
+  transition: all 0.3s;
+}
+
+.navbar-brand:hover .logo-icon {
+  background: #764ba2;
+  transform: rotate(-5deg);
+}
+
+.logo-text {
+  font-size: 1.6rem;
+  color: #667eea;
+  letter-spacing: -0.5px;
+}
+
+.navbar-nav {
+  gap: 8px;
+  align-items: center;
+}
+
+.nav-link {
+  color: #636e72 !important;
+  font-weight: 500;
+  padding: 10px 18px !important;
+  transition: all 0.2s;
+  border-radius: 8px;
+  font-size: 0.95rem;
+}
+
+.nav-link:hover {
+  color: #667eea !important;
+  background: #f8f9fa;
+}
+
+.btn-write {
+  background: #667eea;
+  color: white;
+  border: none;
+  padding: 11px 24px;
+  border-radius: 10px;
+  font-weight: 500;
+  transition: all 0.2s;
+  white-space: nowrap;
+  box-shadow: 0 2px 8px rgba(102, 126, 234, 0.3);
+  display: inline-flex;
+  align-items: center;
+  text-decoration: none;
+}
+
+.btn-write:hover {
+  background: #764ba2;
+  color: white;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+}
+
+.btn-write i {
+  font-size: 0.9rem;
+}
+
+@media (max-width: 991px) {
+  .navbar-nav {
+    margin: 16px 0;
+    gap: 4px;
+    align-items: stretch;
+  }
+
+  .nav-item.ms-3 {
+    margin-left: 0 !important;
+    margin-top: 12px;
+  }
+
+  .btn-write {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .navbar-collapse {
+    margin-top: 12px;
+  }
+}

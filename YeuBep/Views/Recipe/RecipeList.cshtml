@@ -23,14 +23,94 @@
     </div>
     <div class="autocomplete-dropdown" id="autocompleteDropdown"></div>
 </form>
-<div class="container">
-    <div class="row pb-5">
-        @foreach (var item in Model.Items)
-        {
-            @await Component.InvokeAsync("RecipeCardSearchComponent", item)
-        }
+
+<div class="main-layout">
+    <!-- Content Area -->
+    <div class="content-area">
+        <div class="row pb-5">
+            @foreach (var item in Model.Items)
+            {
+                @await Component.InvokeAsync("RecipeCardSearchComponent", item)
+            }
+        </div>
+        @await Component.InvokeAsync("PaginationComponent", Model.PaginationView)
     </div>
-    @await Component.InvokeAsync("PaginationComponent", Model.PaginationView)
+
+    <!-- Sidebar -->
+    <aside class="sidebar">
+        <!-- Danh mục món ăn -->
+        <div class="sidebar-card">
+            <h3><i class="bi bi-bookmark-fill me-2"></i>Danh Mục Phổ Biến</h3>
+            <ul class="category-list">
+                <li class="category-item">
+                    <span class="category-name">🍜 Món Việt Nam</span>
+                    <span class="category-count">248</span>
+                </li>
+                <li class="category-item">
+                    <span class="category-name">🍝 Món Ý</span>
+                    <span class="category-count">156</span>
+                </li>
+                <li class="category-item">
+                    <span class="category-name">🍱 Món Nhật</span>
+                    <span class="category-count">132</span>
+                </li>
+                <li class="category-item">
+                    <span class="category-name">🥗 Món Healthy</span>
+                    <span class="category-count">98</span>
+                </li>
+                <li class="category-item">
+                    <span class="category-name">🍰 Món Tráng Miệng</span>
+                    <span class="category-count">87</span>
+                </li>
+            </ul>
+        </div>
+
+        <!-- Món ăn trending -->
+        <div class="sidebar-card">
+            <h3><i class="bi bi-fire me-2"></i>Đang Hot</h3>
+            <div class="trending-recipe">
+                <img src="https://th.bing.com/th/id/OIP.F86RY2CZiS5_9COYRBntmgHaE8?w=294&h=196&c=7&r=0&o=7&cb=ucfimg2&dpr=1.3&pid=1.7&rm=3&ucfimg=1" alt="Phở bò" class="trending-img">
+                <div class="trending-info">
+                    <h4>Phở Bò Hà Nội</h4>
+                    <div class="trending-meta">
+                        <i class="bi bi-eye"></i> 1.2k lượt xem
+                    </div>
+                </div>
+            </div>
+            <div class="trending-recipe">
+                <img src="https://th.bing.com/th/id/OIP.NJ9GfM3cGtg5M8MfF3j79QHaEN?w=280&h=180&c=7&r=0&o=7&cb=ucfimg2&dpr=1.3&pid=1.7&rm=3&ucfimg=1" alt="Bánh mì" class="trending-img">
+                <div class="trending-info">
+                    <h4>Bánh Mì Sài Gòn</h4>
+                    <div class="trending-meta">
+                        <i class="bi bi-eye"></i> 950 lượt xem
+                    </div>
+                </div>
+            </div>
+            <div class="trending-recipe">
+                <img src="https://th.bing.com/th/id/OIP.lpPqXYyf5eTRzo_3KmO7_gHaE7?w=265&h=180&c=7&r=0&o=7&cb=ucfimg2&dpr=1.3&pid=1.7&rm=3&ucfimg=1" alt="Bún chả" class="trending-img">
+                <div class="trending-info">
+                    <h4>Bún Chả Hà Nội</h4>
+                    <div class="trending-meta">
+                        <i class="bi bi-eye"></i> 876 lượt xem
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tips nấu ăn -->
+        <div class="sidebar-card">
+            <h3><i class="bi bi-lightbulb-fill me-2"></i>Mẹo Nấu Ăn</h3>
+            <div class="tips-item">
+                <p><strong>💡 Tip 1:</strong> Ướp thịt với chút muối và tiêu ít nhất 30 phút trước khi nấu.</p>
+            </div>
+            <div class="tips-item">
+                <p><strong>💡 Tip 2:</strong> Thêm một chút đường vào món mặn sẽ giúp cân bằng vị.</p>
+            </div>
+            <div class="tips-item">
+                <p><strong>💡 Tip 3:</strong> Rau củ luộc với nước sôi giúp giữ màu xanh tươi.</p>
+            </div>
+        </div>
+    </aside>
 </div>
 
 <script>

@@ -10,6 +10,7 @@ public static class AddQueriesDefaultServicesExtension
             services.AddScoped<FavoritesQueries>();
             services.AddScoped<RatingQueries>();
             services.AddScoped<NotificationQueries>();
+            services.AddScoped<CategoryQueries>();
             return services;
         }
     }

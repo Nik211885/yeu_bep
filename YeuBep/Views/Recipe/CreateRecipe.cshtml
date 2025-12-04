@@ -142,7 +142,7 @@
                     {
                         <button class="remove-image" id="remove-main-image">✕</button>
                     }
-                    @if (string.IsNullOrWhiteSpace(styleMainUpload))
+                    @if (string.IsNullOrWhiteSpace(Model?.Avatar))
                     {
                         <div class="upload-content">
                             <div class="upload-icon">📷</div>

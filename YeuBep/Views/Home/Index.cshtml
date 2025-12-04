@@ -1,5 +1,33 @@
 ﻿@model IEnumerable<YeuBep.ViewModels.Recipe.RecipeViewModel>
 <link rel="stylesheet" href="~/css/index.css" />
+
+
+<!-- Hero Section -->
+<div class="hero-section">
+    <div class="hero-content">
+        <div class="container">
+            <h1 class="hero-title">Khám Phá Thế Giới Ẩm Thực</h1>
+            <p class="hero-subtitle">Hàng nghìn công thức món ăn ngon đang chờ bạn khám phá</p>
+            
+            <div class="stats-section">
+                <div class="stat-item">
+                    <span class="stat-number">5,000+</span>
+                    <span class="stat-label">Công Thức</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number">1,200+</span>
+                    <span class="stat-label">Đầu Bếp</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number">50K+</span>
+                    <span class="stat-label">Thành Viên</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Search Section -->
 <div class="search-section mb-5">
     <div class="container">
         <div class="row justify-content-center">
@@ -28,13 +56,88 @@
 </div>
 
 <div class="container">
+    <!-- Category Pills -->
+    <div class="category-pills">
+        <h3><i class="bi bi-grid-3x3-gap-fill me-2"></i>Danh Mục Phổ Biến</h3>
+        <div class="pills-container">
+            <a href="#" class="category-pill">
+                <span>🍜</span> Món Việt Nam
+            </a>
+            <a href="#" class="category-pill">
+                <span>🍝</span> Món Ý
+            </a>
+            <a href="#" class="category-pill">
+                <span>🍱</span> Món Nhật
+            </a>
+            <a href="#" class="category-pill">
+                <span>🥗</span> Món Healthy
+            </a>
+            <a href="#" class="category-pill">
+                <span>🍰</span> Tráng Miệng
+            </a>
+            <a href="#" class="category-pill">
+                <span>🥘</span> Món Hàn
+            </a>
+            <a href="#" class="category-pill">
+                <span>🌮</span> Món Mexico
+            </a>
+            <a href="#" class="category-pill">
+                <span>🍛</span> Món Thái
+            </a>
+        </div>
+    </div>
+
+    <!-- Featured Banner -->
+    <div class="featured-section">
+        <div class="featured-content">
+            <h2>🎉 Cuộc Thi Nấu Ăn Tháng 12</h2>
+            <p>Tham gia và chia sẻ công thức độc đáo của bạn. Giải thưởng hấp dẫn đang chờ đón!</p>
+            <a href="#" class="featured-btn">Tham Gia Ngay <i class="bi bi-arrow-right ms-2"></i></a>
+        </div>
+    </div>
+
+    <!-- Quick Tips -->
+    <div class="quick-tips">
+        <h2 style="color: black; margin-bottom: 0;">💡 Mẹo Nấu Ăn Hữu Ích</h2>
+        <div class="tips-grid">
+            <div class="tip-card">
+                <div class="tip-icon">🧂</div>
+                <h4>Cân Bằng Vị</h4>
+                <p>Thêm một chút đường vào món mặn giúp cân bằng vị và làm tăng hương vị tổng thể.</p>
+            </div>
+            <div class="tip-card">
+                <div class="tip-icon">🔥</div>
+                <h4>Nhiệt Độ Phù Hợp</h4>
+                <p>Để thịt ở nhiệt độ phòng 20-30 phút trước khi nấu để chín đều hơn.</p>
+            </div>
+            <div class="tip-card">
+                <div class="tip-icon">🥬</div>
+                <h4>Rau Xanh Tươi</h4>
+                <p>Chần rau trong nước sôi có chút muối giúp giữ màu xanh tươi đẹp mắt.</p>
+            </div>
+            <div class="tip-card">
+                <div class="tip-icon">⏰</div>
+                <h4>Ướp Thịt</h4>
+                <p>Ướp thịt ít nhất 30 phút (hoặc qua đêm) để gia vị thấm đều và thơm ngon.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Recipes Section -->
+    <div class="section-header">
+        <h2><i class="bi bi-star-fill me-2" style="color: #feca57;"></i>Công Thức Nổi Bật</h2>
+        <a href="@Url.Action("Recipe", "Recipe")" class="view-all-link">
+            Xem tất cả <i class="bi bi-arrow-right"></i>
+        </a>
+    </div>
+
     <div class="row g-4 mb-5">
-            @foreach (var recipe in Model)
-            {
-                <div class="col-12 col-sm-6 col-md-4 col-lg-3">
-                    @await Component.InvokeAsync("RecipeComponent", recipe)
-                </div>
-            }
+        @foreach (var recipe in Model)
+        {
+            <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+                @await Component.InvokeAsync("RecipeComponent", recipe)
+            </div>
+        }
     </div>
 </div>
 

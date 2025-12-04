@@ -300,4 +300,7 @@ E:\YeuBep\YeuBep\YeuBep\obj\Debug\net10.0\compressed\7hb1mc54r2-{0}-i2e2277p4m-i
 E:\YeuBep\YeuBep\YeuBep\obj\Debug\net10.0\compressed\hra8u5askj-{0}-naalzvwy1r-naalzvwy1r.gz
 E:\YeuBep\YeuBep\YeuBep\obj\Debug\net10.0\compressed\ccw83ajqd5-{0}-acoc7twquk-acoc7twquk.gz
 E:\YeuBep\YeuBep\YeuBep\obj\Debug\net10.0\compressed\6hr2qwxgto-{0}-di0qt9x6y1-di0qt9x6y1.gz
-E:\YeuBep\YeuBep\YeuBep\obj\Debug\net10.0\compressed\096yn1c48y-{0}-qt1i0vp4qg-qt1i0vp4qg.gz
+E:\YeuBep\YeuBep\YeuBep\obj\Debug\net10.0\compressed\096yn1c48y-{0}-5y5no8xssi-5y5no8xssi.gz
+E:\YeuBep\YeuBep\YeuBep\obj\Debug\net10.0\compressed\6q2el51hnd-{0}-96snczas5g-96snczas5g.gz
+E:\YeuBep\YeuBep\YeuBep\obj\Debug\net10.0\compressed\prbdt7chlf-{0}-xvbx8218fi-xvbx8218fi.gz
+E:\YeuBep\YeuBep\YeuBep\obj\Debug\net10.0\compressed\6lqt0w0q0l-{0}-rqzgl1jz8c-rqzgl1jz8c.gz

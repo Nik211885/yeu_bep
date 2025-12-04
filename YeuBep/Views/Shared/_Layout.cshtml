@@ -88,15 +88,15 @@
             </div>
             <div class="menu-section">
                 <div class="menu-label">Khám phá</div>
-                <a href="/categories" class="menu-item @ActiveSidebar("Categories")">
+                <a href="@Url.Action("GetCategories", "Category")" class="menu-item @ActiveSidebar("Category/GetCategories")">
                     <i class="fas fa-th-large"></i>
                     <span>Danh mục</span>
                 </a>
-                <a href="/trending" class="menu-item">
+                <a href="@Url.Action("GetTrending", "Category")" class="menu-item @ActiveSidebar("Category/GetTrending")">
                     <i class="fas fa-fire"></i>
                     <span>Xu hướng</span>
                 </a>
-                <a href="/chefs" class="menu-item">
+                <a href="@Url.Action("GetChefs", "Category")" class="menu-item @ActiveSidebar("Category/GetChefs")">
                     <i class="fas fa-user-chef"></i>
                     <span>Đầu bếp</span>
                 </a>
@@ -132,6 +132,19 @@
             {
                 <button class="menu-toggle" id="menuToggle">
                     <i class="fas fa-bars"></i>
+                </button>
+            }
+            @if (!isAuthenticated)
+            {
+                <a href="/" class="navbar-brand d-flex align-items-center">
+                    <div class="logo-icon me-2">
+                        <i class="fas fa-utensils"></i>
+                    </div>
+                    <span class="logo-text fw-bold">YeuBep</span>
+                </a>
+
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                    <span class="navbar-toggler-icon"></span>
                 </button>
             }
         </div>
@@ -174,9 +187,30 @@
             }
             else
             {
-                <a href= "@Url.Action("Login", "Account")" class="btn btn-primary d-flex align-items-center">
-                    <i class="fas fa-pencil-alt me-2"></i> Viết công thức mới
-                </a>
+                <nav class="navbar navbar-expand-lg navbar-light bg-white sticky-top">
+                    <div class="container-fluid">
+
+                        <div class="collapse navbar-collapse" id="navbarNav">
+                            <ul class="navbar-nav ms-auto">
+                                <li class="nav-item">
+                                    <a href="@Url.Action("GetCategories", "Category")" class="nav-link">Danh mục</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="@Url.Action("GetTrending", "Category")" class="nav-link">Phổ biến</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="@Url.Action("GetChefs", "Category")" class="nav-link">Đầu bếp</a>
+                                </li>
+                                <li class="nav-item ms-3">
+                                    <a href="@Url.Action("Login", "Account")" class="btn btn-write">
+                                        <i class="fas fa-pencil-alt me-2"></i> 
+                                        <span>Viết công thức mới</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </nav>
             }
         </div>
     </div>
