@@ -65,9 +65,12 @@ public static class DefaultSettingSeeder
                 context.UserRoles.Add(adminRole);
                 context.Users.Add(admin);
             }
-
             try
             {
+                if (!await context.Categories.AnyAsync())
+                {
+                    await context.ExecuteSqlSeederAsync("insert-categories.sql");
+                }
                 await context.Database.ExecuteSqlRawAsync("CREATE EXTENSION IF NOT EXISTS unaccent;");
             }
             catch (Exception ex)
@@ -77,6 +80,17 @@ public static class DefaultSettingSeeder
 
             await context.SaveChangesAsync();
         }
+    }
+    private static Task ExecuteSqlSeederAsync(this YeuBepDbContext dbContext, string path)
+    {
+        var sqlFolderPath  = Path.Combine(AppContext.BaseDirectory, "sql");
+        var filePath = Path.Combine(sqlFolderPath, path);
+        if (!File.Exists(filePath))
+        {
+            throw new FileNotFoundException($"Không tìm thấy file SQL: {filePath}");
+        }
+        string sql = File.ReadAllText(filePath);
+        return dbContext.Database.ExecuteSqlRawAsync(sql);
     }
 
 }

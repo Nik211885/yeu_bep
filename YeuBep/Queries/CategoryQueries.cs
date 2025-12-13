@@ -1,10 +1,14 @@
 ﻿using Mapster;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Org.BouncyCastle.Math.EC;
 using YeuBep.Controllers;
 using YeuBep.Data;
 using YeuBep.Entities;
+using YeuBep.Extensions;
+using YeuBep.ViewModels;
 using YeuBep.ViewModels.Account;
+using YeuBep.ViewModels.Category;
 
 namespace YeuBep.Queries;
 
@@ -45,4 +49,56 @@ public class CategoryQueries
             .ToListAsync();
         return chefs;
     }
+
+    public async Task<List<CategoryViewModel>> GetCategoriesAsync()
+    {
+        var categories = await _yeuBepDbContext.Categories
+            .Where(x => x.IsActive)
+            .OrderByDescending(x=>x.CountRecipe)
+            .ThenByDescending(x=>x.CreatedDate)
+            .ProjectToType<CategoryViewModel>()
+            .ToListAsync();
+        return categories;
+    }
+
+    public async Task<CategoryViewModel?> GetCategoryByIdAsync(string id)
+    {
+        var categories = await _yeuBepDbContext.Categories
+            .Where(x=>x.Id == id)
+            .ProjectToType<CategoryViewModel>()
+            .FirstOrDefaultAsync();
+        return categories;
+    }
+
+    public async Task<PaginationViewModel<CategoryViewModel>> GetCategoryPaginationAsync(int pageNumber, int pageSize,
+        Dictionary<string, string>? filterEqualTableViewModel)
+    {
+        var categories = await _yeuBepDbContext.Categories.AsNoTracking()
+            .OrderByDescending(r=>r.CreatedDate)
+            .ProjectToType<CategoryViewModel>()
+            .WhereEqualFilterValue(filterEqualTableViewModel)
+            .GetPaginationAsync(pageNumber, pageSize);
+        return categories;
+    }
+
+    public async Task<CategoryViewModel?> GetCategoryBySlugAsync(string slug)
+    {
+        var categoryBySlug = await _yeuBepDbContext.Categories.AsNoTracking()
+            .Where(x => x.Slug == slug)
+            .Where(x=>x.IsActive)
+            .ProjectToType<CategoryViewModel>()
+            .FirstOrDefaultAsync();
+        return categoryBySlug;
+    }
+
+    public async Task<List<CategoryViewModel>> GetCategoryByRecipeAsync(string recipeId)
+    {
+        var categories = await _yeuBepDbContext.Categories
+            .Where(x => x.IsActive)
+            .Where(x => x.CategoriesRecipes
+                .Any(cr => cr.RecipeId == recipeId))
+            .ProjectToType<CategoryViewModel>()
+            .ToListAsync();
+        return categories;
+    } 
 }

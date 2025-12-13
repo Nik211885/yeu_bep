@@ -1,4 +1,5 @@
 ﻿$(document).ready(function() {
+    const recipeId = $("#recipe-container").data("id");
     $('#main-upload').on('click', function(e) {
         const $target = $(e.target);
         
@@ -8,7 +9,6 @@
         const fileInput = document.getElementById('main-image-input');
         fileInput.click();
     });
-
     $('#main-image-input').on('change', function(e) {
         const file = e.target.files[0];
         if (file) {
@@ -354,6 +354,9 @@
                 imageDescription: stepImageDescription,
             });
         })
+        const categories = $("#selectedList .selected-item").map(function() {
+            return $(this).data('value');
+        }).get();
         return {
             title: title,
             description: description,
@@ -362,6 +365,7 @@
             timeToCook: timeToCook,
             ingredientPart: ingredientPart,
             detailInstructionSteps: detailInstructionSteps,
+            categories: categories,
         };
     }
     function setButton(res) {
@@ -427,7 +431,6 @@
     }
 
     $("#btn-send").on("click", function() {
-        const recipeId = $("#recipe-container").data("id");
         let url = "/api/recipe/send";
         if(recipeId){
             url += "?recipeId=" + recipeId;
@@ -441,7 +444,6 @@
         })
     })
     $("#btn-save").on("click", function() {
-        const recipeId = $("#recipe-container").data("id");
         let url = "";
         if(recipeId){
             url = "/api/recipe/update?recipeId=" + recipeId;
@@ -457,7 +459,6 @@
         })
     })
     $("#btn-delete").on("click", function() {
-        const recipeId = $("#recipe-container").data("id");
         if(recipeId){
             const url = "/api/recipe/delete?recipeId=" + recipeId;
             $.apiHelper.delete(url,{
@@ -471,7 +472,6 @@
         }
     })
     $("#unpublish").on("click", function() {
-        const recipeId = $("#recipe-container").data("id");
         if(recipeId){
             const url = "/api/recipe/unpublish?recipeId=" + recipeId;
             $.apiHelper.pos(url,null,{
@@ -487,7 +487,6 @@
     
     // btn for admin
     $("#btn-approve").on("click", function() {
-        const recipeId = $("#recipe-container").data("id");
         if(recipeId){
             const url = "/api/recipe/approve?recipeId=" + recipeId;
             $.apiHelper.post(url,{}, {
@@ -498,7 +497,6 @@
         }
     })
     $("btn-unapprove").on("click", function() {
-        const recipeId = $("#recipe-container").data("id");
         if(recipeId){
             const url = "/api/recipe/reject?recipeId=" + recipeId;
             $.apiHelper.post(url,{}, {
@@ -509,4 +507,63 @@
         }
     })
     setButton();
+    
+    // categories event
+    let categories = [];
+    $.apiHelper.get('/api/categories/list', {
+        success: function(res) {
+            categories = res;
+            const dropdown = $("#dropdown");
+            $.each(categories, function(index, category) {
+                dropdown.append($('<option>', {
+                    value: category.id,
+                    text: category.title 
+                }));
+            });
+        }
+    });
+    if(recipeId){
+        $.apiHelper.get('/api/categories/recipe?recipeId=' + recipeId, {
+            success: function(res) {
+                res.forEach(function(category) {
+                    addToSelectedList(category.id, category.title);
+                })
+            }
+        });
+    }
+    $('#dropdown').on('change', function() {
+        const selectedValue = $(this).val();
+        const selectedText = $(this).find('option:selected').text();
+        if (selectedValue && !isAlreadySelected(selectedValue)) {
+            addToSelectedList(selectedValue, selectedText);
+            $(this).find('option:selected').remove();
+            $(this).val("");
+        }
+    });
+    
+    function addToSelectedList(value, text) {
+        const item = $('<span></span>')
+            .addClass('selected-item')
+            .text(text)
+            .attr('data-value', value);
+        if($("#dropdown").val()) {
+            item.on('click', function () {
+                removeFromSelectedList($(this));
+            });
+        }
+        $('#selectedList').append(item);
+    }
+    
+    function removeFromSelectedList(item) {
+        const value = item.attr('data-value');
+        const text = item.text();
+        const option = $('<option></option>').val(value).text(text);
+        $('#dropdown').append(option);
+        item.remove();
+    }
+    function isAlreadySelected(value) {
+        return $('#selectedList .selected-item').filter(function() {
+            return $(this).attr('data-value') === value;
+        }).length > 0;
+    }
 });

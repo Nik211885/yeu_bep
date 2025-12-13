@@ -154,6 +154,75 @@ namespace YeuBep.Data.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
+            modelBuilder.Entity("YeuBep.Entities.CategoriesRecipes", b =>
+                {
+                    b.Property<string>("CategoryId")
+                        .HasColumnType("text");
+
+                    b.Property<string>("RecipeId")
+                        .HasColumnType("text");
+
+                    b.HasKey("CategoryId", "RecipeId");
+
+                    b.HasIndex("RecipeId");
+
+                    b.ToTable("CategoriesRecipes");
+                });
+
+            modelBuilder.Entity("YeuBep.Entities.Category", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Avatar")
+                        .IsRequired()
+                        .HasMaxLength(500)
+                        .HasColumnType("character varying(500)");
+
+                    b.Property<int>("CountRecipe")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasDefaultValue(0);
+
+                    b.Property<string>("CreatedById")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<DateTimeOffset>("CreatedDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("boolean");
+
+                    b.Property<string>("ModifiedById")
+                        .HasColumnType("text");
+
+                    b.Property<DateTimeOffset?>("ModifiedDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("Slug")
+                        .IsRequired()
+                        .HasMaxLength(110)
+                        .HasColumnType("character varying(110)");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CreatedById");
+
+                    b.HasIndex("ModifiedById");
+
+                    b.ToTable("Categories", (string)null);
+                });
+
             modelBuilder.Entity("YeuBep.Entities.Comment", b =>
                 {
                     b.Property<string>("Id")
@@ -374,6 +443,9 @@ namespace YeuBep.Data.Migrations
                     b.Property<int>("TotalRatingPoint")
                         .HasColumnType("integer");
 
+                    b.Property<long>("Views")
+                        .HasColumnType("bigint");
+
                     b.HasKey("Id");
 
                     b.HasIndex("CreatedById");
@@ -516,6 +588,38 @@ namespace YeuBep.Data.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("YeuBep.Entities.CategoriesRecipes", b =>
+                {
+                    b.HasOne("YeuBep.Entities.Category", null)
+                        .WithMany("CategoriesRecipes")
+                        .HasForeignKey("CategoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("YeuBep.Entities.Recipe", null)
+                        .WithMany("CategoriesRecipes")
+                        .HasForeignKey("RecipeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("YeuBep.Entities.Category", b =>
+                {
+                    b.HasOne("YeuBep.Entities.User", "CreatedBy")
+                        .WithMany()
+                        .HasForeignKey("CreatedById")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("YeuBep.Entities.User", "ModifiedBy")
+                        .WithMany()
+                        .HasForeignKey("ModifiedById");
+
+                    b.Navigation("CreatedBy");
+
+                    b.Navigation("ModifiedBy");
                 });
 
             modelBuilder.Entity("YeuBep.Entities.Comment", b =>
@@ -685,8 +789,15 @@ namespace YeuBep.Data.Migrations
                     b.Navigation("ModifiedBy");
                 });
 
+            modelBuilder.Entity("YeuBep.Entities.Category", b =>
+                {
+                    b.Navigation("CategoriesRecipes");
+                });
+
             modelBuilder.Entity("YeuBep.Entities.Recipe", b =>
                 {
+                    b.Navigation("CategoriesRecipes");
+
                     b.Navigation("Comments");
 
                     b.Navigation("Favorites");

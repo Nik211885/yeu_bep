@@ -5,10 +5,17 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
-
+  
   <ItemGroup>
     <Folder Include="Views\Comment\" />
     <Folder Include="Views\Rating\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Data\Seeder\sql\*.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <Link>sql\%(Filename)%(Extension)</Link>
+    </Content>
   </ItemGroup>
 
   <ItemGroup>

@@ -4,12 +4,12 @@ namespace YeuBep.Helpers;
 
 public static class StringHelper
 {
-    public static string Split20Word(string source)
+    public static string SplitWord(string source, int length = 20)
     {
         var words = source.Split(' ', StringSplitOptions.RemoveEmptyEntries);
-        if (words.Length > 20)
+        if (words.Length > length)
         {
-            return string.Join(' ', words.Take(20)) + "...";
+            return string.Join(' ', words.Take(length)) + "...";
         }
         else
         {

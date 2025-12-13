@@ -1,11 +1,10 @@
-﻿using YeuBep.Const;
+﻿using Hangfire;
+using Microsoft.EntityFrameworkCore;
 using YeuBep.Data;
 using YeuBep.Extensions;
 using YeuBep.Queries;
 using YeuBep.Services;
 using YeuBep.ViewModels;
-using YeuBep.ViewModels.Recipe;
-
 namespace YeuBep.Controllers;
 using Microsoft.AspNetCore.Mvc;
 
@@ -32,6 +31,11 @@ public class RecipeController : Controller
         {
             return Redirect("/Error/NotFoundPage");
         }
+        BackgroundJob.Enqueue<YeuBepDbContext>(s => 
+            s.Recipes.Where(x=>x.Id == recipe.Value.Id)
+                .ExecuteUpdateAsync(x=>x.SetProperty(y=>y.Views, 
+                    z => z.Views + 1))  
+            );
         return View("Recipe", recipe.Value);
     }
 

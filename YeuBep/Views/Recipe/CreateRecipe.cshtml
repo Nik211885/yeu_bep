@@ -34,7 +34,7 @@
         return (style, cssClass);
     }
 
-    string readonlyInput()
+    string ReadonlyInput()
     {
         if (isReadOnlyAdmin)
         {
@@ -97,7 +97,7 @@
         <div class="main-content">
             <div class="title-section">
                 <div class="form-group">
-                    <input id="title" name="title" type="text" class="recipe-title-input" placeholder="Tên món: Món canh bí ngon nhất nhà mình" value="@(Model?.Title)" @readonlyInput()>
+                    <input id="title" name="title" type="text" class="recipe-title-input" placeholder="Tên món: Món canh bí ngon nhất nhà mình" value="@(Model?.Title)" @ReadonlyInput()>
                 </div>
                 
                 <div class="author-info">
@@ -130,14 +130,25 @@
                 </div>
 
                 <div class="form-group">
-                    <textarea id="description" class="recipe-description-input" placeholder="Hãy chia sẻ với mọi người về món này của bạn nhé - ai đã từng cắn hưởng cho bạn, bạn sao ra được món này..." @readonlyInput()>@Model?.Description</textarea>
+                    <textarea id="description" class="recipe-description-input" placeholder="Hãy chia sẻ với mọi người về món này của bạn nhé - ai đã từng cắn hưởng cho bạn, bạn sao ra được món này..." @ReadonlyInput()>@Model?.Description</textarea>
+                </div>
+                <div class="selection-container py-5">
+                    @if (!isReadOnlyAdmin)
+                    {
+                        <h4>🍕 Chọn danh mục phù hợp công thức của bạn!🍜</h4>
+                        <select id="dropdown">
+                            <option value="">Chọn một giá trị</option>
+                        </select>
+                    }
+                    <h4>Danh mục đã chọn:</h4>
+                    <div class="selected-list" id="selectedList"></div>
                 </div>
                 @{
                     var (styleMainUpload, classMainUpload) = GetCssAndClass(Model?.Avatar);
                 }
                 <div class="upload-section @classMainUpload" id="main-upload" style="@styleMainUpload">
-                    <input type="hidden" id="main-upload-image-url" value="@Model?.Avatar" @readonlyInput()/>
-                    <input type="file" id="main-image-input" accept="image/*" @readonlyInput()>
+                    <input type="hidden" id="main-upload-image-url" value="@Model?.Avatar" @ReadonlyInput()/>
+                    <input type="file" id="main-image-input" accept="image/*" @ReadonlyInput()>
                     @if (!isReadOnlyAdmin)
                     {
                         <button class="remove-image" id="remove-main-image">✕</button>
@@ -161,7 +172,7 @@
                                 <span class="toggle-icon">−</span>
                             </div>
                             <div class="section-meta">
-                                <input id="portionCount" type="text" class="meta-input" placeholder="2 người" value="@(Model == null ? "3 người" : Model.PortionCount)" @readonlyInput()>
+                                <input id="portionCount" type="text" class="meta-input" placeholder="2 người" value="@(Model == null ? "3 người" : Model.PortionCount)" @ReadonlyInput()>
                             </div>
                         </div>
                         <div class="section-content" id="ingredients-sections">
@@ -172,7 +183,7 @@
                                         foreach (var ingredient in Model.IngredientPart)
                                         {
                                             <div class="ingredient-section-header">
-                                                <input type="text" class="ingredient-section-title" placeholder="Phần 1" value="@ingredient.Title" @readonlyInput()>
+                                                <input type="text" class="ingredient-section-title" placeholder="Phần 1" value="@ingredient.Title" @ReadonlyInput()>
                                                 @if (!isReadOnlyAdmin)
                                                 {
                                                     <button class="delete-section-btn">🗑️</button>
@@ -183,7 +194,7 @@
                                                 {
                                                     <div class="list-item">
                                                         <span class="drag-handle">☰</span>
-                                                        <input type="text" class="item-input ingredient" placeholder="Nhập nguyên liệu..." value="@ingre" @readonlyInput()>
+                                                        <input type="text" class="item-input ingredient" placeholder="Nhập nguyên liệu..." value="@ingre" @ReadonlyInput()>
                                                         @if (!isReadOnlyAdmin)
                                                         {
                                                             <button class="more-btn">⋯</button>
@@ -234,7 +245,7 @@
                                 <span class="toggle-icon">−</span>
                             </div>
                             <div class="section-meta">
-                                <input id="timeToCook" type="text" class="meta-input" placeholder="1 tiếng 30 phút" value="@(Model == null ? "1 tiếng 30 phút" : Model.TimeToCook)" @readonlyInput()>
+                                <input id="timeToCook" type="text" class="meta-input" placeholder="1 tiếng 30 phút" value="@(Model == null ? "1 tiếng 30 phút" : Model.TimeToCook)" @ReadonlyInput()>
                             </div>
                         </div>
                         <div class="section-content">
@@ -248,13 +259,13 @@
                                         <div class="step-item">
                                             <div class="step-number">@step</div>
                                             <div class="step-content">
-                                                <textarea class="step-textarea" placeholder="Nhập hướng dẫn cho bước này..." @readonlyInput()>@instructionStep.Instructions</textarea>
+                                                <textarea class="step-textarea" placeholder="Nhập hướng dẫn cho bước này..." @ReadonlyInput()>@instructionStep.Instructions</textarea>
                                                 @{
                                                     var (styleImageInstruction, classImageInstruction) = GetCssAndClass(instructionStep.ImageDescription);
                                                 }
                                                 <div class="image-placeholder @classImageInstruction" data-step="@step" style="@styleImageInstruction">
-                                                    <input type="hidden" class="step-image-description" value="@instructionStep.ImageDescription" @readonlyInput()/>
-                                                    <input type="file" class="step-image-input" accept="image/*" @readonlyInput()>
+                                                    <input type="hidden" class="step-image-description" value="@instructionStep.ImageDescription" @ReadonlyInput()/>
+                                                    <input type="file" class="step-image-input" accept="image/*" @ReadonlyInput()>
                                                     @if (!isReadOnlyAdmin)
                                                     {
                                                         <button class="remove-step-image">✕</button>

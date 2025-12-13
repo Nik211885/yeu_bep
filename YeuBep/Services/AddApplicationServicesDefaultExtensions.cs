@@ -11,6 +11,7 @@ public  static class AddApplicationServicesDefaultExtensions
             services.AddScoped<FavoriteServices>();
             services.AddScoped<CommentServices>();
             services.AddScoped<NotificationServices>();
+            services.AddScoped<CategoryServices>();
             return services;
         }
     }

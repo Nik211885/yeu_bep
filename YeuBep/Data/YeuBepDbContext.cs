@@ -17,6 +17,8 @@ public class YeuBepDbContext
     public DbSet<Recipe> Recipes { get; set; }
     public DbSet<Rating> Ratings { get; set; }
     public DbSet<Notification> Notifications { get; set; }
+    public DbSet<Category> Categories { get; set; }
+    public DbSet<CategoriesRecipes> CategoriesRecipes { get; set; }
 
     protected override void OnModelCreating(ModelBuilder builder)
     {

@@ -3,8 +3,10 @@
 public class NameColumnAttribute : Attribute
 {
     public string NameColumn { get; }
-    public NameColumnAttribute(string nameColumn)
+    public bool IsAdvancedSearch { get; set; } = false;
+    public NameColumnAttribute(string nameColumn ,bool isAdvancedSearch = false)
     {
         NameColumn = nameColumn;
+        IsAdvancedSearch = isAdvancedSearch;
     }
 }

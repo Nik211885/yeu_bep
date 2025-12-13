@@ -1,0 +1,71 @@
+﻿@model (YeuBep.ViewModels.Category.CategoryViewModel, PaginationViewModel<YeuBep.ViewModels.Recipe.RecipeViewModel>)
+@{
+    var category = Model.Item1;
+    var recipes = Model.Item2;
+}
+
+<link rel="stylesheet" href="~/css/categories/category-detail.css"/>
+
+<div class="info-category">
+    <div class="category-profile-container">
+        <div class="category-profile-header">
+            <div class="category-profile-avatar">
+                <img src="@category.Avatar" alt="@category.Title"/>
+            </div>
+
+            <div class="category-profile-details">
+                <h1 class="category-profile-name">
+                    @category.Title
+                </h1>
+
+                <div class="category-profile-description">
+                    <i class="bi bi-info-circle"></i>
+                    @category.Description
+                </div>
+
+                <div class="category-profile-meta">
+                    <div class="category-meta-item">
+                        <i class="bi bi-calendar3"></i>
+                        <span>@category.CreatedDate.ToString("dd/MM/yyyy")</span>
+                    </div>
+                </div>
+
+                <div class="category-profile-stats">
+                    <div class="category-stat-item">
+                        <span class="category-stat-number">@category.CountRecipe</span>
+                        <span class="category-stat-label">Công thức</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="recipe-section-header">
+    <h2 class="recipe-section-title">
+        Công Thức Nấu Ăn
+    </h2>
+    <p class="recipe-section-subtitle">
+        Khám phá @recipes.PaginationView.TotalCount công thức tuyệt vời trong danh mục @category.Title
+    </p>
+</div>
+
+<div class="recipe-container">
+    @if (recipes.Items.Any())
+    {
+        @foreach (var recipe in recipes.Items)
+        {
+            @(await Component.InvokeAsync("RecipeComponent", recipe))
+        }
+    }
+    else
+    {
+        <div class="no-recipes-state">
+            <div class="no-recipes-icon">🍳</div>
+            <h3 class="no-recipes-title">Chưa có công thức nào lên sóng</h3>
+            <p class="no-recipes-text">Danh mục @category.Title chưa có công thức nào. Hãy quay lại sau nhé!</p>
+        </div>
+    }
+</div>
+
+@(await Component.InvokeAsync("PaginationComponent", recipes.PaginationView))

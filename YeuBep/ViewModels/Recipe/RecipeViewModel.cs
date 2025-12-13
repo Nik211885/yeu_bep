@@ -39,5 +39,7 @@ public class RecipeViewModel
     public ICollection<DetailInstructionStep> DetailInstructionSteps { get; set; }
     [NameColumn("Trạng thái")]
     public RecipeStatus RecipeStatus { get; set; }
+    [IgnoreColumn]
+    public long Views {get; set;}
     
 }

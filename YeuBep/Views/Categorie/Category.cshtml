@@ -1,4 +1,7 @@
-﻿<link rel="stylesheet" href="~/css/categories/caregory.css" />
+﻿@using Org.BouncyCastle.Crypto.Engines
+@using YeuBep.Helpers
+@model List<YeuBep.ViewModels.Category.CategoryViewModel>
+<link rel="stylesheet" href="~/css/categories/caregory.css" />
 
 <div class="page-header">
     <h1 class="page-title">Danh Mục Món Ăn</h1>
@@ -25,7 +28,7 @@
     <!-- Stats Bar -->
     <div class="stats-bar">
         <div class="total-count">
-            <strong>24 danh mục</strong> có sẵn
+            <strong>@Model.Count danh mục</strong> có sẵn
         </div>
         <select class="sort-dropdown">
             <option>Sắp xếp: Phổ biến</option>
@@ -37,234 +40,35 @@
     <!-- Categories Grid -->
     <div class="categories-grid">
         <!-- Category 1 -->
-        <div class="category-card-wrapper">
-            <span class="popular-badge">Phổ biến</span>
-            <a href="#" class="category-card">
-                <div class="category-image">🍜</div>
-                <div class="category-content">
-                    <h3 class="category-name">Món Việt Nam</h3>
-                    <p class="category-description">Các món ăn truyền thống Việt Nam từ Bắc vào Nam</p>
-                    <div class="category-meta">
-                        <span class="recipe-count">
-                            <i class="bi bi-book"></i> 248 công thức
-                        </span>
-                        <span class="view-recipes-link">
-                            Xem món <i class="bi bi-arrow-right"></i>
-                        </span>
-                    </div>
+        @{
+            int topPopularcategory = 0;
+            foreach (var category in Model)
+            {
+                topPopularcategory += 1;
+                <div class="category-card-wrapper">
+                    <a href="@Url.Action("Slug", "Category", new {slug = category.Slug})" class="category-card">
+                        @if (topPopularcategory <= 3)
+                        {
+                            <span class="popular-badge">Phổ biến</span>
+                        }
+                        <div class="category-image">
+                            <img class="category-image" src="@category.Avatar" alt=""/>
+                        </div>
+                        <div class="category-content">
+                            <h3 class="category-name">@category.Title</h3>
+                            <p class="category-description">@StringHelper.SplitWord(category.Description,10)</p>
+                            <div class="category-meta">
+                                <span class="recipe-count">
+                                    <i class="bi bi-book"></i> @category.CountRecipe công thức
+                                </span>
+                                <span class="view-recipes-link">
+                                    Xem món <i class="bi bi-arrow-right"></i>
+                                </span>
+                            </div>
+                        </div>
+                    </a>
                 </div>
-            </a>
-        </div>
-
-        <!-- Category 2 -->
-        <div class="category-card-wrapper">
-            <span class="popular-badge">Phổ biến</span>
-            <a href="#" class="category-card">
-                <div class="category-image">🍝</div>
-                <div class="category-content">
-                    <h3 class="category-name">Món Ý</h3>
-                    <p class="category-description">Pasta, pizza và các món ăn Italia chính thống</p>
-                    <div class="category-meta">
-                        <span class="recipe-count">
-                            <i class="bi bi-book"></i> 156 công thức
-                        </span>
-                        <span class="view-recipes-link">
-                            Xem món <i class="bi bi-arrow-right"></i>
-                        </span>
-                    </div>
-                </div>
-            </a>
-        </div>
-
-        <!-- Category 3 -->
-        <div class="category-card-wrapper">
-            <a href="#" class="category-card">
-                <div class="category-image">🍱</div>
-                <div class="category-content">
-                    <h3 class="category-name">Món Nhật</h3>
-                    <p class="category-description">Sushi, ramen và ẩm thực Nhật Bản tinh tế</p>
-                    <div class="category-meta">
-                        <span class="recipe-count">
-                            <i class="bi bi-book"></i> 132 công thức
-                        </span>
-                        <span class="view-recipes-link">
-                            Xem món <i class="bi bi-arrow-right"></i>
-                        </span>
-                    </div>
-                </div>
-            </a>
-        </div>
-
-        <!-- Category 4 -->
-        <div class="category-card-wrapper">
-            <a href="#" class="category-card">
-                <div class="category-image">🥗</div>
-                <div class="category-content">
-                    <h3 class="category-name">Món Healthy</h3>
-                    <p class="category-description">Các món ăn lành mạnh, giàu dinh dưỡng</p>
-                    <div class="category-meta">
-                        <span class="recipe-count">
-                            <i class="bi bi-book"></i> 98 công thức
-                        </span>
-                        <span class="view-recipes-link">
-                            Xem món <i class="bi bi-arrow-right"></i>
-                        </span>
-                    </div>
-                </div>
-            </a>
-        </div>
-
-        <!-- Category 5 -->
-        <div class="category-card-wrapper">
-            <span class="popular-badge">Phổ biến</span>
-            <a href="#" class="category-card">
-                <div class="category-image">🍰</div>
-                <div class="category-content">
-                    <h3 class="category-name">Món Tráng Miệng</h3>
-                    <p class="category-description">Bánh ngọt, kem và các món dessert hấp dẫn</p>
-                    <div class="category-meta">
-                        <span class="recipe-count">
-                            <i class="bi bi-book"></i> 187 công thức
-                        </span>
-                        <span class="view-recipes-link">
-                            Xem món <i class="bi bi-arrow-right"></i>
-                        </span>
-                    </div>
-                </div>
-            </a>
-        </div>
-
-        <!-- Category 6 -->
-        <div class="category-card-wrapper">
-            <a href="#" class="category-card">
-                <div class="category-image">🥘</div>
-                <div class="category-content">
-                    <h3 class="category-name">Món Hàn Quốc</h3>
-                    <p class="category-description">Kimchi, BBQ và ẩm thực Hàn Quốc đậm đà</p>
-                    <div class="category-meta">
-                        <span class="recipe-count">
-                            <i class="bi bi-book"></i> 94 công thức
-                        </span>
-                        <span class="view-recipes-link">
-                            Xem món <i class="bi bi-arrow-right"></i>
-                        </span>
-                    </div>
-                </div>
-            </a>
-        </div>
-
-        <!-- Category 7 -->
-        <div class="category-card-wrapper">
-            <a href="#" class="category-card">
-                <div class="category-image">🌮</div>
-                <div class="category-content">
-                    <h3 class="category-name">Món Mexico</h3>
-                    <p class="category-description">Tacos, burrito và hương vị Mexico sôi động</p>
-                    <div class="category-meta">
-                        <span class="recipe-count">
-                            <i class="bi bi-book"></i> 76 công thức
-                        </span>
-                        <span class="view-recipes-link">
-                            Xem món <i class="bi bi-arrow-right"></i>
-                        </span>
-                    </div>
-                </div>
-            </a>
-        </div>
-
-        <!-- Category 8 -->
-        <div class="category-card-wrapper">
-            <a href="#" class="category-card">
-                <div class="category-image">🍛</div>
-                <div class="category-content">
-                    <h3 class="category-name">Món Thái</h3>
-                    <p class="category-description">Cà ri, pad thai và ẩm thực Thái Lan cay nồng</p>
-                    <div class="category-meta">
-                        <span class="recipe-count">
-                            <i class="bi bi-book"></i> 89 công thức
-                        </span>
-                        <span class="view-recipes-link">
-                            Xem món <i class="bi bi-arrow-right"></i>
-                        </span>
-                    </div>
-                </div>
-            </a>
-        </div>
-
-        <!-- Category 9 -->
-        <div class="category-card-wrapper">
-            <a href="#" class="category-card">
-                <div class="category-image">🍔</div>
-                <div class="category-content">
-                    <h3 class="category-name">Fast Food</h3>
-                    <p class="category-description">Burger, sandwich và các món ăn nhanh</p>
-                    <div class="category-meta">
-                        <span class="recipe-count">
-                            <i class="bi bi-book"></i> 112 công thức
-                        </span>
-                        <span class="view-recipes-link">
-                            Xem món <i class="bi bi-arrow-right"></i>
-                        </span>
-                    </div>
-                </div>
-            </a>
-        </div>
-
-        <!-- Category 10 -->
-        <div class="category-card-wrapper">
-            <a href="#" class="category-card">
-                <div class="category-image">🍲</div>
-                <div class="category-content">
-                    <h3 class="category-name">Món Soup & Lẩu</h3>
-                    <p class="category-description">Các loại soup, lẩu và món nước ấm áp</p>
-                    <div class="category-meta">
-                        <span class="recipe-count">
-                            <i class="bi bi-book"></i> 145 công thức
-                        </span>
-                        <span class="view-recipes-link">
-                            Xem món <i class="bi bi-arrow-right"></i>
-                        </span>
-                    </div>
-                </div>
-            </a>
-        </div>
-
-        <!-- Category 11 -->
-        <div class="category-card-wrapper">
-            <a href="#" class="category-card">
-                <div class="category-image">☕</div>
-                <div class="category-content">
-                    <h3 class="category-name">Đồ Uống</h3>
-                    <p class="category-description">Trà, cà phê, smoothie và các loại nước giải khát</p>
-                    <div class="category-meta">
-                        <span class="recipe-count">
-                            <i class="bi bi-book"></i> 167 công thức
-                        </span>
-                        <span class="view-recipes-link">
-                            Xem món <i class="bi bi-arrow-right"></i>
-                        </span>
-                    </div>
-                </div>
-            </a>
-        </div>
-
-        <!-- Category 12 -->
-        <div class="category-card-wrapper">
-            <a href="#" class="category-card">
-                <div class="category-image">🥟</div>
-                <div class="category-content">
-                    <h3 class="category-name">Dim Sum & Điểm Tâm</h3>
-                    <p class="category-description">Há cảo, xíu mại và các món điểm tâm Trung Hoa</p>
-                    <div class="category-meta">
-                        <span class="recipe-count">
-                            <i class="bi bi-book"></i> 58 công thức
-                        </span>
-                        <span class="view-recipes-link">
-                            Xem món <i class="bi bi-arrow-right"></i>
-                        </span>
-                    </div>
-                </div>
-            </a>
-        </div>
+            }
+        }
     </div>
 </div>

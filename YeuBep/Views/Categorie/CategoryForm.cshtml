@@ -1,0 +1,95 @@
+﻿@model YeuBep.ViewModels.Category.CreateCategoryViewModel?
+<link rel="stylesheet" href="~/css/categories/category-form.css" />
+
+@{
+    var isUpdate = Model is null;
+    var title = isUpdate ? "Tạo Danh Mục Mới" : "Cập nhật danh mục";
+    var description = isUpdate ? "Thêm danh mục mới cho hệ thống" : "Cập nhât mục mới cho hệ thống";
+
+    string ValueIfModelUpdate(string? value)
+    {
+        return string.IsNullOrWhiteSpace(value) ? string.Empty : value;
+    }
+}
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-lg-8 col-md-10">
+            <div class="profile-card">
+                <div class="profile-header">
+                    <div class="avatar-wrapper">
+                        <img src="@(string.IsNullOrWhiteSpace(ValueIfModelUpdate(Model?.Avatar)) 
+                                      ? "https://ui-avatars.com/api/?name=Category&size=150&background=667eea&color=fff" 
+                                      : Model!.Avatar)" 
+                             alt="Category Avatar" 
+                             class="avatar-preview" 
+                             id="avatarPreview">
+                        <button type="button" class="avatar-upload-btn" onclick="$('#avatarInput').click()">
+                            <i class="fas fa-camera"></i>
+                        </button>
+                    </div>
+                    <h4 class="mb-0" style="color: white; position: relative; z-index: 1;">@title</h4>
+                    <p class="mb-0 mt-2" style="color: rgba(255,255,255,0.85); font-size: 14px; position: relative; z-index: 1;">@description</p>
+                </div>
+                <div class="profile-body">
+                    <form asp-action="@(isUpdate ? "CreateCategory" : "UpdateCategory")" asp-controller="CategoryManager" method="post">
+                        <div asp-validation-summary="ModelOnly" class="alert alert-danger" role="alert"></div>
+                        <input type="file" 
+                               id="avatarInput" 
+                               name="AvatarFile" 
+                               accept="image/*" 
+                               style="display: none;">
+                        
+                        <input type="hidden" id="avatar" asp-for="Avatar" value="@ValueIfModelUpdate(Model?.Avatar)">
+                        <div class="mb-4">
+                            <label asp-for="Title" class="form-label">
+                                <i class="fas fa-heading me-2"></i>Tiêu Đề <span class="text-danger">*</span>
+                            </label>
+                            <div class="input-icon">
+                                <i class="fas fa-heading"></i>
+                                <input asp-for="Title" 
+                                       class="form-control" 
+                                       placeholder="Nhập tiêu đề danh mục"
+                                       value="@ValueIfModelUpdate(Model?.Title)">
+                            </div>
+                            <span asp-validation-for="Title" class="text-danger"></span>
+                        </div>
+                        <div class="mb-4">
+                            <label asp-for="Description" class="form-label">
+                                <i class="fas fa-align-left me-2"></i>Mô Tả
+                            </label>
+                            <textarea asp-for="Description" 
+                                      class="form-control" 
+                                      placeholder="Nhập mô tả cho danh mục..."
+                                      rows="5">@ValueIfModelUpdate(Model?.Description)</textarea>
+                            <span asp-validation-for="Description" class="text-danger"></span>
+                        </div>
+                        <div class="row g-3 mt-4">
+                            <div class="col-md-6">
+                                <a asp-action="Index" asp-controller="Home" class="btn btn-cancel">
+                                    <i class="fas fa-times me-2"></i>Hủy
+                                </a>
+                            </div>
+                            <div class="col-md-6">
+                                <button type="submit" class="btn btn-save">
+                                    <i class="fas fa-plus-circle me-2"></i>@title
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    (function loadCategoryForm() {
+        if (typeof $ === 'undefined') {
+            setTimeout(loadCategoryForm, 50);
+            return;
+        }
+        const script = document.createElement('script');
+        script.src = '/js/category/category-form.js';
+        document.body.appendChild(script);
+    })();
+</script>

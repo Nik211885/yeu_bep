@@ -44,7 +44,6 @@ public static class QueriesExtensions
             {
                 var key = kv.Key;
                 var filterValue = kv.Value?.ToLower();
-                
                 if (string.IsNullOrWhiteSpace(filterValue))
                     continue;
                 var matchedProp = columnFilter.FirstOrDefault(p => 

@@ -19,4 +19,5 @@ public class CreateRecipeViewModel
     public ICollection<IngredientPart> IngredientPart { get; set; }
     [Required(ErrorMessage = "Các bước bắt buộc")]
     public ICollection<DetailInstructionStep> DetailInstructionSteps { get; set; }
+    public ICollection<string>? Categories { get; set; }
 }

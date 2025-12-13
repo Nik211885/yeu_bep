@@ -25,16 +25,21 @@ public class RecipeServices
     public async Task<Result<RecipeViewModel>> CreateRecipeAsync(CreateRecipeViewModel model)
     {
         var recipe = model.Adapt<Recipe>();
+        recipe.Views = 0;
         recipe.RecipeStatus = RecipeStatus.Draft;
         _dbContext.Recipes.Add(recipe);
         recipe.Slug = model.Title.GeneratorSlug();
+        await _dbContext.SaveChangesAsync();
+        await AddCategoriesForRecipeAsync(model.Categories?.ToList(), recipe.Id);
         await _dbContext.SaveChangesAsync();
         return recipe.Adapt<RecipeViewModel>();
     }
 
     public async Task<Result<RecipeViewModel>> UpdateRecipeAsync(string recipeId, CreateRecipeViewModel model)
     {
-        var recipe = await _dbContext.Recipes.Where(x => x.Id == recipeId).FirstOrDefaultAsync();
+        var recipe = await _dbContext.Recipes.Where(x => x.Id == recipeId)
+            .Include(x=>x.CategoriesRecipes)
+            .FirstOrDefaultAsync();
         if (recipe is null)
         {
             return Result.Fail("Không tìm thấy công thức để cập nhật");
@@ -53,6 +58,9 @@ public class RecipeServices
         {
             recipe.Title = model.Title.GeneratorSlug();
         }
+        await RemoveCategoryForRecipeAsync(recipe.CategoriesRecipes
+            .Select(x => x.CategoryId).ToList(), recipeId);
+        await AddCategoriesForRecipeAsync(model.Categories?.ToList(), recipeId);
         _dbContext.Recipes.Update(recipe);
         await _dbContext.SaveChangesAsync();
         return recipe.Adapt<RecipeViewModel>();
@@ -82,7 +90,9 @@ public class RecipeServices
 
     public async Task<Result> DeleteRecipeAsync(string recipeId)
     {
-        var recipe = await _dbContext.Recipes.Where(x => x.Id == recipeId).FirstOrDefaultAsync();
+        var recipe = await _dbContext.Recipes.Where(x => x.Id == recipeId)
+            .Include(x=>x.CategoriesRecipes)
+            .FirstOrDefaultAsync();
         if (recipe is null)
         {
             return Result.Fail("Không tìm thấy công thức để cập nhật");
@@ -91,6 +101,8 @@ public class RecipeServices
         {
             return Result.Fail("Bạn không có quyền truy cập dữ liệu này");
         }
+        await RemoveCategoryForRecipeAsync(recipe.CategoriesRecipes
+            .Select(x => x.CategoryId).ToList(), recipeId);
         _dbContext.Recipes.Remove(recipe);
         await _dbContext.SaveChangesAsync();
         return Result.Ok();
@@ -180,5 +192,44 @@ public class RecipeServices
         _dbContext.Recipes.Update(recipe);
         await _dbContext.SaveChangesAsync();
         return Result.Ok();
+    }
+
+    private async Task AddCategoriesForRecipeAsync(List<string>? categoriesId, string recipeId)
+    {
+        // in here you can use execute add with where clause
+        foreach (var categoryId in categoriesId ?? [])
+        {
+            var category = await _dbContext.Categories.Where(x=>x.Id == categoryId)
+                .Where(x=>x.IsActive)
+                .FirstOrDefaultAsync();
+            if (category is null) continue;
+            category.CountRecipe += 1;
+            var categoryRecipe = new CategoriesRecipes()
+            {
+                RecipeId = recipeId,
+                CategoryId = categoryId
+            };
+            _dbContext.Categories.Update(category);
+            _dbContext.CategoriesRecipes.Add(categoryRecipe);
+        }
+    }
+
+    public async Task RemoveCategoryForRecipeAsync(List<string> categoriesId, string recipeId)
+    {
+        //in here you can use execute delete with where clause
+        foreach (var categoryId in categoriesId)
+        {
+            var category = await _dbContext.Categories.Where(x=>x.Id == categoryId)
+                .FirstOrDefaultAsync();
+            if (category is null) continue;
+            category.CountRecipe -= 1;
+            _dbContext.Categories.Update(category);
+            var categoryRecipe =
+                await _dbContext.CategoriesRecipes
+                    .Where(x => x.CategoryId == categoryId && recipeId == x.RecipeId)
+                    .FirstOrDefaultAsync();
+            if(categoryRecipe is null) continue;
+            _dbContext.CategoriesRecipes.Remove(categoryRecipe);
+        }
     }
 }

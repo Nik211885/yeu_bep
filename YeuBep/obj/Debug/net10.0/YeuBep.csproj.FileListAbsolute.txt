@@ -285,7 +285,6 @@ E:\YeuBep\YeuBep\YeuBep\bin\Debug\net10.0\Swashbuckle.AspNetCore.SwaggerUI.dll
 E:\YeuBep\YeuBep\YeuBep\obj\Debug\net10.0\YeuBep.MvcApplicationPartsAssemblyInfo.cs
 E:\YeuBep\YeuBep\YeuBep\obj\Debug\net10.0\compressed\6h6am6qtbf-{0}-q65lq9vgoh-q65lq9vgoh.gz
 E:\YeuBep\YeuBep\YeuBep\obj\Debug\net10.0\YeuBep.sourcelink.json
-E:\YeuBep\YeuBep\YeuBep\obj\Debug\net10.0\compressed\w9tjcp6s2j-{0}-bbe6idn8xx-bbe6idn8xx.gz
 E:\YeuBep\YeuBep\YeuBep\obj\Debug\net10.0\compressed\rrvxkpglrb-{0}-0wrts8jclf-0wrts8jclf.gz
 E:\YeuBep\YeuBep\YeuBep\obj\Debug\net10.0\compressed\w59t2qq2dw-{0}-ykmmt64fgx-ykmmt64fgx.gz
 E:\YeuBep\YeuBep\YeuBep\obj\Debug\net10.0\compressed\w98ud5ym07-{0}-yxqxv92lf8-yxqxv92lf8.gz
@@ -294,7 +293,6 @@ E:\YeuBep\YeuBep\YeuBep\obj\Debug\net10.0\compressed\egqadarz7o-{0}-n7i3ebg1we-n
 E:\YeuBep\YeuBep\YeuBep\obj\Debug\net10.0\compressed\iq3dwxxuvq-{0}-10lxyn22fo-10lxyn22fo.gz
 E:\YeuBep\YeuBep\YeuBep\obj\Debug\net10.0\compressed\xmxfryxgyd-{0}-e5hl38ser1-e5hl38ser1.gz
 E:\YeuBep\YeuBep\YeuBep\obj\Debug\net10.0\compressed\0kx56db8fl-{0}-zqw9qkf0dr-zqw9qkf0dr.gz
-E:\YeuBep\YeuBep\YeuBep\obj\Debug\net10.0\compressed\7hb1mc54r2-{0}-i2e2277p4m-i2e2277p4m.gz
 E:\YeuBep\YeuBep\YeuBep\obj\Debug\net10.0\compressed\hra8u5askj-{0}-naalzvwy1r-naalzvwy1r.gz
 E:\YeuBep\YeuBep\YeuBep\obj\Debug\net10.0\compressed\ccw83ajqd5-{0}-acoc7twquk-acoc7twquk.gz
 E:\YeuBep\YeuBep\YeuBep\obj\Debug\net10.0\compressed\6hr2qwxgto-{0}-di0qt9x6y1-di0qt9x6y1.gz
@@ -305,3 +303,10 @@ E:\YeuBep\YeuBep\YeuBep\obj\Debug\net10.0\compressed\6lqt0w0q0l-{0}-u3jwrcxnsl-u
 E:\YeuBep\YeuBep\YeuBep\obj\Debug\net10.0\compressed\hplm9s7tqd-{0}-z52ckctmk3-z52ckctmk3.gz
 E:\YeuBep\YeuBep\YeuBep\obj\Debug\net10.0\compressed\izhiqnfb6i-{0}-r5d9n0ipz4-r5d9n0ipz4.gz
 E:\YeuBep\YeuBep\YeuBep\obj\Debug\net10.0\compressed\qay69673xb-{0}-mqousqt5q5-mqousqt5q5.gz
+E:\YeuBep\YeuBep\YeuBep\obj\Debug\net10.0\compressed\2s7u8css4z-{0}-hxr9tmr9fi-hxr9tmr9fi.gz
+E:\YeuBep\YeuBep\YeuBep\obj\Debug\net10.0\compressed\c1tisn3efk-{0}-78j90z2r2m-78j90z2r2m.gz
+E:\YeuBep\YeuBep\YeuBep\bin\Debug\net10.0\sql\insert-categories.sql
+E:\YeuBep\YeuBep\YeuBep\bin\Debug\net10.0\sql\insert-recipe.sql
+E:\YeuBep\YeuBep\YeuBep\obj\Debug\net10.0\compressed\w9tjcp6s2j-{0}-qlvxguti5o-qlvxguti5o.gz
+E:\YeuBep\YeuBep\YeuBep\obj\Debug\net10.0\compressed\7hb1mc54r2-{0}-flfftl6obb-flfftl6obb.gz
+E:\YeuBep\YeuBep\YeuBep\obj\Debug\net10.0\compressed\8007hvbid0-{0}-vjkm64zzhi-vjkm64zzhi.gz
