@@ -5,7 +5,8 @@ namespace YeuBep.ViewModels.Category;
 
 public class CategoryViewModel
 {
-    [IgnoreColumn]
+    [KeyTable]
+    [NameColumn("Id")]
     public string Id { get; set; }
     [NameColumn(("Tiêu đề"))]
     public string Title { get; set; }

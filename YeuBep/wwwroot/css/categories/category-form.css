@@ -18,7 +18,7 @@
 }
 
 .profile-header {
-    padding: 3rem 2rem;
+    padding: 1rem 1rem;
     text-align: center;
     position: relative;
     overflow: hidden;
@@ -42,14 +42,14 @@
 /* Avatar Styles */
 .avatar-wrapper {
     position: relative;
-    width: 150px;
-    height: 150px;
+    width: 200px;
+    height: 200px;
     margin: 0 auto 1.5rem;
 }
 
 .avatar-preview {
-    width: 150px;
-    height: 150px;
+    width: 200px;
+    height: 200px;
     border-radius: 50%;
     object-fit: cover;
     border: 5px solid rgba(255, 255, 255, 0.3);

@@ -27,8 +27,8 @@
                             <i class="fas fa-camera"></i>
                         </button>
                     </div>
-                    <h4 class="mb-0" style="color: white; position: relative; z-index: 1;">@title</h4>
-                    <p class="mb-0 mt-2" style="color: rgba(255,255,255,0.85); font-size: 14px; position: relative; z-index: 1;">@description</p>
+                    <h4  class="mb-0" style="position: relative; z-index: 1;">@title</h4>
+                    <p class="mb-0 mt-2" style="font-size: 14px; position: relative; z-index: 1;">@description</p>
                 </div>
                 <div class="profile-body">
                     <form asp-action="@(isUpdate ? "CreateCategory" : "UpdateCategory")" asp-controller="CategoryManager" method="post">

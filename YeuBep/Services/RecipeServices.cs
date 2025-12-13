@@ -193,6 +193,13 @@ public class RecipeServices
         await _dbContext.SaveChangesAsync();
         return Result.Ok();
     }
+    public async Task IncreaseViewAsync(string recipeId)
+    {
+        await _dbContext.Recipes
+            .Where(x => x.Id == recipeId)
+            .ExecuteUpdateAsync(x =>
+                x.SetProperty(y => y.Views, z => z.Views + 1));
+    }
 
     private async Task AddCategoriesForRecipeAsync(List<string>? categoriesId, string recipeId)
     {
@@ -214,7 +221,7 @@ public class RecipeServices
         }
     }
 
-    public async Task RemoveCategoryForRecipeAsync(List<string> categoriesId, string recipeId)
+    private async Task RemoveCategoryForRecipeAsync(List<string> categoriesId, string recipeId)
     {
         //in here you can use execute delete with where clause
         foreach (var categoryId in categoriesId)
@@ -230,6 +237,7 @@ public class RecipeServices
                     .FirstOrDefaultAsync();
             if(categoryRecipe is null) continue;
             _dbContext.CategoriesRecipes.Remove(categoryRecipe);
+            
         }
     }
 }

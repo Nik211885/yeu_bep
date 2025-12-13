@@ -31,11 +31,8 @@ public class RecipeController : Controller
         {
             return Redirect("/Error/NotFoundPage");
         }
-        BackgroundJob.Enqueue<YeuBepDbContext>(s => 
-            s.Recipes.Where(x=>x.Id == recipe.Value.Id)
-                .ExecuteUpdateAsync(x=>x.SetProperty(y=>y.Views, 
-                    z => z.Views + 1))  
-            );
+
+        BackgroundJob.Enqueue<RecipeServices>(s => s.IncreaseViewAsync(recipe.Value.Id));
         return View("Recipe", recipe.Value);
     }
 

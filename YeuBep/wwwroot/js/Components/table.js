@@ -293,6 +293,7 @@
         updateSortIcons();
         ableAndDisableButton();
         loadTableData();
+        window.location.reload();
     });
 
     // Double click on row to view details

@@ -4,8 +4,7 @@
     var buttonTableTypes = new List<ButtonConfig>
     {
         new ButtonConfig { Type = ButtonTableType.Add, Controller = "CategoryManager", Action = "CreateCategory" },
-        new ButtonConfig { Type = ButtonTableType.Edit, Controller = "CategoryManager", Action = "Edit" },
-        new ButtonConfig { Type = ButtonTableType.Delete, Controller = "CategoryManager", Action = "Delete" }
+        new ButtonConfig { Type = ButtonTableType.Edit, Controller = "CategoryManager", Action = "UpdateCategory" },
     };
     @(await Component.InvokeAsync("TableComponent", new { model = Model, buttonConfig = buttonTableTypes }))
 }
