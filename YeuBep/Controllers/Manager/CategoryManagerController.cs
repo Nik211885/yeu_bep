@@ -40,7 +40,7 @@ public class CategoryManagerController : Controller
     [HttpPost]
     public async Task<IActionResult> CreateCategory(CreateCategoryViewModel model)
     {
-        var category = await _CategoryServices.CreateCategory(model);
+        var category = await _CategoryServices.CreateCategoryAsync(model);
         ViewData["Success"] = "Xử lý thành công";
         return RedirectToAction(nameof(UpdateCategory), new { id = category.Value.Id });
     }
@@ -51,11 +51,10 @@ public class CategoryManagerController : Controller
         var categoriesMapping =  categories.Adapt<CreateCategoryViewModel>();
         return View("~/Views/Categorie/CategoryForm.cshtml",categoriesMapping);
     }
-
     [HttpPost]
     public async Task<IActionResult> UpdateCategory(CreateCategoryViewModel model)
     {
-        var category = await _CategoryServices.UpdateCategory(model.Id!, model);
+        var category = await _CategoryServices.UpdateCategoryAsync(model.Id!, model);
         if (category.IsFailed)
         {
             return RedirectToAction($"/Error/NotFoundPage");
@@ -66,12 +65,22 @@ public class CategoryManagerController : Controller
     [HttpDelete]
     public async Task<IActionResult> DeleteCategory([FromQuery]List<string> id)
     {
-        var result = await _CategoryServices.DeleteCategoriesByIds(id);
+        var result = await _CategoryServices.DeleteCategoriesByIdsAsync(id);
         if (result.IsFailed)
         {
             return RedirectToAction($"/Error/InternalServerError");
         }
 
         return Ok(new { success = true, message = "Xóa thành công" });
+    }
+    [HttpPost]
+    public async Task<IActionResult> ToggleCategory([FromQuery] string id)
+    {
+        var result = await _CategoryServices.ToggleCategoryAsync(id);
+        if (result.IsFailed)
+        {
+            return RedirectToAction($"/Error/InternalServerError");
+        }
+        return Ok(new { success = true, message = "Xử lý thành công" });
     }
 }

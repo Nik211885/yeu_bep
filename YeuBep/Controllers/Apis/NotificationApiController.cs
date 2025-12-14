@@ -25,7 +25,7 @@ public class NotificationApiController : ControllerBase
         {
             return Redirect("/Error/UnauthorizedPage");
         }
-        var result = await _notificationQueries.GetNotificationPagination(currentUserId, pageNumber, pageSize);
+        var result = await _notificationQueries.GetNotificationPaginationAsync(currentUserId, pageNumber, pageSize);
         return Ok(result);
     }
 }

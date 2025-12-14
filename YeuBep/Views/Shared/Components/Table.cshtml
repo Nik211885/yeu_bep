@@ -127,7 +127,16 @@
             <!-- Thêm -->
             @foreach (var buttonConfig in buttonConfigs)
             {
-                var url = Url.Action(buttonConfig.Action, buttonConfig.Controller);
+                string url;
+                if (!string.IsNullOrEmpty(buttonConfig.Controller) && 
+                    buttonConfig.Controller.StartsWith("api/", StringComparison.OrdinalIgnoreCase))
+                {
+                    url = $"/{buttonConfig.Controller}/{buttonConfig.Action}";
+                }
+                else
+                {
+                    url = Url.Action(buttonConfig.Action, buttonConfig.Controller) ?? "#";
+                }
                 switch (buttonConfig.Type)
                 {
                     case ButtonTableType.Add:
@@ -242,7 +251,7 @@
                     <td class="checkbox-cell">
                         <input data-path="@queryString" placeholder="" type="checkbox" class="row-checkbox check-item">
                     </td>
-                    @foreach (var (_, _, propertyPath) in flattenedProperties)
+                    @foreach (var (prop, _, propertyPath) in flattenedProperties)
                     {
                         var data = GetNestedValue(item, propertyPath);
                         if (data is ValueTuple<LabelLevel, string> tuple)
@@ -259,6 +268,32 @@
                             <td>
                                 <span class="bg-primary p-2 rounded-pill text-white fw-bolder @colorLabel">@label</span>
                             </td>
+                        }
+
+                        else if (data is bool value)
+                        {
+                            var urlAction = prop.GetCustomAttribute<UrlActionTableActionAttribute>();
+                            if (urlAction is null)
+                            {
+                                <td class="text-center">
+                                    <span class="badge @(value ? "bg-success" : "bg-secondary")">
+                                        @(value ? "Hoạt động" : "Không hoạt động")
+                                    </span>
+                                </td>
+                            }
+                            else
+                            {
+                                var url = $"/{urlAction.Controller}/{urlAction.Action}?{queryString}";
+                                <td class="text-center">
+                                    <div class="form-check form-switch d-flex justify-content-center">
+                                        <input data-url="@url" 
+                                               class="form-check-input toggle-switch" 
+                                               style="width: 50px; height: 25px; cursor: pointer;" 
+                                               type="checkbox" 
+                                               @(value ? "checked" : "") />
+                                    </div>
+                                </td>
+                            }
                         }
                         else
                         {

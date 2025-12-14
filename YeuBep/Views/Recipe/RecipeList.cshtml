@@ -1,5 +1,23 @@
-﻿@model PaginationViewModel<YeuBep.ViewModels.Recipe.RecipeViewModel>
+﻿@using Microsoft.EntityFrameworkCore
+@using YeuBep.Data
+@using YeuBep.Entities
+@using YeuBep.Helpers
+@model PaginationViewModel<YeuBep.ViewModels.Recipe.RecipeViewModel>
+@inject YeuBepDbContext DbContext
 @{
+    var topCategories = await DbContext.Categories
+        .Where(x=>x.IsActive)
+        .OrderByDescending(x=>x.CountRecipe)
+        .ThenByDescending(x=>x.CreatedDate)
+        .Take(5)
+        .AsNoTracking()
+        .ToListAsync();
+    var topRecipeView = await DbContext.Recipes
+        .Where(x => x.RecipeStatus == RecipeStatus.Accept)
+        .OrderByDescending(x => x.Views)
+        .ThenByDescending(x=>x.CreatedDate)
+        .Take(3)
+        .ToListAsync();
     var search = Context.Request.Query["search"].ToString();
 }
 <link rel="stylesheet" href="~/css/index.css" />
@@ -42,61 +60,36 @@
         <div class="sidebar-card">
             <h3><i class="bi bi-bookmark-fill me-2"></i>Danh Mục Phổ Biến</h3>
             <ul class="category-list">
-                <li class="category-item">
-                    <span class="category-name">🍜 Món Việt Nam</span>
-                    <span class="category-count">248</span>
-                </li>
-                <li class="category-item">
-                    <span class="category-name">🍝 Món Ý</span>
-                    <span class="category-count">156</span>
-                </li>
-                <li class="category-item">
-                    <span class="category-name">🍱 Món Nhật</span>
-                    <span class="category-count">132</span>
-                </li>
-                <li class="category-item">
-                    <span class="category-name">🥗 Món Healthy</span>
-                    <span class="category-count">98</span>
-                </li>
-                <li class="category-item">
-                    <span class="category-name">🍰 Món Tráng Miệng</span>
-                    <span class="category-count">87</span>
-                </li>
+                @foreach (var category in topCategories)
+                {
+                    <li class="category-item">
+                        <a class="text-decoration-none" href="@Url.Action("Slug", "Category", new{slug = category.Slug})">
+                            <span class="category-name">@category.Emoji @category.Title</span>
+                            <span class="category-count">@category.CountRecipe</span>
+                        </a>
+                    </li>   
+                }
             </ul>
         </div>
 
         <!-- Món ăn trending -->
         <div class="sidebar-card">
             <h3><i class="bi bi-fire me-2"></i>Đang Hot</h3>
-            <div class="trending-recipe">
-                <img src="https://th.bing.com/th/id/OIP.F86RY2CZiS5_9COYRBntmgHaE8?w=294&h=196&c=7&r=0&o=7&cb=ucfimg2&dpr=1.3&pid=1.7&rm=3&ucfimg=1" alt="Phở bò" class="trending-img">
-                <div class="trending-info">
-                    <h4>Phở Bò Hà Nội</h4>
-                    <div class="trending-meta">
-                        <i class="bi bi-eye"></i> 1.2k lượt xem
-                    </div>
-                </div>
-            </div>
-            <div class="trending-recipe">
-                <img src="https://th.bing.com/th/id/OIP.NJ9GfM3cGtg5M8MfF3j79QHaEN?w=280&h=180&c=7&r=0&o=7&cb=ucfimg2&dpr=1.3&pid=1.7&rm=3&ucfimg=1" alt="Bánh mì" class="trending-img">
-                <div class="trending-info">
-                    <h4>Bánh Mì Sài Gòn</h4>
-                    <div class="trending-meta">
-                        <i class="bi bi-eye"></i> 950 lượt xem
-                    </div>
-                </div>
-            </div>
-            <div class="trending-recipe">
-                <img src="https://th.bing.com/th/id/OIP.lpPqXYyf5eTRzo_3KmO7_gHaE7?w=265&h=180&c=7&r=0&o=7&cb=ucfimg2&dpr=1.3&pid=1.7&rm=3&ucfimg=1" alt="Bún chả" class="trending-img">
-                <div class="trending-info">
-                    <h4>Bún Chả Hà Nội</h4>
-                    <div class="trending-meta">
-                        <i class="bi bi-eye"></i> 876 lượt xem
-                    </div>
-                </div>
-            </div>
+            @foreach(var recipe in topRecipeView)
+            {
+                <a class="text-decoration-none" href="@Url.Action("Slug", "Recipe", new {slug = recipe.Slug})">
+                    <div class="trending-recipe">
+                        <img src="@recipe.Avatar" alt="" class="trending-img">
+                        <div class="trending-info">
+                            <h4>@recipe.Title</h4>
+                            <div class="trending-meta">
+                                <i class="bi bi-eye"></i> @StringHelper.ConvertToStringValue(recipe.Views) lượt xem
+                            </div>
+                        </div>
+                    </div>   
+                </a>
+            }
         </div>
-
         <!-- Tips nấu ăn -->
         <div class="sidebar-card">
             <h3><i class="bi bi-lightbulb-fill me-2"></i>Mẹo Nấu Ăn</h3>

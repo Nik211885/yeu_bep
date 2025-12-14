@@ -88,22 +88,25 @@ public class RecipeServices
         return recipe.Adapt<RecipeViewModel>();
     }
 
-    public async Task<Result> DeleteRecipeAsync(string recipeId)
+    public async Task<Result> DeleteRecipeAsync(List<string> recipeIds)
     {
-        var recipe = await _dbContext.Recipes.Where(x => x.Id == recipeId)
-            .Include(x=>x.CategoriesRecipes)
-            .FirstOrDefaultAsync();
-        if (recipe is null)
+        foreach (var recipeId in recipeIds)
         {
-            return Result.Fail("Không tìm thấy công thức để cập nhật");
+            var recipe = await _dbContext.Recipes.Where(x => x.Id == recipeId)
+                .Include(x=>x.CategoriesRecipes)
+                .FirstOrDefaultAsync();
+            if (recipe is null)
+            {
+                return Result.Fail("Không tìm thấy công thức để cập nhật");
+            }
+            if (!(_httpContextAccessor.HttpContext?.CheckPermission(recipe) ?? false))
+            {
+                return Result.Fail("Bạn không có quyền truy cập dữ liệu này");
+            }
+            await RemoveCategoryForRecipeAsync(recipe.CategoriesRecipes
+                .Select(x => x.CategoryId).ToList(), recipeId);
+            _dbContext.Recipes.Remove(recipe);   
         }
-        if (!(_httpContextAccessor.HttpContext?.CheckPermission(recipe) ?? false))
-        {
-            return Result.Fail("Bạn không có quyền truy cập dữ liệu này");
-        }
-        await RemoveCategoryForRecipeAsync(recipe.CategoriesRecipes
-            .Select(x => x.CategoryId).ToList(), recipeId);
-        _dbContext.Recipes.Remove(recipe);
         await _dbContext.SaveChangesAsync();
         return Result.Ok();
     }

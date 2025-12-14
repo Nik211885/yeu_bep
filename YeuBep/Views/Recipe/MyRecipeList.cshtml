@@ -5,8 +5,7 @@
     {
         new ButtonConfig { Type = ButtonTableType.Add, Controller = "Recipe", Action = "Create" },
         new ButtonConfig { Type = ButtonTableType.Edit, Controller = "Recipe", Action = "Edit" },
-        new ButtonConfig { Type = ButtonTableType.Detail, Controller = "Recipe", Action = "Detail" },
-        new ButtonConfig { Type = ButtonTableType.Delete, Controller = "Recipe", Action = "Delete" }
+        new ButtonConfig { Type = ButtonTableType.Delete, Controller = "api/recipe", Action = "delete" }
     };
     @(await Component.InvokeAsync("TableComponent", new { model = Model, buttonConfig = buttonTableTypes }))
 }

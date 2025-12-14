@@ -94,7 +94,7 @@ public class RecipeApiController : ControllerBase
     }
 
     [HttpDelete("delete")]
-    public async Task<IActionResult> Delete(string recipeId)
+    public async Task<IActionResult> Delete([FromQuery] List<string> recipeId)
     {
         var result = await _recipeServices.DeleteRecipeAsync(recipeId);
         if (result.IsFailed)

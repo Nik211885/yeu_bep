@@ -19,7 +19,7 @@ public class CommentApiController : ControllerBase
     [HttpPost("create")]
     public async Task<IActionResult> Create([FromBody] CreateCommentViewModel createCommentRequest)
     {
-        var commentResponse = await _commentServices.CreateComment(createCommentRequest);
+        var commentResponse = await _commentServices.CreateCommentAsync(createCommentRequest);
         if (commentResponse.IsFailed)
         {
             return BadRequest(commentResponse.Errors);
@@ -30,7 +30,7 @@ public class CommentApiController : ControllerBase
     [HttpDelete("delete")]
     public async Task<IActionResult> Delete(string commentId)
     {
-        var deleteCommentResult = await _commentServices.DeleteComment(commentId);
+        var deleteCommentResult = await _commentServices.DeleteCommentAsync(commentId);
         if (deleteCommentResult.IsFailed)
         {
             return BadRequest(deleteCommentResult.Errors);

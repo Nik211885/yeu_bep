@@ -19,7 +19,7 @@ public class CategoryServices
         _logger = logger;
     }
 
-    public async Task<Result<CategoryViewModel>> CreateCategory(CreateCategoryViewModel model)
+    public async Task<Result<CategoryViewModel>> CreateCategoryAsync(CreateCategoryViewModel model)
     {
         var category = model.Adapt<Category>();
         category.IsActive = true;
@@ -29,7 +29,7 @@ public class CategoryServices
         return Result.Ok(category.Adapt<CategoryViewModel>());
     }
 
-    public async Task<Result<CategoryViewModel>> UpdateCategory(string categoryId, CreateCategoryViewModel model)
+    public async Task<Result<CategoryViewModel>> UpdateCategoryAsync(string categoryId, CreateCategoryViewModel model)
     {
         var category = await _dbContext.Categories
             .FirstOrDefaultAsync(x=>x.Id == categoryId);
@@ -43,7 +43,7 @@ public class CategoryServices
         return Result.Ok(category.Adapt<CategoryViewModel>());
     }
 
-    public async Task<Result> DeleteCategory(string categoryId)
+    public async Task<Result> DeleteCategoryAsync(string categoryId)
     {
         var category = await _dbContext.Categories
             .FirstOrDefaultAsync(x=>x.Id == categoryId);
@@ -56,7 +56,7 @@ public class CategoryServices
         return Result.Ok();
     }
 
-    public async Task<Result<CategoryViewModel>> ToggleCategory(string categoryId)
+    public async Task<Result<CategoryViewModel>> ToggleCategoryAsync(string categoryId)
     {
         var category = await _dbContext.Categories
             .FirstOrDefaultAsync(x=>x.Id == categoryId);
@@ -70,7 +70,7 @@ public class CategoryServices
         return Result.Ok(category.Adapt<CategoryViewModel>());
     }
 
-    public async Task<Result> DeleteCategoriesByIds(List<string> ids)
+    public async Task<Result> DeleteCategoriesByIdsAsync(List<string> ids)
     {
         await _dbContext.Categories.Where(x => ids.Contains(x.Id))
             .ExecuteDeleteAsync();

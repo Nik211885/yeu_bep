@@ -30,7 +30,7 @@ public class FavoriteApiController : ControllerBase
         {
             return Unauthorized();
         }
-        var favoriteResult = await _favoriteServices.ToggleFavorite(recipeId, userId);
+        var favoriteResult = await _favoriteServices.ToggleFavoriteAsync(recipeId, userId);
         if (favoriteResult.IsFailed)
         {
             return BadRequest(favoriteResult.Errors);

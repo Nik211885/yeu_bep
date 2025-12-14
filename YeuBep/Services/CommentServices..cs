@@ -19,7 +19,7 @@ public class CommentServices
         _logger = logger;
     }
 
-    public async Task<Result<CommentViewModel>> CreateComment(CreateCommentViewModel commentRequest)
+    public async Task<Result<CommentViewModel>> CreateCommentAsync(CreateCommentViewModel commentRequest)
     {
         var recipe = await _dbContext.Recipes.Where(x=>x.Id == commentRequest.RecipeId)
             .FirstOrDefaultAsync();
@@ -38,7 +38,7 @@ public class CommentServices
         return Result.Ok(comment.Adapt<CommentViewModel>());
     }
 
-    public async Task<Result> DeleteComment(string commentId)
+    public async Task<Result> DeleteCommentAsync(string commentId)
     {
         var commentExits = await _dbContext.Comments.Where(x => x.Id == commentId).FirstOrDefaultAsync();
         if (commentExits is null)

@@ -19,6 +19,7 @@ public class CategoryViewModel
     [NameColumn("Ngày tạo")]
     public DateTimeOffset CreatedDate { get; set; }
     [NameColumn("Trạng thái")]
+    [UrlActionTableAction("ToggleCategory","CategoryManager")]
     public bool IsActive { get; set; }
     [IgnoreColumn]
     public AccountInfo CreatedBy { get; set; }

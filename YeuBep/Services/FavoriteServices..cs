@@ -16,7 +16,7 @@ public class FavoriteServices
         _logger = logger;
     }
 
-    public async Task<Result> ToggleFavorite(string recipeId, string createdBy)
+    public async Task<Result> ToggleFavoriteAsync(string recipeId, string createdBy)
     {
         var recipe = await _dbContext.Recipes.Where(x=>x.Id == recipeId)
             .FirstOrDefaultAsync();

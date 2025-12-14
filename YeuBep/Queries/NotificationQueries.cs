@@ -18,7 +18,7 @@ public class NotificationQueries
         _dbContext = dbContext;
     }
 
-    public async Task<PaginationViewModel<NotificationViewModel>> GetNotificationPagination(
+    public async Task<PaginationViewModel<NotificationViewModel>> GetNotificationPaginationAsync(
         string userId,
         int pageNumber,
         int pageSize)

@@ -4,8 +4,6 @@
     var buttonTableTypes = new List<ButtonConfig>
     {
         new ButtonConfig { Type = ButtonTableType.Detail, Controller = "RecipeManager", Action = "Recipe" },
-        new ButtonConfig() {Type = ButtonTableType.Approve, Controller = "RecipeManager", Action = "Approve" },
-        new ButtonConfig() {Type = ButtonTableType.UnApprove, Controller = "RecipeManager", Action = "UnApprove" },
     };
     @(await Component.InvokeAsync("TableComponent", new { model = Model, buttonConfig = buttonTableTypes }))
 }

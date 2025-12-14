@@ -1,5 +1,4 @@
 ﻿namespace YeuBep.Attributes.Table;
-[AttributeUsage(AttributeTargets.Field)]
 public class UrlActionTableActionAttribute : Attribute
 {
     public string Action { get; }

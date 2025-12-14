@@ -311,6 +311,21 @@
             window.location.href = `${window.location.pathname}?${queryString}`;
         }
     });
-    
+
+    $(document).on('change', '.toggle-switch', function(e) {
+        e.preventDefault();
+        const $checkbox = $(this);
+        const url = $checkbox.data('url');
+        const isChecked = $checkbox.is(':checked');
+        $checkbox.prop('disabled', true);
+        $.apiHelper.post(url, null, {
+            error: function(xhr) {
+                $checkbox.prop('checked', !isChecked);
+            },
+            complete: function() {
+                $checkbox.prop('disabled', false);
+            }
+        });
+    });
     ableAndDisableButton();
 });
