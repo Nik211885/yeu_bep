@@ -8,5 +8,6 @@ public class Category : AuditEntity
     public string Avatar { get; set; }
     public bool IsActive { get; set; }
     public int CountRecipe { get; set; }
+    public string? Emoji { get; set; }
     public virtual ICollection<CategoriesRecipes> CategoriesRecipes { get; set; }
 }

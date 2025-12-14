@@ -5,6 +5,7 @@
     {
         new ButtonConfig { Type = ButtonTableType.Add, Controller = "CategoryManager", Action = "CreateCategory" },
         new ButtonConfig { Type = ButtonTableType.Edit, Controller = "CategoryManager", Action = "UpdateCategory" },
+        new ButtonConfig { Type = ButtonTableType.Delete, Controller = "CategoryManager", Action = "DeleteCategory" },
     };
     @(await Component.InvokeAsync("TableComponent", new { model = Model, buttonConfig = buttonTableTypes }))
 }

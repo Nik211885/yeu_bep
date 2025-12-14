@@ -69,4 +69,11 @@ public class CategoryServices
         await _dbContext.SaveChangesAsync();
         return Result.Ok(category.Adapt<CategoryViewModel>());
     }
+
+    public async Task<Result> DeleteCategoriesByIds(List<string> ids)
+    {
+        await _dbContext.Categories.Where(x => ids.Contains(x.Id))
+            .ExecuteDeleteAsync();
+        return Result.Ok();
+    }
 }

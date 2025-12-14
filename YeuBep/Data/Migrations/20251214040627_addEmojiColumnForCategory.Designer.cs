@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using YeuBep.Data;
@@ -11,9 +12,11 @@ using YeuBep.Data;
 namespace YeuBep.Data.Migrations
 {
     [DbContext(typeof(YeuBepDbContext))]
-    partial class YeuBepDbContextModelSnapshot : ModelSnapshot
+    [Migration("20251214040627_addEmojiColumnForCategory")]
+    partial class addEmojiColumnForCategory
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

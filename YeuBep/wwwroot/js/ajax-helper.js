@@ -122,13 +122,17 @@
                 contentType: settings.contentType,
                 dataType: settings.dataType,
                 success: function(response) {
-                    console.log("SUCCESS" + response);
+                    console.log("SUCCESS:", response);
                     if (method !== 'GET') {
                         toast.success("Xử lý thành công");
                     }
-                    if (typeof settings.success === 'function') settings.success(response);
+                    if (typeof settings.success === 'function') {
+                        settings.success(response);
+                    }
                 },
                 error: function(xhr) {
+                    console.log("ERROR:", xhr.status, xhr.responseJSON);
+
                     let messages = [];
                     if (Array.isArray(xhr.responseJSON)) {
                         messages = xhr.responseJSON.map(e => e.message);
@@ -142,10 +146,16 @@
                         }
                         toast.warning(messages.join("<br/>"));
                     }
+                    
+                    if (typeof settings.error === 'function') {
+                        settings.error(xhr);
+                    }
                 },
                 complete: function() {
                     if (settings.showLoading) $.apiHelper.hideLoading();
-                    if (typeof settings.complete === 'function') settings.complete();
+                    if (typeof settings.complete === 'function') {
+                        settings.complete();
+                    }
                 }
             });
         },
@@ -191,7 +201,7 @@
             const executeDelete = function() {
                 const deleteSettings = $.extend({}, settings, {
                     url: url,
-                    method: 'DELETE'
+                    method: 'DELETE',
                 });
                 delete deleteSettings.confirmTitle;
                 delete deleteSettings.confirmMessage;

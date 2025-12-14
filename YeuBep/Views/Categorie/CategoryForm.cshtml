@@ -1,14 +1,15 @@
-﻿@model YeuBep.ViewModels.Category.CreateCategoryViewModel?
+﻿@using Microsoft.Extensions.Primitives
+@model YeuBep.ViewModels.Category.CreateCategoryViewModel?
 <link rel="stylesheet" href="~/css/categories/category-form.css" />
 
 @{
     var isUpdate = Model is null;
     var title = isUpdate ? "Tạo Danh Mục Mới" : "Cập nhật danh mục";
     var description = isUpdate ? "Thêm danh mục mới cho hệ thống" : "Cập nhât mục mới cho hệ thống";
-
-    string ValueIfModelUpdate(string? value)
+    
+    string ValueIfModelUpdate(string? valueInput)
     {
-        return string.IsNullOrWhiteSpace(value) ? string.Empty : value;
+        return string.IsNullOrWhiteSpace(valueInput) ? string.Empty : valueInput;
     }
 }
 <div class="container">
@@ -38,11 +39,14 @@
                                name="AvatarFile" 
                                accept="image/*" 
                                style="display: none;">
-                        
+                        @if (!isUpdate)
+                        {
+                            <input type="hidden" name="Id" value="@ValueIfModelUpdate(Model?.Id)" />
+                        }
                         <input type="hidden" id="avatar" asp-for="Avatar" value="@ValueIfModelUpdate(Model?.Avatar)">
                         <div class="mb-4">
                             <label asp-for="Title" class="form-label">
-                                <i class="fas fa-heading me-2"></i>Tiêu Đề <span class="text-danger">*</span>
+                                <i class="fas fa-heading me-2"></i>Tiêu Đề
                             </label>
                             <div class="input-icon">
                                 <i class="fas fa-heading"></i>
@@ -61,6 +65,16 @@
                                       class="form-control" 
                                       placeholder="Nhập mô tả cho danh mục..."
                                       rows="5">@ValueIfModelUpdate(Model?.Description)</textarea>
+                            <span asp-validation-for="Description" class="text-danger"></span>
+                        </div>
+                        <div class="mb-4">
+                            <label asp-for="Description" class="form-label">
+                                ✂️Emoji✂️ <a target="_blank" href="https://getemoji.com/">Tìm emoji</a>
+                            </label>
+                            <input asp-for="Emoji" 
+                                      class="form-control" 
+                                      placeholder="Nhập emoji cho danh mục..."
+                                      rows="5" value="@ValueIfModelUpdate(Model?.Emoji)"></input>
                             <span asp-validation-for="Description" class="text-danger"></span>
                         </div>
                         <div class="row g-3 mt-4">

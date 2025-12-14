@@ -1,11 +1,14 @@
 ﻿@using Microsoft.EntityFrameworkCore
 @using YeuBep.Data
 @using YeuBep.Entities
+@using YeuBep.Queries
 @model IEnumerable<YeuBep.ViewModels.Recipe.RecipeViewModel>
-@inject YeuBepDbContext DbContext;
+@inject YeuBepDbContext DbContext
+@inject CategoryQueries CategoryQueries
 @{
     var countRecipe = await DbContext.Recipes.Where(x => x.RecipeStatus == RecipeStatus.Accept).CountAsync();
     var countUser = await DbContext.Users.Where(x => x.EmailConfirmed).CountAsync();
+    var categories = await CategoryQueries.GetCategoriesAsync();
 }
 
 <link rel="stylesheet" href="~/css/index.css" />
@@ -65,30 +68,12 @@
     <div class="category-pills">
         <h3><i class="bi bi-grid-3x3-gap-fill me-2"></i>Danh Mục Phổ Biến</h3>
         <div class="pills-container">
-            <a href="#" class="category-pill">
-                <span>🍜</span> Món Việt Nam
-            </a>
-            <a href="#" class="category-pill">
-                <span>🍝</span> Món Ý
-            </a>
-            <a href="#" class="category-pill">
-                <span>🍱</span> Món Nhật
-            </a>
-            <a href="#" class="category-pill">
-                <span>🥗</span> Món Healthy
-            </a>
-            <a href="#" class="category-pill">
-                <span>🍰</span> Tráng Miệng
-            </a>
-            <a href="#" class="category-pill">
-                <span>🥘</span> Món Hàn
-            </a>
-            <a href="#" class="category-pill">
-                <span>🌮</span> Món Mexico
-            </a>
-            <a href="#" class="category-pill">
-                <span>🍛</span> Món Thái
-            </a>
+            @foreach (var category in categories)
+            {
+                <a href="@Url.Action("Slug", "Category", new {slug = category.Slug})" class="category-pill">
+                    <span>@category.Emoji</span> @category.Title
+                </a>
+            }
         </div>
     </div>
 

@@ -24,4 +24,6 @@ public class CategoryViewModel
     public AccountInfo CreatedBy { get; set; }
     [IgnoreColumn]
     public int CountRecipe { get; set; }
+    [IgnoreColumn]
+    public string Emoji { get; set; }
 }

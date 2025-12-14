@@ -218,17 +218,15 @@
 
     $('#btnDelete').on('click', function() {
         if (selectedRows.size > 0) {
-            if (confirm(`Bạn có chắc chắn muốn xóa ${selectedRows.size} mục đã chọn?`)) {
-                // TODO: Delete selected items
-                const ids = [];
-                selectedRows.forEach(index => {
-                    const $row = $(`#tableBody tr:eq(${index})`);
-                    console.log($row);
-                    // ids.push($row.data('id'));
-                });
-                // Ajax delete request
-                const url = $(this).data("url");
-            }
+            const queryString = getQueryStringSelector();
+            const url = $(this).data("url")
+            const deleteUrl = `${url}?${queryString}`;
+            console.log(deleteUrl);
+            $.apiHelper.delete(deleteUrl, {
+                success: function(result) {
+                    window.location.reload();
+                }
+            });
         }
     });
 

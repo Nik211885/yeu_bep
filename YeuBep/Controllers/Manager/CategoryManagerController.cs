@@ -53,14 +53,25 @@ public class CategoryManagerController : Controller
     }
 
     [HttpPost]
-    public async Task<IActionResult> UpdateCategory(string id, CreateCategoryViewModel model)
+    public async Task<IActionResult> UpdateCategory(CreateCategoryViewModel model)
     {
-        var category = await _CategoryServices.UpdateCategory(id, model);
+        var category = await _CategoryServices.UpdateCategory(model.Id!, model);
         if (category.IsFailed)
         {
-            return Redirect($"/Error/NotFoundPage");
+            return RedirectToAction($"/Error/NotFoundPage");
         }
         var categoriesMapping = category.Value.Adapt<CreateCategoryViewModel>();
         return View("~/Views/Categorie/CategoryForm.cshtml",categoriesMapping); 
+    }
+    [HttpDelete]
+    public async Task<IActionResult> DeleteCategory([FromQuery]List<string> id)
+    {
+        var result = await _CategoryServices.DeleteCategoriesByIds(id);
+        if (result.IsFailed)
+        {
+            return RedirectToAction($"/Error/InternalServerError");
+        }
+
+        return Ok(new { success = true, message = "Xóa thành công" });
     }
 }
