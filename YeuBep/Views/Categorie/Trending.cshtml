@@ -1,10 +1,35 @@
-﻿<link rel="stylesheet" href="~/css/categories/trending.css" />
-
+﻿@using Mapster
+@using Microsoft.EntityFrameworkCore
+@using YeuBep.Data
+@using YeuBep.Entities
+@using YeuBep.Helpers
+@using YeuBep.ViewModels.Category
+@inject YeuBepDbContext DbContext
+@model List<YeuBep.ViewModels.Recipe.RecipeViewModel>
+@{
+    var countRecipeResult = await DbContext.Recipes
+        .GroupBy(_ => 1)
+        .Select(g => new
+        {
+            CountViewRecipes = g.Sum(x => x.Views),
+            CountRecipe = g.Count(x => x.RecipeStatus == RecipeStatus.Accept)
+        })
+        .FirstAsync();
+    var countCategory = await DbContext.Categories.Where(x => x.IsActive)
+        .CountAsync();
+    var topCategories = await DbContext.Categories
+        .Where(x => x.IsActive)
+        .OrderByDescending(x => x.CountRecipe)
+        .ThenByDescending(x=>x.CreatedDate)
+        .ProjectToType<CategoryViewModel>()
+        .Take(3)
+        .ToListAsync();
+}
+<link rel="stylesheet" href="~/css/categories/trending.css" />
 <div class="page-header">
         <div class="header-content">
-            <h1 class="page-title">🔥 Danh Mục Đang Hot</h1>
-            <p class="page-subtitle">Khám phá những món ăn được tìm kiếm và yêu thích nhiều nhất tuần này</p>
-            <span class="trending-badge">Cập nhật: 04/12/2024</span>
+            <h1 class="page-title">🍺 Danh Mục Đang Hot</h1>
+            <p class="page-subtitle">🔥Khám phá những món ăn được tìm kiếm và yêu thích nhiều nhất🍻</p>
         </div>
     </div>
 
@@ -12,15 +37,15 @@
     <div class="container">
         <div class="stats-bar">
             <div class="stat-item">
-                <span class="stat-number">2.5M+</span>
-                <span class="stat-label">Lượt xem tuần này</span>
+                <span class="stat-number">@StringHelper.ConvertToStringValue(countRecipeResult.CountViewRecipes)</span>
+                <span class="stat-label">Lượt xem</span>
             </div>
             <div class="stat-item">
-                <span class="stat-number">48K+</span>
-                <span class="stat-label">Công thức mới</span>
+                <span class="stat-number">@StringHelper.ConvertToStringValue(countRecipeResult.CountRecipe)</span>
+                <span class="stat-label">Công thức</span>
             </div>
             <div class="stat-item">
-                <span class="stat-number">15</span>
+                <span class="stat-number">@StringHelper.ConvertToStringValue(countCategory)</span>
                 <span class="stat-label">Danh mục hot</span>
             </div>
         </div>
@@ -46,246 +71,38 @@
         <!-- Trending Grid -->
         <div class="trending-grid">
             <!-- Card 1 - Top 1 -->
-            <a href="#" class="trending-card">
-                <div class="trending-rank top-1">1</div>
-                <div class="hot-label">
-                    <i class="bi bi-fire"></i> HOT
-                </div>
-                <div class="card-image">🍜</div>
-                <div class="card-content">
-                    <div class="card-category">Món Việt Nam</div>
-                    <h3 class="card-title">Phở Bò Hà Nội</h3>
-                    <div class="card-stats">
-                        <span class="card-stat">
-                            <i class="bi bi-eye-fill"></i> 125K
-                        </span>
-                        <span class="card-stat">
-                            <i class="bi bi-book-fill"></i> 348 công thức
-                        </span>
+            @for (int i = 0; i < Model.Count(); i++)
+            {
+                var recipe = Model.ElementAt(i);
+                <a href="@Url.Action("Slug", "Recipe", new {slug = recipe.Slug})" class="trending-card">
+                    <div class="trending-rank top-@(i+1)">@(i+1)</div>
+                    <div class="card-image">
+                        <img class="card-image" src="@recipe.Avatar" alt=""/>
                     </div>
-                    <div class="trending-info">
-                        <span class="growth">
-                            <i class="bi bi-arrow-up"></i> +45%
-                        </span>
-                        <span class="view-link">
-                            Xem chi tiết <i class="bi bi-arrow-right"></i>
-                        </span>
+                    <div class="card-content">
+                        @foreach (var category in recipe.CategoriesCollection)
+                        {
+                            <div class="card-category">@category</div>
+                        }
+                        <h3 class="card-title">@recipe.Title</h3>
+                        <span class="card-title fs-6 fw-light">@StringHelper.SplitWord( @recipe.Description)</span>
+                        <div class="card-stats py-2">
+                            <span class="card-stat fw-bold">
+                                Lượt xem<i class="bi bi-eye-fill"></i> @StringHelper.ConvertToStringValue(recipe.Views)
+                            </span>
+                        </div>
+                        <div class="trending-info">
+                            <span class="growth">
+                               
+                            </span>
+                            <span class="view-link">
+                                Xem chi tiết <i class="bi bi-arrow-right"></i>
+                            </span>
+                        </div>
                     </div>
-                </div>
-            </a>
-
-            <!-- Card 2 - Top 2 -->
-            <a href="#" class="trending-card">
-                <div class="trending-rank top-2">2</div>
-                <div class="hot-label">
-                    <i class="bi bi-fire"></i> HOT
-                </div>
-                <div class="card-image">🍝</div>
-                <div class="card-content">
-                    <div class="card-category">Món Ý</div>
-                    <h3 class="card-title">Carbonara Pasta</h3>
-                    <div class="card-stats">
-                        <span class="card-stat">
-                            <i class="bi bi-eye-fill"></i> 98K
-                        </span>
-                        <span class="card-stat">
-                            <i class="bi bi-book-fill"></i> 287 công thức
-                        </span>
-                    </div>
-                    <div class="trending-info">
-                        <span class="growth">
-                            <i class="bi bi-arrow-up"></i> +38%
-                        </span>
-                        <span class="view-link">
-                            Xem chi tiết <i class="bi bi-arrow-right"></i>
-                        </span>
-                    </div>
-                </div>
-            </a>
-
-            <!-- Card 3 - Top 3 -->
-            <a href="#" class="trending-card">
-                <div class="trending-rank top-3">3</div>
-                <div class="card-image">🍰</div>
-                <div class="card-content">
-                    <div class="card-category">Tráng Miệng</div>
-                    <h3 class="card-title">Tiramisu</h3>
-                    <div class="card-stats">
-                        <span class="card-stat">
-                            <i class="bi bi-eye-fill"></i> 87K
-                        </span>
-                        <span class="card-stat">
-                            <i class="bi bi-book-fill"></i> 156 công thức
-                        </span>
-                    </div>
-                    <div class="trending-info">
-                        <span class="growth">
-                            <i class="bi bi-arrow-up"></i> +32%
-                        </span>
-                        <span class="view-link">
-                            Xem chi tiết <i class="bi bi-arrow-right"></i>
-                        </span>
-                    </div>
-                </div>
-            </a>
-
-            <!-- Card 4 -->
-            <a href="#" class="trending-card">
-                <div class="trending-rank">4</div>
-                <div class="card-image">🍱</div>
-                <div class="card-content">
-                    <div class="card-category">Món Nhật</div>
-                    <h3 class="card-title">Sushi & Sashimi</h3>
-                    <div class="card-stats">
-                        <span class="card-stat">
-                            <i class="bi bi-eye-fill"></i> 76K
-                        </span>
-                        <span class="card-stat">
-                            <i class="bi bi-book-fill"></i> 192 công thức
-                        </span>
-                    </div>
-                    <div class="trending-info">
-                        <span class="growth">
-                            <i class="bi bi-arrow-up"></i> +28%
-                        </span>
-                        <span class="view-link">
-                            Xem chi tiết <i class="bi bi-arrow-right"></i>
-                        </span>
-                    </div>
-                </div>
-            </a>
-
-            <!-- Card 5 -->
-            <a href="#" class="trending-card">
-                <div class="trending-rank">5</div>
-                <div class="card-image">🥗</div>
-                <div class="card-content">
-                    <div class="card-category">Món Healthy</div>
-                    <h3 class="card-title">Salad Bổ Dưỡng</h3>
-                    <div class="card-stats">
-                        <span class="card-stat">
-                            <i class="bi bi-eye-fill"></i> 65K
-                        </span>
-                        <span class="card-stat">
-                            <i class="bi bi-book-fill"></i> 234 công thức
-                        </span>
-                    </div>
-                    <div class="trending-info">
-                        <span class="growth">
-                            <i class="bi bi-arrow-up"></i> +24%
-                        </span>
-                        <span class="view-link">
-                            Xem chi tiết <i class="bi bi-arrow-right"></i>
-                        </span>
-                    </div>
-                </div>
-            </a>
-
-            <!-- Card 6 -->
-            <a href="#" class="trending-card">
-                <div class="trending-rank">6</div>
-                <div class="card-image">🍔</div>
-                <div class="card-content">
-                    <div class="card-category">Fast Food</div>
-                    <h3 class="card-title">Burger Homemade</h3>
-                    <div class="card-stats">
-                        <span class="card-stat">
-                            <i class="bi bi-eye-fill"></i> 58K
-                        </span>
-                        <span class="card-stat">
-                            <i class="bi bi-book-fill"></i> 167 công thức
-                        </span>
-                    </div>
-                    <div class="trending-info">
-                        <span class="growth">
-                            <i class="bi bi-arrow-up"></i> +21%
-                        </span>
-                        <span class="view-link">
-                            Xem chi tiết <i class="bi bi-arrow-right"></i>
-                        </span>
-                    </div>
-                </div>
-            </a>
-
-            <!-- Card 7 -->
-            <a href="#" class="trending-card">
-                <div class="trending-rank">7</div>
-                <div class="card-image">🍛</div>
-                <div class="card-content">
-                    <div class="card-category">Món Thái</div>
-                    <h3 class="card-title">Pad Thai</h3>
-                    <div class="card-stats">
-                        <span class="card-stat">
-                            <i class="bi bi-eye-fill"></i> 52K
-                        </span>
-                        <span class="card-stat">
-                            <i class="bi bi-book-fill"></i> 143 công thức
-                        </span>
-                    </div>
-                    <div class="trending-info">
-                        <span class="growth">
-                            <i class="bi bi-arrow-up"></i> +18%
-                        </span>
-                        <span class="view-link">
-                            Xem chi tiết <i class="bi bi-arrow-right"></i>
-                        </span>
-                    </div>
-                </div>
-            </a>
-
-            <!-- Card 8 -->
-            <a href="#" class="trending-card">
-                <div class="trending-rank">8</div>
-                <div class="card-image">🥘</div>
-                <div class="card-content">
-                    <div class="card-category">Món Hàn</div>
-                    <h3 class="card-title">Kimchi Jjigae</h3>
-                    <div class="card-stats">
-                        <span class="card-stat">
-                            <i class="bi bi-eye-fill"></i> 47K
-                        </span>
-                        <span class="card-stat">
-                            <i class="bi bi-book-fill"></i> 128 công thức
-                        </span>
-                    </div>
-                    <div class="trending-info">
-                        <span class="growth">
-                            <i class="bi bi-arrow-up"></i> +15%
-                        </span>
-                        <span class="view-link">
-                            Xem chi tiết <i class="bi bi-arrow-right"></i>
-                        </span>
-                    </div>
-                </div>
-            </a>
-
-            <!-- Card 9 -->
-            <a href="#" class="trending-card">
-                <div class="trending-rank">9</div>
-                <div class="card-image">☕</div>
-                <div class="card-content">
-                    <div class="card-category">Đồ Uống</div>
-                    <h3 class="card-title">Cà Phê Specialty</h3>
-                    <div class="card-stats">
-                        <span class="card-stat">
-                            <i class="bi bi-eye-fill"></i> 42K
-                        </span>
-                        <span class="card-stat">
-                            <i class="bi bi-book-fill"></i> 89 công thức
-                        </span>
-                    </div>
-                    <div class="trending-info">
-                        <span class="growth down">
-                            <i class="bi bi-arrow-down"></i> -5%
-                        </span>
-                        <span class="view-link">
-                            Xem chi tiết <i class="bi bi-arrow-right"></i>
-                        </span>
-                    </div>
-                </div>
-            </a>
+                </a>
+            }
         </div>
-
         <!-- Rising Stars Section -->
         <div class="rising-section">
             <div class="rising-header">
@@ -293,45 +110,19 @@
                 <p style="color: #636e72;">Những danh mục đang tăng trưởng mạnh mẽ</p>
             </div>
             <div class="rising-list">
-                <a href="#" class="rising-item">
-                    <span class="rising-number">1</span>
-                    <span class="rising-icon">🌮</span>
-                    <div class="rising-content">
-                        <div class="rising-name">Tacos Mexico</div>
-                        <div class="rising-count">38K lượt xem</div>
-                    </div>
-                    <span class="rising-arrow">↗ +127%</span>
-                </a>
-
-                <a href="#" class="rising-item">
-                    <span class="rising-number">2</span>
-                    <span class="rising-icon">🍲</span>
-                    <div class="rising-content">
-                        <div class="rising-name">Lẩu Thái</div>
-                        <div class="rising-count">32K lượt xem</div>
-                    </div>
-                    <span class="rising-arrow">↗ +98%</span>
-                </a>
-
-                <a href="#" class="rising-item">
-                    <span class="rising-number">3</span>
-                    <span class="rising-icon">🥟</span>
-                    <div class="rising-content">
-                        <div class="rising-name">Dim Sum</div>
-                        <div class="rising-count">28K lượt xem</div>
-                    </div>
-                    <span class="rising-arrow">↗ +85%</span>
-                </a>
-
-                <a href="#" class="rising-item">
-                    <span class="rising-number">4</span>
-                    <span class="rising-icon">🍩</span>
-                    <div class="rising-content">
-                        <div class="rising-name">Donut Handmade</div>
-                        <div class="rising-count">24K lượt xem</div>
-                    </div>
-                    <span class="rising-arrow">↗ +72%</span>
-                </a>
+                @for(int i = 0; i< topCategories.Count; i++)
+                {
+                    var category = topCategories.ElementAt(i);
+                    <a href="@Url.Action("Slug","Category", new {slug = category.Slug})" class="rising-item">
+                        <span class="rising-number">@(i+1)</span>
+                        <img class="rising-icon" src="@category.Avatar" alt=""/>
+                        <div class="rising-content">
+                            <div class="rising-name" style="width: max-content">@category.Title</div>
+                            <div class="rising-count">@category.CountRecipe công thức</div>
+                        </div>
+                        <span class="rising-arrow">↗ @Random.Shared.Next(50,150)%</span>
+                    </a>
+                }
             </div>
         </div>
     </div>

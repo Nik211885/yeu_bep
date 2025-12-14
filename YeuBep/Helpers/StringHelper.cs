@@ -25,4 +25,14 @@ public static class StringHelper
         }
         return Convert.ToBase64String(rand);
     }
+
+    public static string ConvertToStringValue(long value)
+    {
+        return value switch
+        {
+            < 1_000 => value.ToString(),
+            < 999_500 => $"{value / 1_000d:F1}K+",
+            _ => $"{value / 1_000_000d:F1}M+"
+        };
+    }
 }

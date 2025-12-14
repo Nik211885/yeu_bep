@@ -1,7 +1,6 @@
 ﻿using Mapster;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Org.BouncyCastle.Math.EC;
 using YeuBep.Controllers;
 using YeuBep.Data;
 using YeuBep.Entities;
@@ -9,6 +8,7 @@ using YeuBep.Extensions;
 using YeuBep.ViewModels;
 using YeuBep.ViewModels.Account;
 using YeuBep.ViewModels.Category;
+using YeuBep.ViewModels.Recipe;
 
 namespace YeuBep.Queries;
 
@@ -98,7 +98,34 @@ public class CategoryQueries
             .Where(x => x.CategoriesRecipes
                 .Any(cr => cr.RecipeId == recipeId))
             .ProjectToType<CategoryViewModel>()
+            .AsNoTracking()
             .ToListAsync();
         return categories;
-    } 
+    }
+
+    public async Task<List<RecipeViewModel>> GetRecipeMostViewAsync(int top)
+    {
+        var recipes = await _yeuBepDbContext.Recipes
+            .Where(x => x.RecipeStatus == RecipeStatus.Accept)
+            .OrderByDescending(x => x.Views)
+            .ThenByDescending(x => x.CreatedBy)
+            .Take(top)
+            .ProjectToType<RecipeViewModel>()
+            .AsNoTracking()
+            .ToListAsync();
+        foreach (var recipe in recipes)
+        {
+            var categoriesId = await _yeuBepDbContext.CategoriesRecipes
+                .Where(x=>x.RecipeId == recipe.Id)
+                .Select(x=>x.CategoryId)
+                .ToListAsync();
+            var categories = await _yeuBepDbContext.Categories
+                .Where(x => categoriesId.Contains(x.Id))
+                .Where(x=>x.IsActive)
+                .ProjectToType<CategoryViewModel>()
+                .ToListAsync();
+            recipe.CategoriesCollection = categories;
+        }
+        return recipes;
+    }
 }

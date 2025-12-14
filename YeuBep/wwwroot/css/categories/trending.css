@@ -214,6 +214,7 @@
     justify-content: center;
     background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
     font-size: 5rem;
+    object-fit: cover;
     position: relative;
 }
 
@@ -344,7 +345,7 @@
 .rising-list {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 16px;
+    gap: 50px;
 }
 
 .rising-item {
@@ -373,6 +374,9 @@
 }
 
 .rising-icon {
+    width:50px;
+    border-radius: 20%; 
+    height: 50px;
     font-size: 2.5rem;
 }
 

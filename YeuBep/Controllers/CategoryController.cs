@@ -36,7 +36,8 @@ public class CategoryController : Controller
     [HttpGet]
     public async Task<IActionResult> GetTrending()
     {
-        return View("~/Views/Categorie/Trending.cshtml");
+        var recipeMostView = await _categoryQueries.GetRecipeMostViewAsync(9);
+        return View("~/Views/Categorie/Trending.cshtml", recipeMostView);
     }
 
     [HttpGet]

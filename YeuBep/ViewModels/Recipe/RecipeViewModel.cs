@@ -1,6 +1,7 @@
 ﻿using YeuBep.Attributes.Table;
 using YeuBep.Entities;
 using YeuBep.ViewModels.Account;
+using YeuBep.ViewModels.Category;
 using YeuBep.ViewModels.Comment;
 
 namespace YeuBep.ViewModels.Recipe;
@@ -41,5 +42,7 @@ public class RecipeViewModel
     public RecipeStatus RecipeStatus { get; set; }
     [IgnoreColumn]
     public long Views {get; set;}
+    [IgnoreColumn]
+    public ICollection<CategoryViewModel> CategoriesCollection { get; set; }
     
 }
