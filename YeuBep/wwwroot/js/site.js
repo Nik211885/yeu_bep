@@ -124,3 +124,145 @@ connection.start()
     .catch(err => {
         console.error("Lỗi kết nối SignalR: " + err.toString());
     });
+
+
+const chatButton = $('#chatButton');
+const chatWindow = $('#chatWindow');
+const closeChat = $('#closeChat');
+const messageInput = $('#messageInput');
+const sendButton = $('#sendButton');
+const chatBody = $('#chatBody');
+const typingIndicator = $('#typingIndicator');
+
+chatButton.on('click', function() {
+    chatWindow.css('display', 'flex');
+    messageInput.focus();
+});
+
+closeChat.on('click', function() {
+    chatWindow.hide();
+});
+
+function sendMessage() {
+    const message = messageInput.val().trim();
+
+    if (message === '') return;
+    const userMessage = `
+                    <div class="message user">
+                        <div class="message-content">${escapeHtml(message)}</div>
+                    </div>
+                `;
+    typingIndicator.before(userMessage);
+    messageInput.val('');
+    scrollToBottom();
+    messageInput.prop('disabled', true);
+    sendButton.prop('disabled', true);
+    typingIndicator.show();
+    scrollToBottom();
+    simulateAIResponse(message);
+}
+
+function simulateAIResponse(userMessage) {
+    $.ajax({
+        url: "/api/recipe/suggestion/recipe",
+        type: "POST",
+        contentType: "application/json",
+        data: JSON.stringify(userMessage),
+        success: function(response) {
+            typingIndicator.hide();
+            let botReply = '';
+
+            if (response.userAnalysis) {
+                botReply += 'Phân tích: ' + JSON.stringify(response.userAnalysis) + '<br>';
+            }
+
+            if (response.suggestedRecipes && response.suggestedRecipes.length > 0) {
+                botReply += '<div style="margin-top: 10px;">';
+                response.suggestedRecipes.forEach(function(recipe) {
+                    const recipeName = recipe.name || recipe.title || 'Công thức';
+                    const recipeSlug = recipe.slug || recipe.id || '';
+                    const recipeUrl = '/Recipe/Slug?slug=' + encodeURIComponent(recipeSlug);
+                    const recipeImage = recipe.avatar || recipe.image || 'https://via.placeholder.com/80x80?text=Recipe';
+                    const recipeTime = recipe.timeToCook || recipe.avatar || '';
+                    const recipePortion = recipe.portionCount || recipe.servings || '';
+
+                    botReply += `
+                                    <a href="${recipeUrl}" target="_blank" style="text-decoration: none; color: inherit; display: block; margin-bottom: 12px;">
+                                        <div style="display: flex; align-items: center; padding: 12px; background: #f8f9fa; border-radius: 12px; transition: all 0.3s; border: 1px solid #e9ecef;">
+                                            <img src="${recipeImage}" 
+                                                 onerror="this.src='https://via.placeholder.com/80x80?text=Recipe'"
+                                                 style="width: 70px; height: 70px; border-radius: 10px; object-fit: cover; margin-right: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);" alt="">
+                                            <div style="flex: 1; min-width: 0;">
+                                                <div style="font-weight: 600; color: #333; margin-bottom: 4px; font-size: 14px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+                                                    ${recipeName}
+                                                </div>
+                                                <div style="font-size: 12px; color: #666; display: flex; align-items: center; gap: 12px;">
+                                                    ${recipeTime ? `<span><i class="fas fa-clock" style="color: #667eea; margin-right: 4px;"></i>${recipeTime}</span>` : ''}
+                                                    ${recipePortion ? `<span><i class="fas fa-users" style="color: #667eea; margin-right: 4px;"></i>${recipePortion}</span>` : ''}
+                                                </div>
+                                            </div>
+                                            <i class="fas fa-chevron-right" style="color: #667eea; font-size: 14px; margin-left: 8px;"></i>
+                                        </div>
+                                    </a>
+                                `;
+                });
+                botReply += '</div>';
+            }
+
+            if (!botReply) {
+                botReply = response.message || 'Tôi đã nhận được yêu cầu của bạn!';
+            }
+
+            const botMessage = `
+                            <div class="message bot">
+                                <div class="message-content">${botReply}</div>
+                            </div>
+                        `;
+
+            typingIndicator.before(botMessage);
+            scrollToBottom();
+            messageInput.prop('disabled', false);
+            sendButton.prop('disabled', false);
+            messageInput.focus();
+        },
+        error: function(xhr, status, error) {
+            typingIndicator.hide();
+
+            const errorMessage = `
+                            <div class="message bot">
+                                <div class="message-content">Xin lỗi, đã có lỗi xảy ra. Vui lòng thử lại! 😔</div>
+                            </div>
+                        `;
+
+            typingIndicator.before(errorMessage);
+            scrollToBottom();
+
+            messageInput.prop('disabled', false);
+            sendButton.prop('disabled', false);
+            messageInput.focus();
+        }
+    });
+}
+
+sendButton.on('click', sendMessage);
+
+messageInput.on('keypress', function(e) {
+    if (e.which === 13) { // Enter key
+        sendMessage();
+    }
+});
+
+function scrollToBottom() {
+    chatBody.scrollTop(chatBody[0].scrollHeight);
+}
+
+function escapeHtml(text) {
+    const map = {
+        '&': '&amp;',
+        '<': '&lt;',
+        '>': '&gt;',
+        '"': '&quot;',
+        "'": '&#039;'
+    };
+    return text.replace(/[&<>"']/g, m => map[m]);
+}

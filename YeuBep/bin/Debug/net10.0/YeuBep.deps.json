@@ -10,6 +10,7 @@
         "dependencies": {
           "CloudinaryDotNet": "1.27.8",
           "Dapper": "2.1.66",
+          "DeepSeek.ApiClient": "1.0.6",
           "FluentResults": "4.0.0",
           "Hangfire": "1.8.22",
           "Hangfire.PostgreSql": "1.20.12",
@@ -56,6 +57,14 @@
           "lib/net8.0/Dapper.dll": {
             "assemblyVersion": "2.0.0.0",
             "fileVersion": "2.1.66.48463"
+          }
+        }
+      },
+      "DeepSeek.ApiClient/1.0.6": {
+        "runtime": {
+          "lib/net80/DeepSeek.ApiClient.dll": {
+            "assemblyVersion": "1.0.0.0",
+            "fileVersion": "1.0.0.0"
           }
         }
       },
@@ -903,6 +912,13 @@
       "sha512": "sha512-/q77jUgDOS+bzkmk3Vy9SiWMaetTw+NOoPAV0xPBsGVAyljd5S6P+4RUW7R3ZUGGr9lDRyPKgAMj2UAOwvqZYw==",
       "path": "dapper/2.1.66",
       "hashPath": "dapper.2.1.66.nupkg.sha512"
+    },
+    "DeepSeek.ApiClient/1.0.6": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-g9tlM7VRnEs/fP0yw+sz90s032USI7HXatktCVAAdtM5+ERJfL2sJie+fhYvckFTTYID6EPtGXqC+8togd0jaw==",
+      "path": "deepseek.apiclient/1.0.6",
+      "hashPath": "deepseek.apiclient.1.0.6.nupkg.sha512"
     },
     "FluentResults/4.0.0": {
       "type": "package",

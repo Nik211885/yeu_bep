@@ -1,15 +1,12 @@
 ﻿using System.Text.Json;
 using DeepSeek.ApiClient.Interfaces;
 using DeepSeek.ApiClient.Models;
-using FluentResults;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
-using Microsoft.EntityFrameworkCore;
 using YeuBep.Const;
 using YeuBep.Data;
 using YeuBep.Entities;
-using YeuBep.Extensions;
 using YeuBep.Queries;
 using YeuBep.Services;
 using YeuBep.ViewModels.Notification;
@@ -152,38 +149,76 @@ public class RecipeApiController : ControllerBase
         return Ok(result);
     }
 
-    [HttpGet("suggestion/recipe")]
-    public async Task<IActionResult> Suggestion(string request)
+    [HttpPost("suggestion/recipe")]
+    public async Task<IActionResult> Suggestion([FromBody]string request)
     {
         var getIngredientPrompt = AiPrompt.GetIngredient(request);
-        string responseIngredient = await _deepSeekClient.SendMessageAsync(getIngredientPrompt, DeepSeekModel.R1);
-        var ingredients = responseIngredient.Split(",").Select(i => i.Trim()).ToArray();
-        var analyzePrompt = AiPrompt.AnalyzeUserRequest(request, responseIngredient);
-        string userAnalysis = await _deepSeekClient.SendMessageAsync(analyzePrompt, DeepSeekModel.R1);
+        string responseIngredient = await _deepSeekClient.SendMessageAsync(getIngredientPrompt, DeepSeekModel.V3);
+        var ingredients = responseIngredient.Split(",")
+            .Select(i => i.Trim())
+            .Where(i => !string.IsNullOrWhiteSpace(i))
+            .ToArray();
         var recipesToPrompt = new Dictionary<string, RecipeViewModel>();
         foreach (var ingredient in ingredients)
         {
-            if (string.IsNullOrWhiteSpace(ingredient)) continue;
-        
             var recipePagination = await _recipeQueries.GetRecipePaginationBySearchTermAsync(ingredient, 1, 5);
-            var recipes = recipePagination.Items;
-            foreach (var recipe in recipes)
+            foreach (var recipe in recipePagination.Items)
             {
                 recipesToPrompt.TryAdd(recipe.Id, recipe);
             }
         }
-        var getRecipePrompt = AiPrompt.GetRecipe(recipesToPrompt, userAnalysis);
-        string response = await _deepSeekClient.SendMessageAsync(getRecipePrompt, DeepSeekModel.R1);
-        var suggestedIds = response.Split(",").Select(id => id.Trim()).Where(id => !string.IsNullOrWhiteSpace(id)).ToList();
+        if (!recipesToPrompt.Any())
+        {
+            return Ok(new
+            {
+                analysis = "Rất tiếc, hệ thống chưa có công thức nào phù hợp với nguyên liệu bạn đề cập. Vui lòng thử lại với nguyên liệu khác!",
+                suggestedRecipes = new List<RecipeViewModel>()
+            });
+        }
+        var analyzeAndSuggestPrompt = AiPrompt.AnalyzeAndSuggestRecipe(request, responseIngredient, recipesToPrompt);
+        string aiResponse = await _deepSeekClient.SendMessageAsync(analyzeAndSuggestPrompt, DeepSeekModel.V3);
+        var (analysisText, suggestedIds) = ParseAiResponse(aiResponse);
         var suggestedRecipes = suggestedIds
             .Where(id => recipesToPrompt.ContainsKey(id))
             .Select(id => recipesToPrompt[id])
             .ToList();
-    
         return Ok(new
         {
-            userAnalysis,
-            suggestedRecipes 
+            userAnalysis = analysisText,
+            suggestedRecipes = suggestedRecipes
         });
+        (string analysisText, List<string> recipeIds) ParseAiResponse(string response)
+        {
+            try
+            {
+                var analysisMatch = System.Text.RegularExpressions.Regex.Match(
+                    response, 
+                    @"\[ANALYSIS\](.*?)\[/ANALYSIS\]", 
+                    System.Text.RegularExpressions.RegexOptions.Singleline
+                );
+        
+                var idsMatch = System.Text.RegularExpressions.Regex.Match(
+                    response, 
+                    @"\[IDS\](.*?)\[/IDS\]"
+                );
+        
+                string analysisTextX = analysisMatch.Success 
+                    ? analysisMatch.Groups[1].Value.Trim() 
+                    : "Dựa trên yêu cầu của bạn, hệ thống đã tìm được một số món ăn phù hợp.";
+        
+                List<string> recipeIds = idsMatch.Success 
+                    ? idsMatch.Groups[1].Value.Split(",")
+                        .Select(id => id.Trim())
+                        .Where(id => !string.IsNullOrWhiteSpace(id))
+                        .ToList()
+                    : new List<string>();
+        
+                return (analysisTextX, recipeIds);
+            }
+            catch
+            {
+                return ("Không thể phân tích phản hồi từ AI.", new List<string>());
+            }
+        }
     }
 }

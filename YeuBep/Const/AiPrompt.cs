@@ -19,45 +19,81 @@ public static class AiPrompt
                                                     Kết quả:
                                                     - Trả về một chuỗi, các nguyên liệu cách nhau bằng dấu phẩy
 
+                                                    Ví dụ:
+                                                    Input: ""Tôi muốn nấu món gà xào với hành tây và ớt chuông""
+                                                    Output: gà, hành tây, ớt chuông
+
                                                     Đoạn văn:
-                                                    ${chat}";
-    public static string AnalyzeUserRequest(string request, string ingredients) => @$"Bạn là chuyên gia phân tích nhu cầu nấu ăn.
+                                                    {chat}";
 
-                                                    Nhiệm vụ: Phân tích yêu cầu của người dùng để hiểu rõ họ muốn gì.
+    public static string AnalyzeAndSuggestRecipe(string request, string ingredients, Dictionary<string, RecipeViewModel> recipes) => @$"Bạn là chuyên gia tư vấn món ăn thông minh và thân thiện.
 
-                                                    Yêu cầu gốc: {request}
-                                                    Nguyên liệu đã trích xuất: {ingredients}
+                                                                                                            YÊU CẦU CỦA NGƯỜI DÙNG:
+                                                                                                            {request}
 
-                                                    Hãy phân tích:
-                                                    1. Loại món ăn mong muốn (món chính/phụ/tráng miệng/đồ uống)
-                                                    2. Khẩu vị (cay/ngọt/mặn/thanh đạm)
-                                                    3. Độ phức tạp mong muốn (đơn giản/trung bình/phức tạp)
-                                                    4. Thời gian nấu mong muốn (nhanh <30p/trung bình/dài)
-                                                    5. Dịp ăn (bữa thường/tiệc/ăn vặt)
-                                                    6. Yêu cầu đặc biệt khác
+                                                                                                            NGUYÊN LIỆU ĐÃ TRÍCH XUẤT:
+                                                                                                            {ingredients}
 
-                                                    Quy tắc trả về:
-                                                    - Trả về JSON format với các key: dishType, taste, complexity, timePreference, occasion, specialRequests
-                                                    - Giá trị có thể là null nếu không xác định được
-                                                    - KHÔNG giải thích thêm
+                                                                                                            DANH SÁCH CÔNG THỨC CÓ SẴN:
+                                                                                                            {string.Join("\n", recipes.Select(r => $@"
+                                                                                                            ━━━━━━━━━━━━━━━━━━━━
+                                                                                                            ID: {r.Key}
+                                                                                                            Tên món: {r.Value.Title}
+                                                                                                            Mô tả: {r.Value.Description}
+                                                                                                            Thời gian nấu: {r.Value.TimeToCook} phút
+                                                                                                            Khẩu phần: {r.Value.PortionCount} người
+                                                                                                            Độ phổ biến: {r.Value.CountFavorite} lượt thích
+                                                                                                            Đánh giá: {(r.Value.CountRatingPoint > 0 ? (double)r.Value.TotalRatingPoint / r.Value.CountRatingPoint : 0):F1}/5 sao ({r.Value.CountRatingPoint} đánh giá)
+                                                                                                            Danh mục: {string.Join(", ", r.Value.CategoriesCollection?.Select(c => c.Title) ?? new List<string> { "Chưa phân loại" })}
+                                                                                                            Nguyên liệu chính: {string.Join(", ", r.Value.IngredientPart?.SelectMany(p => p.Ingredients).Take(8) ?? new List<string> { "Chưa có thông tin" })}
+                                                                                                            "))}
 
-                                                    Ví dụ: {{""dishType"":""món chính"",""taste"":""cay"",""complexity"":""đơn giản"",""timePreference"":""nhanh"",""occasion"":""bữa thường"",""specialRequests"":null}}";
+                                                                                                            NHIỆM VỤ:
+                                                                                                            1. Phân tích yêu cầu của người dùng:
+                                                                                                               - Loại món ăn họ muốn (món chính/phụ/tráng miệng/đồ uống/ăn vặt)
+                                                                                                               - Khẩu vị mong muốn (cay/ngọt/mặn/thanh đạm/chua/béo)
+                                                                                                               - Thời gian có thể nấu (nhanh <30p/trung bình 30-60p/dài >60p)
+                                                                                                               - Độ phức tạp mong muốn (đơn giản/trung bình/phức tạp)
+                                                                                                               - Dịp ăn (bữa thường/tiệc tùng/ăn vặt/healthy)
+                                                                                                               - Yêu cầu đặc biệt khác
 
-    public static string GetRecipe(Dictionary<string, RecipeViewModel> recipes, string userAnalysis) => @$"Bạn là chuyên gia gợi ý món ăn thông minh.
+                                                                                                            2. Viết phần PHÂN TÍCH bằng văn bản tự nhiên, thân thiện:
+                                                                                                               - Đoạn 1: Tóm tắt yêu cầu người dùng (2-3 câu)
+                                                                                                               - Đoạn 2: Giải thích tại sao các món được chọn phù hợp (3-4 câu)
+                                                                                                               - Đoạn 3: Gợi ý thêm về cách kết hợp hoặc lưu ý (1-2 câu)
+                                                                                                               - Viết theo phong cách: Chuyên nghiệp nhưng gần gũi, nhiệt tình
 
-                                                    Phân tích nhu cầu người dùng:
-                                                    {userAnalysis}
+                                                                                                            3. Chọn 3-5 món ăn PHÙ HỢP NHẤT dựa trên:
+                                                                                                               - Độ khớp với nguyên liệu đã trích xuất
+                                                                                                               - Phù hợp với khẩu vị và thời gian người dùng mong muốn
+                                                                                                               - Đánh giá cao từ cộng đồng
+                                                                                                               - Độ phổ biến (lượt thích)
+                                                                                                               - Đa dạng về loại món
 
-                                                    Danh sách công thức có sẵn:
-                                                    {string.Join("\n", recipes.Select(r => $"- ID: {r.Key}\n  Tên: {r.Value.Title}\n  Mô tả: {r.Value.Description}\n  Thời gian: {r.Value.TimeToCook}\n  Khẩu phần: {r.Value.PortionCount}\n  Lượt thích: {r.Value.CountFavorite}\n  Đánh giá: {(r.Value.CountRatingPoint > 0 ? (double)r.Value.TotalRatingPoint / r.Value.CountRatingPoint : 0):F1}/5\n  Danh mục: {string.Join(", ", r.Value.CategoriesCollection?.Select(c => c.Title) ?? new List<string>())}\n  Nguyên liệu: {string.Join(", ", r.Value.IngredientPart?.SelectMany(p => p.Ingredients) ?? new List<string>())}"))}
+                                                                                                            QUY TẮC TRẢ VỀ (BẮT BUỘC):
+                                                                                                            - Phải theo đúng format dưới đây
+                                                                                                            - Phần ANALYSIS: Viết 3 đoạn văn ngắn gọn, mỗi đoạn 2-4 câu
+                                                                                                            - Phần IDS: Danh sách ID công thức, cách nhau bằng dấu phẩy, không khoảng trắng thừa
+                                                                                                            - Sắp xếp ID theo độ phù hợp giảm dần
+                                                                                                            - KHÔNG thêm bất kỳ nội dung nào ngoài format
 
-                                                    Nhiệm vụ: Dựa vào phân tích nhu cầu, chọn 3-5 món ăn PHÙ HỢP NHẤT.
+                                                                                                            FORMAT BẮT BUỘC:
+                                                                                                            [ANALYSIS]
+                                                                                                            Dựa trên yêu cầu của bạn về [tóm tắt ngắn gọn]... [Phân tích thêm về loại món, thời gian, khẩu vị]...
 
-                                                    Quy tắc trả về:
-                                                    - Chỉ trả về danh sách ID, cách nhau bằng dấu phẩy
-                                                    - Sắp xếp theo độ phù hợp giảm dần
-                                                    - Tối đa 5 ID
-                                                    - KHÔNG giải thích
+                                                                                                            Hệ thống gợi ý các món [tên món] vì [lý do cụ thể về nguyên liệu, thời gian, độ phù hợp]... [Nhấn mạnh ưu điểm của từng món]...
 
-                                                    Kết quả:";
-}
+                                                                                                            [Gợi ý kết hợp hoặc lưu ý thêm]... Chúc bạn có bữa ăn ngon miệng!
+                                                                                                            [/ANALYSIS]
+                                                                                                            [IDS]id1,id2,id3,id4,id5[/IDS]
+
+                                                                                                            VÍ DỤ MINH HỌA:
+                                                                                                            [ANALYSIS]
+                                                                                                            Dựa trên yêu cầu của bạn về món gà nấu nhanh cho bữa trưa, hệ thống nhận thấy bạn cần một món ăn đơn giản, tiết kiệm thời gian nhưng vẫn đủ chất dinh dưỡng. Các món với gà thường dễ chế biến và phù hợp với khẩu vị đại trà.
+
+                                                                                                            Hệ thống gợi ý các món gà xào, gà chiên và gà kho vì chúng có thời gian nấu dưới 30-45 phút, nguyên liệu đơn giản và được cộng đồng đánh giá cao. Đặc biệt, món gà xào sả ớt vừa nhanh vừa đậm đà, trong khi gà chiên nước mắm lại giòn rụm, thơm ngon.
+
+                                                                                                            Bạn có thể kết hợp với cơm trắng và rau xào để có bữa ăn trọn vẹn. Nếu thích cay, hãy thêm ớt vào món xào nhé. Chúc bạn có bữa ăn ngon miệng!
+                                                                                                            [/ANALYSIS]
+                                                                                                            [IDS]recipe_001,recipe_045,recipe_023,recipe_067[/IDS]";
+               }

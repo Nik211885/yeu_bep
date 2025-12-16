@@ -225,6 +225,40 @@
     <main role="main">
         @RenderBody()
     </main>
+    <button class="chat-button" id="chatButton">
+        <i class="fas fa-comments"></i>
+    </button>
+
+    <div class="chat-window" id="chatWindow">
+        <div class="chat-header">
+            <h5><i class="fas fa-robot me-2"></i>YeuBep Assistant</h5>
+            <button class="close-chat" id="closeChat">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        
+        <div class="chat-body" id="chatBody">
+            <div class="message bot">
+                <div class="message-content">
+                    Xin chào! Tôi là YeuBep Assistant. Tôi có thể giúp gì cho bạn hôm nay? 😊
+                </div>
+            </div>
+            <div class="typing-indicator" id="typingIndicator">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+        
+        <div class="chat-footer">
+            <div class="input-group">
+                <input type="text" class="form-control" id="messageInput" placeholder="Nhập tin nhắn...">
+                <button class="send-button" id="sendButton">
+                    <i class="fas fa-paper-plane"></i>
+                </button>
+            </div>
+        </div>
+    </div>
 </div>
 
 <!-- Footer -->
