@@ -12,7 +12,6 @@ public class SyncRecipeToMilvusCronJob
     private readonly ILogger<SyncRecipeToMilvusCronJob> _logger;
     private readonly YeuBepDbContext _dbContext;
     private readonly MilvusClient _milvusClient;
-
     public SyncRecipeToMilvusCronJob(ILogger<SyncRecipeToMilvusCronJob> logger, YeuBepDbContext dbContext, MilvusClient milvusClient)
     {
         _logger = logger;
