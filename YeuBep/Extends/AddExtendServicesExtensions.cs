@@ -1,4 +1,5 @@
 ﻿using CloudinaryDotNet;
+using DeepSeek.ApiClient.Extensions;
 using YeuBep.Extends.DataModel;
 
 namespace YeuBep.Extends;
@@ -21,6 +22,9 @@ public static class AddExtendServicesExtensions
                 ?? throw new ArgumentNullException(nameof(CloudinaryDataModels));
             var mailSettings = configuration.GetSection("MailSettings").Get<MailSettings>()
                 ?? throw new ArgumentNullException(nameof(MailSettings));
+            var deepSeekApiKey = configuration.GetValue<string>("DeepSeekApiKey")
+                ?? throw new ArgumentNullException(nameof(configuration));
+            services.AddDeepSeekClient(deepSeekApiKey);
             var account = new Account()
             {
                 Cloud = cloudinaryConfig.CloudName,

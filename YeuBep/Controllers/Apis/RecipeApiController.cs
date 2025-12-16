@@ -1,4 +1,6 @@
 ﻿using System.Text.Json;
+using DeepSeek.ApiClient.Interfaces;
+using DeepSeek.ApiClient.Models;
 using FluentResults;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -23,12 +25,13 @@ public class RecipeApiController : ControllerBase
     private readonly RecipeServices _recipeServices;
     private readonly RecipeQueries _recipeQueries;
     private readonly UserManager<User> _userManager;
+    private readonly IDeepSeekClient _deepSeekClient;
     private readonly IHubContext<NotificationHub> _hubContext;
     private readonly NotificationServices _notificationServices;
 
     public RecipeApiController(ILogger<RecipeApiController> logger, RecipeServices recipeServices,
         IHubContext<NotificationHub> hubContext, NotificationServices notificationServices,
-        UserManager<User> userManager, RecipeQueries recipeQueries)
+        UserManager<User> userManager, RecipeQueries recipeQueries, IDeepSeekClient deepSeekClient)
     {
         _logger = logger;
         _recipeServices = recipeServices;
@@ -36,6 +39,7 @@ public class RecipeApiController : ControllerBase
         _notificationServices = notificationServices;
         _userManager = userManager;
         _recipeQueries = recipeQueries;
+        _deepSeekClient = deepSeekClient;
     }
 
     [HttpPost("create")]
@@ -148,4 +152,38 @@ public class RecipeApiController : ControllerBase
         return Ok(result);
     }
 
+    [HttpGet("suggestion/recipe")]
+    public async Task<IActionResult> Suggestion(string request)
+    {
+        var getIngredientPrompt = AiPrompt.GetIngredient(request);
+        string responseIngredient = await _deepSeekClient.SendMessageAsync(getIngredientPrompt, DeepSeekModel.R1);
+        var ingredients = responseIngredient.Split(",").Select(i => i.Trim()).ToArray();
+        var analyzePrompt = AiPrompt.AnalyzeUserRequest(request, responseIngredient);
+        string userAnalysis = await _deepSeekClient.SendMessageAsync(analyzePrompt, DeepSeekModel.R1);
+        var recipesToPrompt = new Dictionary<string, RecipeViewModel>();
+        foreach (var ingredient in ingredients)
+        {
+            if (string.IsNullOrWhiteSpace(ingredient)) continue;
+        
+            var recipePagination = await _recipeQueries.GetRecipePaginationBySearchTermAsync(ingredient, 1, 5);
+            var recipes = recipePagination.Items;
+            foreach (var recipe in recipes)
+            {
+                recipesToPrompt.TryAdd(recipe.Id, recipe);
+            }
+        }
+        var getRecipePrompt = AiPrompt.GetRecipe(recipesToPrompt, userAnalysis);
+        string response = await _deepSeekClient.SendMessageAsync(getRecipePrompt, DeepSeekModel.R1);
+        var suggestedIds = response.Split(",").Select(id => id.Trim()).Where(id => !string.IsNullOrWhiteSpace(id)).ToList();
+        var suggestedRecipes = suggestedIds
+            .Where(id => recipesToPrompt.ContainsKey(id))
+            .Select(id => recipesToPrompt[id])
+            .ToList();
+    
+        return Ok(new
+        {
+            userAnalysis,
+            suggestedRecipes 
+        });
+    }
 }

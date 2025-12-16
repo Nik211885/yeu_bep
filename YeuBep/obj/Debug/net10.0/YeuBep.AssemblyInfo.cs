@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("YeuBep")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+7491c72001e56553738c8218dac1db5c8de9c95a")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+9069f97556186567769ddba426450ad39a75f8d5")]
 [assembly: System.Reflection.AssemblyProductAttribute("YeuBep")]
 [assembly: System.Reflection.AssemblyTitleAttribute("YeuBep")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

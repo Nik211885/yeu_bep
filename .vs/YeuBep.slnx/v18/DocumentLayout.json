@@ -3,20 +3,52 @@
   "WorkspaceRootPath": "E:\\YeuBep\\YeuBep\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{A66355FF-BA50-5FA6-ABC9-907F98493374}|YeuBep\\YeuBep.csproj|e:\\yeubep\\yeubep\\yeubep\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{A66355FF-BA50-5FA6-ABC9-907F98493374}|YeuBep\\YeuBep.csproj|solutionrelative:yeubep\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{A66355FF-BA50-5FA6-ABC9-907F98493374}|YeuBep\\YeuBep.csproj|e:\\yeubep\\yeubep\\yeubep\\entities\\rating.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A66355FF-BA50-5FA6-ABC9-907F98493374}|YeuBep\\YeuBep.csproj|solutionrelative:yeubep\\entities\\rating.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A66355FF-BA50-5FA6-ABC9-907F98493374}|YeuBep\\YeuBep.csproj|e:\\yeubep\\yeubep\\yeubep\\entities\\recipe.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A66355FF-BA50-5FA6-ABC9-907F98493374}|YeuBep\\YeuBep.csproj|solutionrelative:yeubep\\entities\\recipe.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A66355FF-BA50-5FA6-ABC9-907F98493374}|YeuBep\\YeuBep.csproj|e:\\yeubep\\yeubep\\yeubep\\entities\\recipestatus.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A66355FF-BA50-5FA6-ABC9-907F98493374}|YeuBep\\YeuBep.csproj|solutionrelative:yeubep\\entities\\recipestatus.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A66355FF-BA50-5FA6-ABC9-907F98493374}|YeuBep\\YeuBep.csproj|e:\\yeubep\\yeubep\\yeubep\\entities\\user.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A66355FF-BA50-5FA6-ABC9-907F98493374}|YeuBep\\YeuBep.csproj|solutionrelative:yeubep\\entities\\user.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A66355FF-BA50-5FA6-ABC9-907F98493374}|YeuBep\\YeuBep.csproj|e:\\yeubep\\yeubep\\yeubep\\extends\\emailsenderservices.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A66355FF-BA50-5FA6-ABC9-907F98493374}|YeuBep\\YeuBep.csproj|solutionrelative:yeubep\\extends\\emailsenderservices.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A66355FF-BA50-5FA6-ABC9-907F98493374}|YeuBep\\YeuBep.csproj|e:\\yeubep\\yeubep\\yeubep\\extends\\cloudinaryservices.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A66355FF-BA50-5FA6-ABC9-907F98493374}|YeuBep\\YeuBep.csproj|solutionrelative:yeubep\\extends\\cloudinaryservices.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A66355FF-BA50-5FA6-ABC9-907F98493374}|YeuBep\\YeuBep.csproj|e:\\yeubep\\yeubep\\yeubep\\extensions\\queriesextensions.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A66355FF-BA50-5FA6-ABC9-907F98493374}|YeuBep\\YeuBep.csproj|solutionrelative:yeubep\\extensions\\queriesextensions.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A66355FF-BA50-5FA6-ABC9-907F98493374}|YeuBep\\YeuBep.csproj|e:\\yeubep\\yeubep\\yeubep\\extensions\\stringextensions.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A66355FF-BA50-5FA6-ABC9-907F98493374}|YeuBep\\YeuBep.csproj|solutionrelative:yeubep\\extensions\\stringextensions.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A66355FF-BA50-5FA6-ABC9-907F98493374}|YeuBep\\YeuBep.csproj|e:\\yeubep\\yeubep\\yeubep\\extensions\\propertiesinfoextensions.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A66355FF-BA50-5FA6-ABC9-907F98493374}|YeuBep\\YeuBep.csproj|solutionrelative:yeubep\\extensions\\propertiesinfoextensions.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{A66355FF-BA50-5FA6-ABC9-907F98493374}|YeuBep\\YeuBep.csproj|e:\\yeubep\\yeubep\\yeubep\\extensions\\httpcontextextensions.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{A66355FF-BA50-5FA6-ABC9-907F98493374}|YeuBep\\YeuBep.csproj|solutionrelative:yeubep\\extensions\\httpcontextextensions.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{A66355FF-BA50-5FA6-ABC9-907F98493374}|YeuBep\\YeuBep.csproj|e:\\yeubep\\yeubep\\yeubep\\data\\interceptors\\auditsavechangeinterceptor.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{A66355FF-BA50-5FA6-ABC9-907F98493374}|YeuBep\\YeuBep.csproj|solutionrelative:yeubep\\data\\interceptors\\auditsavechangeinterceptor.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{A66355FF-BA50-5FA6-ABC9-907F98493374}|YeuBep\\YeuBep.csproj|e:\\yeubep\\yeubep\\yeubep\\queries\\categoryqueries.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A66355FF-BA50-5FA6-ABC9-907F98493374}|YeuBep\\YeuBep.csproj|solutionrelative:yeubep\\queries\\categoryqueries.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{A66355FF-BA50-5FA6-ABC9-907F98493374}|YeuBep\\YeuBep.csproj|e:\\yeubep\\yeubep\\yeubep\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
-      "RelativeMoniker": "D:0:0:{A66355FF-BA50-5FA6-ABC9-907F98493374}|YeuBep\\YeuBep.csproj|solutionrelative:yeubep\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+      "AbsoluteMoniker": "D:0:0:{A66355FF-BA50-5FA6-ABC9-907F98493374}|YeuBep\\YeuBep.csproj|e:\\yeubep\\yeubep\\yeubep\\queries\\recipequeries.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A66355FF-BA50-5FA6-ABC9-907F98493374}|YeuBep\\YeuBep.csproj|solutionrelative:yeubep\\queries\\recipequeries.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -26,8 +58,86 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 6,
+          "SelectedChildIndex": 0,
           "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "Rating.cs",
+              "DocumentMoniker": "E:\\YeuBep\\YeuBep\\YeuBep\\Entities\\Rating.cs",
+              "RelativeDocumentMoniker": "YeuBep\\Entities\\Rating.cs",
+              "ToolTip": "E:\\YeuBep\\YeuBep\\YeuBep\\Entities\\Rating.cs",
+              "RelativeToolTip": "YeuBep\\Entities\\Rating.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-12-15T08:37:17.22Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "Recipe.cs",
+              "DocumentMoniker": "E:\\YeuBep\\YeuBep\\YeuBep\\Entities\\Recipe.cs",
+              "RelativeDocumentMoniker": "YeuBep\\Entities\\Recipe.cs",
+              "ToolTip": "E:\\YeuBep\\YeuBep\\YeuBep\\Entities\\Recipe.cs",
+              "RelativeToolTip": "YeuBep\\Entities\\Recipe.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-12-15T08:37:16.43Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "RecipeStatus.cs",
+              "DocumentMoniker": "E:\\YeuBep\\YeuBep\\YeuBep\\Entities\\RecipeStatus.cs",
+              "RelativeDocumentMoniker": "YeuBep\\Entities\\RecipeStatus.cs",
+              "ToolTip": "E:\\YeuBep\\YeuBep\\YeuBep\\Entities\\RecipeStatus.cs",
+              "RelativeToolTip": "YeuBep\\Entities\\RecipeStatus.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-12-15T08:37:13.706Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "User.cs",
+              "DocumentMoniker": "E:\\YeuBep\\YeuBep\\YeuBep\\Entities\\User.cs",
+              "RelativeDocumentMoniker": "YeuBep\\Entities\\User.cs",
+              "ToolTip": "E:\\YeuBep\\YeuBep\\YeuBep\\Entities\\User.cs",
+              "RelativeToolTip": "YeuBep\\Entities\\User.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-12-15T08:37:12.45Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "EmailSenderServices.cs",
+              "DocumentMoniker": "E:\\YeuBep\\YeuBep\\YeuBep\\Extends\\EmailSenderServices.cs",
+              "RelativeDocumentMoniker": "YeuBep\\Extends\\EmailSenderServices.cs",
+              "ToolTip": "E:\\YeuBep\\YeuBep\\YeuBep\\Extends\\EmailSenderServices.cs",
+              "RelativeToolTip": "YeuBep\\Extends\\EmailSenderServices.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-12-15T08:37:06.876Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "CloudinaryServices.cs",
+              "DocumentMoniker": "E:\\YeuBep\\YeuBep\\YeuBep\\Extends\\CloudinaryServices.cs",
+              "RelativeDocumentMoniker": "YeuBep\\Extends\\CloudinaryServices.cs",
+              "ToolTip": "E:\\YeuBep\\YeuBep\\YeuBep\\Extends\\CloudinaryServices.cs",
+              "RelativeToolTip": "YeuBep\\Extends\\CloudinaryServices.cs",
+              "ViewState": "AgIAAAgAAAAAAAAAAAAAwAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-12-15T08:37:04.022Z",
+              "EditorCaption": ""
+            },
             {
               "$type": "Bookmark",
               "Name": "ST:130:0:{116d2292-e37d-41cd-a077-ebacac4c8cc4}"
@@ -41,55 +151,85 @@
               "Name": "ST:0:0:{004be353-6879-467c-9d1e-9ac23cdf6d49}"
             },
             {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{6324226f-61b6-4f28-92ee-18d4b5fe1e48}"
+            },
+            {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 7,
+              "Title": "StringExtensions.cs",
+              "DocumentMoniker": "E:\\YeuBep\\YeuBep\\YeuBep\\Extensions\\StringExtensions.cs",
+              "RelativeDocumentMoniker": "YeuBep\\Extensions\\StringExtensions.cs",
+              "ToolTip": "E:\\YeuBep\\YeuBep\\YeuBep\\Extensions\\StringExtensions.cs",
+              "RelativeToolTip": "YeuBep\\Extensions\\StringExtensions.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-12-15T08:36:43.607Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "QueriesExtensions.cs",
+              "DocumentMoniker": "E:\\YeuBep\\YeuBep\\YeuBep\\Extensions\\QueriesExtensions.cs",
+              "RelativeDocumentMoniker": "YeuBep\\Extensions\\QueriesExtensions.cs",
+              "ToolTip": "E:\\YeuBep\\YeuBep\\YeuBep\\Extensions\\QueriesExtensions.cs",
+              "RelativeToolTip": "YeuBep\\Extensions\\QueriesExtensions.cs",
+              "ViewState": "AgIAALgAAAAAAAAAAAAkwAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-12-15T08:36:42.917Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "PropertiesInfoExtensions.cs",
+              "DocumentMoniker": "E:\\YeuBep\\YeuBep\\YeuBep\\Extensions\\PropertiesInfoExtensions.cs",
+              "RelativeDocumentMoniker": "YeuBep\\Extensions\\PropertiesInfoExtensions.cs",
+              "ToolTip": "E:\\YeuBep\\YeuBep\\YeuBep\\Extensions\\PropertiesInfoExtensions.cs",
+              "RelativeToolTip": "YeuBep\\Extensions\\PropertiesInfoExtensions.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-12-15T08:36:42.102Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
               "Title": "HttpContextExtensions.cs",
               "DocumentMoniker": "E:\\YeuBep\\YeuBep\\YeuBep\\Extensions\\HttpContextExtensions.cs",
               "RelativeDocumentMoniker": "YeuBep\\Extensions\\HttpContextExtensions.cs",
               "ToolTip": "E:\\YeuBep\\YeuBep\\YeuBep\\Extensions\\HttpContextExtensions.cs",
               "RelativeToolTip": "YeuBep\\Extensions\\HttpContextExtensions.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAEwAoAAABkAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-11-24T10:31:03.851Z",
+              "WhenOpened": "2025-12-15T08:36:41.039Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "AuditSaveChangeInterceptor.cs",
-              "DocumentMoniker": "E:\\YeuBep\\YeuBep\\YeuBep\\Data\\Interceptors\\AuditSaveChangeInterceptor.cs",
-              "RelativeDocumentMoniker": "YeuBep\\Data\\Interceptors\\AuditSaveChangeInterceptor.cs",
-              "ToolTip": "E:\\YeuBep\\YeuBep\\YeuBep\\Data\\Interceptors\\AuditSaveChangeInterceptor.cs",
-              "RelativeToolTip": "YeuBep\\Data\\Interceptors\\AuditSaveChangeInterceptor.cs",
-              "ViewState": "AgIAABEAAAAAAAAAAAAQwBoAAABKAAAAAAAAAA==",
+              "DocumentIndex": 10,
+              "Title": "CategoryQueries.cs",
+              "DocumentMoniker": "E:\\YeuBep\\YeuBep\\YeuBep\\Queries\\CategoryQueries.cs",
+              "RelativeDocumentMoniker": "YeuBep\\Queries\\CategoryQueries.cs",
+              "ToolTip": "E:\\YeuBep\\YeuBep\\YeuBep\\Queries\\CategoryQueries.cs",
+              "RelativeToolTip": "YeuBep\\Queries\\CategoryQueries.cs",
+              "ViewState": "AgIAAHAAAAAAAAAAAADwvwAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-11-24T10:30:06.363Z",
+              "WhenOpened": "2025-12-15T08:36:29.379Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "appsettings.json",
-              "DocumentMoniker": "E:\\YeuBep\\YeuBep\\YeuBep\\appsettings.json",
-              "RelativeDocumentMoniker": "YeuBep\\appsettings.json",
-              "ToolTip": "E:\\YeuBep\\YeuBep\\YeuBep\\appsettings.json",
-              "RelativeToolTip": "YeuBep\\appsettings.json",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAABfAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
-              "WhenOpened": "2025-11-24T10:27:56.672Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "Program.cs",
-              "DocumentMoniker": "E:\\YeuBep\\YeuBep\\YeuBep\\Program.cs",
-              "RelativeDocumentMoniker": "YeuBep\\Program.cs",
-              "ToolTip": "E:\\YeuBep\\YeuBep\\YeuBep\\Program.cs",
-              "RelativeToolTip": "YeuBep\\Program.cs",
-              "ViewState": "AgIAAHIAAAAAAAAAAAAiwIQAAAAEAAAAAAAAAA==",
+              "DocumentIndex": 11,
+              "Title": "RecipeQueries.cs",
+              "DocumentMoniker": "E:\\YeuBep\\YeuBep\\YeuBep\\Queries\\RecipeQueries.cs",
+              "RelativeDocumentMoniker": "YeuBep\\Queries\\RecipeQueries.cs",
+              "ToolTip": "E:\\YeuBep\\YeuBep\\YeuBep\\Queries\\RecipeQueries.cs",
+              "RelativeToolTip": "YeuBep\\Queries\\RecipeQueries.cs",
+              "ViewState": "AgIAAJwAAAAAAAAAAAAIwAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-11-24T06:22:25.019Z",
+              "WhenOpened": "2025-12-15T08:36:16.184Z",
               "EditorCaption": ""
             }
           ]
