@@ -15,6 +15,7 @@ public class Recipe : AuditEntity
     public int TotalRatingPoint { get; set; }
     public RecipeStatus RecipeStatus { get; set; }
     public long Views {get; set;}
+    public bool IsSyncToMilvus { get; set; }
     public virtual ICollection<Comment> Comments { get; set; }
     public virtual ICollection<Favorite> Favorites { get; set; }
     public virtual ICollection<Rating> Ratings { get; set; }

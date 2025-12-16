@@ -23,6 +23,7 @@
           "Microsoft.EntityFrameworkCore.Design": "10.0.0",
           "Microsoft.EntityFrameworkCore.Relational": "10.0.0",
           "Microsoft.Extensions.Caching.Postgres": "1.1.0",
+          "Milvus.Client": "2.3.0-preview.1",
           "MimeKit": "4.14.0",
           "Npgsql.EntityFrameworkCore.PostgreSQL": "10.0.0",
           "Swashbuckle.AspNetCore.Swagger": "10.0.1",
@@ -73,6 +74,44 @@
           "lib/net9.0/FluentResults.dll": {
             "assemblyVersion": "4.0.0.0",
             "fileVersion": "4.0.0.0"
+          }
+        }
+      },
+      "Google.Protobuf/3.25.3": {
+        "runtime": {
+          "lib/net5.0/Google.Protobuf.dll": {
+            "assemblyVersion": "3.25.3.0",
+            "fileVersion": "3.25.3.0"
+          }
+        }
+      },
+      "Grpc.Core.Api/2.61.0": {
+        "runtime": {
+          "lib/netstandard2.1/Grpc.Core.Api.dll": {
+            "assemblyVersion": "2.0.0.0",
+            "fileVersion": "2.61.0.0"
+          }
+        }
+      },
+      "Grpc.Net.Client/2.61.0": {
+        "dependencies": {
+          "Grpc.Net.Common": "2.61.0"
+        },
+        "runtime": {
+          "lib/net8.0/Grpc.Net.Client.dll": {
+            "assemblyVersion": "2.0.0.0",
+            "fileVersion": "2.61.0.0"
+          }
+        }
+      },
+      "Grpc.Net.Common/2.61.0": {
+        "dependencies": {
+          "Grpc.Core.Api": "2.61.0"
+        },
+        "runtime": {
+          "lib/net8.0/Grpc.Net.Common.dll": {
+            "assemblyVersion": "2.0.0.0",
+            "fileVersion": "2.61.0.0"
           }
         }
       },
@@ -662,6 +701,18 @@
           }
         }
       },
+      "Milvus.Client/2.3.0-preview.1": {
+        "dependencies": {
+          "Google.Protobuf": "3.25.3",
+          "Grpc.Net.Client": "2.61.0"
+        },
+        "runtime": {
+          "lib/net6.0/Milvus.Client.dll": {
+            "assemblyVersion": "2.3.0.0",
+            "fileVersion": "2.3.0.0"
+          }
+        }
+      },
       "MimeKit/4.14.0": {
         "dependencies": {
           "BouncyCastle.Cryptography": "2.6.1"
@@ -927,6 +978,34 @@
       "path": "fluentresults/4.0.0",
       "hashPath": "fluentresults.4.0.0.nupkg.sha512"
     },
+    "Google.Protobuf/3.25.3": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-fDY/kt0gy2nVcoeMmiyDMtwgvDJG5qaU7+Ic77szKTvVkIvoo7tyf+d+QDlKSosB+FjoKocX/ObObxqKCq60uA==",
+      "path": "google.protobuf/3.25.3",
+      "hashPath": "google.protobuf.3.25.3.nupkg.sha512"
+    },
+    "Grpc.Core.Api/2.61.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-FFHazRC4SVRpeYzHudZVLTmETfweFaihQZ9xcxbny21MKaz3mmbH8d26bcJ8clCufTYoCxav6nz1moyoxJ+olw==",
+      "path": "grpc.core.api/2.61.0",
+      "hashPath": "grpc.core.api.2.61.0.nupkg.sha512"
+    },
+    "Grpc.Net.Client/2.61.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-/H4WMyzoTKVBE31PaCG76c/29YTpBeP8W1Vh9of7ykmi8Iw9SlZTm+8quZ35DzRkORZSV6T8CvYPwCVxJzTUKA==",
+      "path": "grpc.net.client/2.61.0",
+      "hashPath": "grpc.net.client.2.61.0.nupkg.sha512"
+    },
+    "Grpc.Net.Common/2.61.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-7htYm01A2GCNFq6iamv1NjPycs0nslsYrDD01VAy71k8aSDISBklGJwH7iXZ+ScHdhz+qE0WVvZYVTFsfMPZzQ==",
+      "path": "grpc.net.common/2.61.0",
+      "hashPath": "grpc.net.common.2.61.0.nupkg.sha512"
+    },
     "Hangfire/1.8.22": {
       "type": "package",
       "serviceable": true,
@@ -1129,6 +1208,13 @@
       "sha512": "sha512-5RZpjyt0JMmoc/aEgY9c1vE5pusdDGvkPl9qKIy9KFbRiIXD+w7gBJxX+unSjzzOcfgRoYxnO4okZyqDAL2WEw==",
       "path": "microsoft.openapi/2.3.0",
       "hashPath": "microsoft.openapi.2.3.0.nupkg.sha512"
+    },
+    "Milvus.Client/2.3.0-preview.1": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-RRC/DIH9YqsH+uYG0Ta0m3dcZ0Oh/ARVqL1UgaJZ3iFqL2eRGkARnc4oDMtK4J5cfRu8vhI5ZfNEFd0oSYLuHg==",
+      "path": "milvus.client/2.3.0-preview.1",
+      "hashPath": "milvus.client.2.3.0-preview.1.nupkg.sha512"
     },
     "MimeKit/4.14.0": {
       "type": "package",

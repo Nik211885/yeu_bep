@@ -311,3 +311,8 @@ E:\YeuBep\YeuBep\YeuBep\obj\Debug\net10.0\compressed\izhiqnfb6i-{0}-6h3k1cg10q-6
 E:\YeuBep\YeuBep\YeuBep\bin\Debug\net10.0\DeepSeek.ApiClient.dll
 E:\YeuBep\YeuBep\YeuBep\obj\Debug\net10.0\compressed\hplm9s7tqd-{0}-omtoajwa0b-omtoajwa0b.gz
 E:\YeuBep\YeuBep\YeuBep\obj\Debug\net10.0\compressed\0kx56db8fl-{0}-j5tywjas4v-j5tywjas4v.gz
+E:\YeuBep\YeuBep\YeuBep\bin\Debug\net10.0\Google.Protobuf.dll
+E:\YeuBep\YeuBep\YeuBep\bin\Debug\net10.0\Grpc.Core.Api.dll
+E:\YeuBep\YeuBep\YeuBep\bin\Debug\net10.0\Grpc.Net.Client.dll
+E:\YeuBep\YeuBep\YeuBep\bin\Debug\net10.0\Grpc.Net.Common.dll
+E:\YeuBep\YeuBep\YeuBep\bin\Debug\net10.0\Milvus.Client.dll

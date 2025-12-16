@@ -25,7 +25,8 @@ public class RecipeEntityConfiguration : IEntityTypeConfiguration<Recipe>
         builder.Property(x=>x.Slug)
             .HasMaxLength(200)
             .IsRequired();
-
+        builder.Property(x=>x.IsSyncToMilvus)
+            .HasDefaultValue(false);
         builder.Property(x => x.RecipeStatus)
             .IsRequired()
             .HasMaxLength(30)

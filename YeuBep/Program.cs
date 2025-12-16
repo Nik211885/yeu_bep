@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.Google;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using YeuBep.CronJobs;
 using YeuBep.Data;
 using YeuBep.Data.Interceptors;
 using YeuBep.Data.Seeder;
@@ -25,6 +26,7 @@ builder.Services.AddExtendServicesDefault(builder.Configuration);
 builder.Services.AddApplicationServicesDefault();
 builder.Services.AddQueriesServicesDefault();
 builder.Services.AddSignalR();
+builder.Services.AddCronJobSchedulerServicesDefault();
 builder.Services.AddScoped<AuditSaveChangeInterceptor>();
 
 builder.Services.AddSwaggerGen();
@@ -158,6 +160,8 @@ using (var scope = app.Services.CreateScope())
 
 
 app.UseHangfireDashboard("/hangfire");
+
+CronJobScheduler.RegisterRecurringJobs();
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())

@@ -130,6 +130,10 @@
               "target": "Package",
               "version": "[1.1.0, )"
             },
+            "Milvus.Client": {
+              "target": "Package",
+              "version": "[2.3.0-preview.1, )"
+            },
             "MimeKit": {
               "target": "Package",
               "version": "[4.14.0, )"
